@@ -137,4 +137,8 @@ STATIC_URL = '/static/'
 
 # dashboards
 DASHBOARD_URL_NAMES = {
+    'employee_listboard_url': 'cms_dashboard:employee_listboard_url',
+    'pi_listboard_url': 'cms_dashboard:pi_listboard_url',
+    'consultant_listboard_url': 'cms_dashboard:consultant_listboard_url',
+    'contract_listboard_url': 'cms_dashboard:contract_listboard_url',
 }

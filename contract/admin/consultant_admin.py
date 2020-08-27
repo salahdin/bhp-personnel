@@ -38,9 +38,11 @@ class ConsultantAdmin(
     fieldsets = (
         (None, {
             'fields': (
-                 'identifier',
+                'identifier',
                 'first_name',
+                'middle_name',
                 'last_name',
+                'cell',
                 'email',
             )}),
         audit_fieldset_tuple)
