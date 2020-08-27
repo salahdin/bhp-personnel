@@ -13,7 +13,7 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name="Identifier",
         max_length=36,
         null=True,
-        unique=True)
+        blank=True)
 
     duration = models.CharField(
         verbose_name="Contract Duration",
