@@ -2,19 +2,19 @@ from django import forms
 
 from edc_base.sites import SiteModelFormMixin
 
-from ..models import Consultant
+from ..models import Pi
 
 
-class ConsultantForm(SiteModelFormMixin, forms.ModelForm):
+class PiForm(SiteModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        super(ConsultantForm, self).__init__(*args, **kwargs)
+        super(PiForm, self).__init__(*args, **kwargs)
         self.fields['pid'].required = False
 
     pid = forms.CharField(
-        label='Consultant Identifier',
+        label='PI Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     class Meta:
-        model = Consultant
+        model = Pi
         fields = '__all__'

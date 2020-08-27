@@ -5,7 +5,6 @@ from edc_base.model_validators import datetime_not_future
 from edc_base.utils import get_utcnow
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_constants.choices import YES_NO
 
 
 class Contract(BaseUuidModel, SiteModelMixin, models.Model):
@@ -13,7 +12,6 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
     identifier = models.CharField(
         verbose_name="Identifier",
         max_length=36,
-        blank=True,
         null=True,
         unique=True)
 
@@ -36,5 +34,4 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
     active = models.BooleanField(
         verbose_name='Contract Status',
         help_text='Active or Not',
-        choices=YES_NO,
         default=False)

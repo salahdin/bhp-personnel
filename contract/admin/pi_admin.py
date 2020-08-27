@@ -1,17 +1,18 @@
 from django.contrib import admin
-
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
 from edc_base.sites.admin import ModelAdminSiteMixin
+from edc_metadata import NextFormGetter
 from edc_model_admin import (
     ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
     ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
     ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
     ModelAdminRedirectOnDeleteMixin)
-from edc_model_admin import audit_fieldset_tuple
+from edc_model_admin.model_admin_audit_fields_mixin import (
+    audit_fieldset_tuple)
 
 from ..admin_site import contract_admin
-from ..forms import ContractForm
-from ..models import Contract
+from ..forms import PiForm
+from ..models import Pi
 
 
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
@@ -25,33 +26,24 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
     list_per_page = 10
     date_hierarchy = 'modified'
     empty_value_display = '-'
+    next_form_getter_cls = NextFormGetter
 
 
-@admin.register(Contract, site=contract_admin)
-class ContractAdmin(ModelAdminMixin, admin.ModelAdmin):
+@admin.register(Pi, site=contract_admin)
+class PiAdmin(
+        ModelAdminMixin, admin.ModelAdmin):
 
-    form = ContractForm
+    form = PiForm
 
     fieldsets = (
         (None, {
             'fields': (
-                'identifier',
-                'duration',
-                'start_date',
-                'end_date',
-                'active')}),
-        audit_fieldset_tuple
-    )
+                 'identifier',
+                'first_name',
+                'last_name',
+                'email',
+            )}),
+        audit_fieldset_tuple)
 
-    radio_fields = {
-        "duration": admin.VERTICAL,
-    }
+    search_fields = ['first_name', 'last_name', 'email', 'identifier']
 
-    list_display = [
-        'created', 'duration',
-        'start_date', 'end_date', 'active']
-
-    list_filter = [
-        'created', 'duration', 'start_date', 'end_date', 'active']
-
-    search_fields = ('temperature',)

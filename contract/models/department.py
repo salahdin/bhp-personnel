@@ -9,18 +9,19 @@ class Department(BaseUuidModel, SiteModelMixin, models.Model):
     supervisor = models.CharField(
         verbose_name="Supervisor Name",
         max_length=50,
-        null=False, blank=False
+        null=False,
     )
 
     name = models.CharField(
         verbose_name="Department Name",
         max_length=50,
-        null=False, blank=False
+        null=False,
     )
 
     description = models.CharField(
         verbose_name='Description',
-        max_length=200
+        max_length=200,
+        blank=True
     )
 
     def __str__(self):

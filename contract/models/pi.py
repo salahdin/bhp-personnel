@@ -4,7 +4,7 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin as Base
 
 from .model_mixins import CommonDetailsMixin
-from ..identifier import ConsultantIdentifier
+from ..identifier import PiIdentifier
 
 
 class SearchSlugModelMixin(Base):
@@ -20,13 +20,12 @@ class SearchSlugModelMixin(Base):
     class Meta:
         abstract = True
 
+class Pi(CommonDetailsMixin, SiteModelMixin, models.Model):
 
-class Consultant(CommonDetailsMixin, SiteModelMixin, models.Model):
-
-    identifier_cls = ConsultantIdentifier
+    identifier_cls = PiIdentifier
 
     identifier = models.CharField(
-        verbose_name="Consultant Identifier",
+        verbose_name="PI Identifier",
         max_length=36,
         null=True,
         unique=True)

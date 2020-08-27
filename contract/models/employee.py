@@ -1,11 +1,10 @@
 from django.db import models
 
 from edc_base.sites.site_model_mixin import SiteModelMixin
-from edc_search.model_mixins import SearchSlugManager
 from edc_search.model_mixins import SearchSlugModelMixin as Base
 
 from .model_mixins import CommonDetailsMixin
-from ..identifier import Identifier
+from ..identifier import EmployeeIdentifier
 
 
 class SearchSlugModelMixin(Base):
@@ -24,23 +23,14 @@ class SearchSlugModelMixin(Base):
         abstract = True
 
 
-class EmployeeManager(SearchSlugManager, models.Manager):
-
-    def get_by_natural_key(self, identifier):
-        return self.get(
-            identifier=identifier
-        )
-
-
 class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
                models.Model):
 
-    identifier_cls = Identifier
+    identifier_cls = EmployeeIdentifier
 
     identifier = models.CharField(
         verbose_name="Employee Identifier",
         max_length=36,
-        blank=True,
         null=True,
         unique=True)
 
