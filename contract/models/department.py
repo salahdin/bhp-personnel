@@ -6,8 +6,8 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 
 class Department(BaseUuidModel, SiteModelMixin, models.Model):
 
-    supervisor = models.CharField(
-        verbose_name="Supervisor Name",
+    hod = models.CharField(
+        verbose_name="Head Of Deepartment",
         max_length=50,
         null=False,
     )

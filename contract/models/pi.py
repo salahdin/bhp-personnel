@@ -3,8 +3,9 @@ from django.db import models
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin as Base
 
-from .model_mixins import CommonDetailsMixin
 from ..identifier import PiIdentifier
+from .employee import Employee
+from .model_mixins import CommonDetailsMixin
 
 
 class SearchSlugModelMixin(Base):
@@ -31,6 +32,9 @@ class Pi(CommonDetailsMixin, SiteModelMixin, models.Model):
         null=True,
         blank=True,
         unique=True)
+
+    supervisor = models.ForeignKey(
+        Employee, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name}, {self.last_name} {self.identifier}'

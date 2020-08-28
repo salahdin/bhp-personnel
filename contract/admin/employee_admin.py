@@ -8,7 +8,7 @@ from edc_model_admin import (
     ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
     ModelAdminRedirectOnDeleteMixin)
 from edc_model_admin.model_admin_audit_fields_mixin import (
-    audit_fields, audit_fieldset_tuple)
+    audit_fieldset_tuple)
 
 from ..admin_site import contract_admin
 from ..forms import EmployeeForm
