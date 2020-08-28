@@ -20,6 +20,7 @@ class SearchSlugModelMixin(Base):
     class Meta:
         abstract = True
 
+
 class Pi(CommonDetailsMixin, SiteModelMixin, models.Model):
 
     identifier_cls = PiIdentifier
@@ -28,6 +29,7 @@ class Pi(CommonDetailsMixin, SiteModelMixin, models.Model):
         verbose_name="PI Identifier",
         max_length=36,
         null=True,
+        blank=True,
         unique=True)
 
     def __str__(self):

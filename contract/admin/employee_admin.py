@@ -40,7 +40,9 @@ class EmployeeAdmin(
             'fields': (
                 'identifier',
                 'first_name',
+                'middle_name',
                 'last_name',
+                'cell',
                 'email',
                 'job_title',
                 'employee_code',

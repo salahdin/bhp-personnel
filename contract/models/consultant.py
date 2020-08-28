@@ -29,6 +29,7 @@ class Consultant(CommonDetailsMixin, SiteModelMixin, models.Model):
         verbose_name="Consultant Identifier",
         max_length=36,
         null=True,
+        blank=True,
         unique=True)
 
     def __str__(self):

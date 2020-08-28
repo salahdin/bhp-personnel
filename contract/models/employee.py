@@ -32,6 +32,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
         verbose_name="Employee Identifier",
         max_length=36,
         null=True,
+        blank=True,
         unique=True)
 
     job_title = models.CharField(

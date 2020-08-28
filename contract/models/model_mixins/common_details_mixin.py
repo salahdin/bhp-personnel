@@ -1,6 +1,8 @@
 from django.db import models
 
+from django_crypto_fields.fields import EncryptedCharField
 from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import CellNumber
 
 
 class CommonDetailsMixin(BaseUuidModel, models.Model):
@@ -17,5 +19,11 @@ class CommonDetailsMixin(BaseUuidModel, models.Model):
     last_name = models.CharField(
         verbose_name="Last name",
         max_length=100)
+
+    cell = EncryptedCharField(
+        verbose_name='Cell number',
+        validators=[CellNumber, ],
+        blank=False,
+        unique=True)
 
     email = models.EmailField()
