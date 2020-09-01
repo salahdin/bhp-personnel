@@ -38,10 +38,10 @@ class DepartmentAdmin(
     fieldsets = (
         (None, {
             'fields': (
-                'supervisor',
-                'name',
+                'hod',
+                'dept_name',
                 'description',
             )}),
         audit_fieldset_tuple)
 
-    search_fields = ['supervisor', 'name']
+    search_fields = ['supervisor', 'dept_name']

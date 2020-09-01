@@ -7,12 +7,12 @@ from edc_base.sites.site_model_mixin import SiteModelMixin
 class Department(BaseUuidModel, SiteModelMixin, models.Model):
 
     hod = models.CharField(
-        verbose_name="Head Of Deepartment",
+        verbose_name="Head Of Department",
         max_length=50,
         null=False,
     )
 
-    name = models.CharField(
+    dept_name = models.CharField(
         verbose_name="Department Name",
         max_length=50,
         null=False,
@@ -25,4 +25,4 @@ class Department(BaseUuidModel, SiteModelMixin, models.Model):
     )
 
     def __str__(self):
-        return f'{self.supervisor}, {self.name}'
+        return f'{self.dept_name}'

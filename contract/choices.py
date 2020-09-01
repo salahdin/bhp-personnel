@@ -3,3 +3,8 @@ CONTRACT_LENGTH = (
     ('1 Year', '1 Year'),
     ('6 Months', '6 Months'),
 )
+
+CONTRACT_STATUS = (
+    ('Active', 'Active'),
+    ('Not Active', 'Not Active'),
+)

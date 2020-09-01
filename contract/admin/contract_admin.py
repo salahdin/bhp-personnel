@@ -39,19 +39,20 @@ class ContractAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'duration',
                 'start_date',
                 'end_date',
-                'active')}),
+                'status')}),
         audit_fieldset_tuple
     )
 
     radio_fields = {
         "duration": admin.VERTICAL,
+        "status": admin.VERTICAL,
     }
 
     list_display = [
         'created', 'duration',
-        'start_date', 'end_date', 'active']
+        'start_date', 'end_date', 'status']
 
     list_filter = [
-        'created', 'duration', 'start_date', 'end_date', 'active']
+        'created', 'duration', 'start_date', 'end_date', 'status']
 
-    search_fields = ('temperature',)
+    search_fields = ('contract',)
