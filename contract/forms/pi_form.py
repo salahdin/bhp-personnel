@@ -9,9 +9,9 @@ class PiForm(SiteModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PiForm, self).__init__(*args, **kwargs)
-        self.fields['pid'].required = False
+        self.fields['identifier'].required = False
 
-    pid = forms.CharField(
+    identifier = forms.CharField(
         label='PI Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 

@@ -9,9 +9,9 @@ class ConsultantForm(SiteModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ConsultantForm, self).__init__(*args, **kwargs)
-        self.fields['pid'].required = False
+        self.fields['identifier'].required = False
 
-    pid = forms.CharField(
+    identifier = forms.CharField(
         label='Consultant Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
