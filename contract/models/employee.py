@@ -29,10 +29,10 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
 
     identifier_cls = EmployeeIdentifier
 
-    deptpartment = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
     
     supervisor = models.ForeignKey(
-        'self', null=True, related_name='boss',
+        'self', blank=True, null=True, related_name='boss',
         on_delete=models.CASCADE)
 
     identifier = models.CharField(

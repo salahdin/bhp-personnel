@@ -1,8 +1,7 @@
 from django.db import models
 
-from ..choices import CONTRACT_LENGTH
+from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
 from edc_base.model_validators import datetime_not_future
-from edc_base.utils import get_utcnow
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
@@ -20,18 +19,21 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         max_length=30,
         choices=CONTRACT_LENGTH)
 
-    start_date = models.DateTimeField(
+    start_date = models.DateField(
         verbose_name='Contract Start Date',
-        default=get_utcnow,
-        validators=[datetime_not_future, ],
         help_text='Beginning of New Contract')
 
-    end_date = models.DateTimeField(
+    end_date = models.DateField(
         verbose_name='Contract End Date',
-        default=get_utcnow,
         help_text='End Date of Contract')
 
-    active = models.BooleanField(
+    status = models.CharField(
         verbose_name='Contract Status',
-        help_text='Active or Not',
-        default=False)
+        max_length=30,
+        null=True,
+        choices=CONTRACT_STATUS)
+
+    contract_ended = models.BooleanField(
+        default=False,
+        null=True,
+        blank=True)

@@ -42,12 +42,22 @@ class EmployeeAdmin(
                 'first_name',
                 'middle_name',
                 'last_name',
+                'gender',
+                'department',
+                'supervisor',
                 'cell',
                 'email',
                 'job_title',
+                'hired_date',
                 'employee_code',
             )}),
         audit_fieldset_tuple)
 
+    radio_fields = {
+        "gender": admin.VERTICAL,
+    }
+
     search_fields = ['first_name', 'last_name', 'email', 'job_title',
                      'employee_code', 'identifier']
+
+    autocomplete_fields = ['department', 'supervisor']

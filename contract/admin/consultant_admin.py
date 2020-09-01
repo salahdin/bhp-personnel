@@ -42,10 +42,12 @@ class ConsultantAdmin(
                 'first_name',
                 'middle_name',
                 'last_name',
+                'gender',
+                'hired_date',
+                'supervisor',
                 'cell',
                 'email',
             )}),
         audit_fieldset_tuple)
 
     search_fields = ['first_name', 'last_name', 'email', 'identifier']
-
