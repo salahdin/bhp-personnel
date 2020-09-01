@@ -50,4 +50,8 @@ class ConsultantAdmin(
             )}),
         audit_fieldset_tuple)
 
+    radio_fields = {
+        "gender": admin.VERTICAL,
+    }
+
     search_fields = ['first_name', 'last_name', 'email', 'identifier']
