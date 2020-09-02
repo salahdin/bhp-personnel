@@ -4,3 +4,4 @@ from .department import Department
 from .employee import Employee
 from .notifications import Notifications
 from .pi import Pi
+from .signals import contract_on_post_save

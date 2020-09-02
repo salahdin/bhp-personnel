@@ -30,7 +30,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
     identifier_cls = EmployeeIdentifier
 
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    
+
     supervisor = models.ForeignKey(
         'self', blank=True, null=True, related_name='boss',
         on_delete=models.CASCADE)
@@ -63,6 +63,6 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
         if not self.id:
             self.identifier = self.identifier_cls().identifier
         super().save(*args, **kwargs)
-    
+
     class Meta:
         app_label = "contract"
