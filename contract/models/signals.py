@@ -16,10 +16,10 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     Schedule email and sms reminder for 3months before contract end
     date.
     """
-#     if not raw:
-#         if created:
-    schedule_email_notification(instance)
-    schedule_sms_notification(instance)
+    if not raw:
+        if created:
+            schedule_email_notification(instance)
+            schedule_sms_notification(instance)
 
 
 def schedule_email_notification(contract=None):
@@ -34,7 +34,9 @@ def schedule_email_notification(contract=None):
         schedule(
             'contract.tasks.contract_end_email_notification',
             user.first_name,
+            user.last_name,
             user.email,
+            user.supervisor.email,
             end_date,
             schedule_type='O',
             next_run=reminder_datetime(contract=contract))
