@@ -18,9 +18,9 @@ class Department(BaseUuidModel, SiteModelMixin, models.Model):
         null=False,
     )
 
-    description = models.CharField(
+    description = models.TextField(
         verbose_name='Description',
-        max_length=200,
+        max_length=500,
         blank=True
     )
 
