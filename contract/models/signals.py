@@ -76,13 +76,13 @@ def get_user(identifier=None):
     @param identifier: unique identifier for the owner
     """
     try:
-        user = Employee.objects.get(identifier=identifier)
+        return Employee.objects.get(identifier=identifier)
     except Employee.DoesNotExist:
-        user = Pi.objects.get(identifier=identifier)
-    except Pi.DoesNotExist:
-        user = Consultant.objects.get(identifier=identifier)
-    except Consultant.DoesNotExist:
-        raise ValidationError(
-            f'Contract owner for identifier {identifier} does not exist.')
-    else:
-        return user
+        try:
+            return Pi.objects.get(identifier=identifier)
+        except Pi.DoesNotExist:
+            try:
+                return Consultant.objects.get(identifier=identifier)
+            except Consultant.DoesNotExist:
+                raise ValidationError(
+                    f'Contract owner for identifier {identifier} does not exist.')
