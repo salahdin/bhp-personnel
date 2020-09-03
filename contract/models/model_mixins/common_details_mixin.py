@@ -11,7 +11,7 @@ class CommonDetailsMixin(BaseUuidModel, models.Model):
     first_name = models.CharField(
         verbose_name="First name",
         max_length=100)
-    
+
     middle_name = models.CharField(
         verbose_name="Middle names",
         max_length=150,
