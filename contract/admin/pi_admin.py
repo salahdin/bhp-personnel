@@ -56,3 +56,4 @@ class PiAdmin(
 
     search_fields = ['first_name', 'last_name', 'email', 'identifier']
 
+    autocomplete_fields = ['supervisor']
