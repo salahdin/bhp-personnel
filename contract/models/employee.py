@@ -26,6 +26,7 @@ class SearchSlugModelMixin(Base):
     class Meta:
         abstract = True
 
+
 class Supervisor(BaseUuidModel):
 
     first_name = models.CharField(
@@ -56,7 +57,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     supervisor = models.ForeignKey(
-        Supervisor, blank=True, null=True,
+        Supervisor, blank=False, null=False,
         on_delete=models.CASCADE)
 
     identifier = models.CharField(
