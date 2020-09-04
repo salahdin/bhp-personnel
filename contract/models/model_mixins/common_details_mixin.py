@@ -2,11 +2,10 @@ from django.db import models
 
 from django_crypto_fields.fields import EncryptedCharField
 from edc_constants.choices import GENDER
-from edc_base.model_mixins import BaseUuidModel
 from edc_base.model_validators import CellNumber
 
 
-class CommonDetailsMixin(BaseUuidModel, models.Model):
+class CommonDetailsMixin(models.Model):
 
     first_name = models.CharField(
         verbose_name="First name",
@@ -37,3 +36,7 @@ class CommonDetailsMixin(BaseUuidModel, models.Model):
         unique=True)
 
     email = models.EmailField()
+
+
+    class Meta:
+        abstract = True

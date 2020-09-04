@@ -1,5 +1,8 @@
 from django.db import models
 
+from django_crypto_fields.fields import EncryptedCharField
+from edc_base.model_mixins import BaseUuidModel
+from edc_base.model_validators import CellNumber
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin as Base
 
@@ -23,16 +26,37 @@ class SearchSlugModelMixin(Base):
     class Meta:
         abstract = True
 
+class Supervisor(BaseUuidModel):
+
+    first_name = models.CharField(
+        verbose_name="First name",
+        max_length=100)
+
+    last_name = models.CharField(
+        verbose_name="Last name",
+        max_length=100)
+
+    cell = EncryptedCharField(
+        verbose_name='Cell number',
+        validators=[CellNumber, ],
+        blank=False,
+        unique=True)
+
+    email = models.EmailField()
+
+    def __str__(self):
+        return f'{self.first_name}, {self.last_name}'
+
 
 class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
-               models.Model):
+               BaseUuidModel):
 
     identifier_cls = EmployeeIdentifier
 
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     supervisor = models.ForeignKey(
-        'self', blank=True, null=True, related_name='boss',
+        Supervisor, blank=True, null=True,
         on_delete=models.CASCADE)
 
     identifier = models.CharField(

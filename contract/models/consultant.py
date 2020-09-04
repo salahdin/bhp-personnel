@@ -2,6 +2,7 @@ from django.db import models
 
 from edc_base.sites.site_model_mixin import SiteModelMixin
 from edc_search.model_mixins import SearchSlugModelMixin as Base
+from edc_base.model_mixins import BaseUuidModel
 
 from ..identifier import ConsultantIdentifier
 from .employee import Employee
@@ -22,7 +23,7 @@ class SearchSlugModelMixin(Base):
         abstract = True
 
 
-class Consultant(CommonDetailsMixin, SiteModelMixin, models.Model):
+class Consultant(CommonDetailsMixin, SiteModelMixin, BaseUuidModel):
 
     identifier_cls = ConsultantIdentifier
 
