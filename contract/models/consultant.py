@@ -35,7 +35,7 @@ class Consultant(CommonDetailsMixin, SiteModelMixin, BaseUuidModel):
         unique=True)
 
     supervisor = models.ForeignKey(
-        Employee, null=True, blank=True, on_delete=models.CASCADE)
+        Employee, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name}, {self.last_name} {self.identifier}'
