@@ -6,12 +6,12 @@ from edc_model_admin import (
     ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
     ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
     ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
-    ModelAdminRedirectOnDeleteMixin)
+    ModelAdminRedirectOnDeleteMixin, TabularInlineMixin)
 from edc_model_admin import audit_fieldset_tuple
 
 from ..admin_site import contract_admin
-from ..forms import ContractForm
-from ..models import Contract
+from ..forms import ContractForm, ContractExtensionForm
+from ..models import Contract, ContractExtension
 
 
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
@@ -27,10 +27,24 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
     empty_value_display = '-'
 
 
+class ContractExtensionAdmin(TabularInlineMixin, admin.TabularInline):
+    model = ContractExtension
+    form = ContractExtensionForm
+    extra = 1
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'ext_duration',
+                'ext_end_date')}),
+        )
+
+
 @admin.register(Contract, site=contract_admin)
 class ContractAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = ContractForm
+    inlines = [ContractExtensionAdmin, ]
 
     fieldsets = (
         (None, {

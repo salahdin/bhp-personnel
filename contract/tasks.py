@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mass_mail
 from smtplib import SMTPException
 
+from .models import Notifications
+
 
 def contract_end_email_notification(
         first_name=None, last_name=None, email=None, supervisor_email=None,
@@ -41,3 +43,10 @@ def contract_end_email_notification(
         send_mass_mail((msg, hr_msg, supervisor_msg), fail_silently=False)
     except SMTPException as e:
         raise ValidationError(f'There was an error sending an email: {e}')
+    else:
+        email_addrs = list(email, supervisor_email, )
+        email_addrs.extend(hr_emails)
+        for email_addr in email_addrs:
+            Notifications.objects.create(
+                email=email_addr,
+                success_status=True)

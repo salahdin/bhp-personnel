@@ -26,6 +26,7 @@ class SearchSlugModelMixin(Base):
     class Meta:
         abstract = True
 
+
 class Supervisor(BaseUuidModel):
 
     first_name = models.CharField(
