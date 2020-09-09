@@ -1,4 +1,5 @@
 from django.db import models
+from dateutil.relativedelta import relativedelta
 
 from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
 from edc_base.model_mixins import BaseUuidModel
@@ -26,6 +27,8 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name='Contract End Date',
         help_text='End Date of Contract')
 
+    due_date = models.DateField()
+
     status = models.CharField(
         verbose_name='Contract Status',
         max_length=30,
@@ -36,3 +39,7 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         default=False,
         null=True,
         blank=True)
+
+    def save(self, *args, **kwargs):
+        self.due_date = self.end_date - relativedelta(months=3)
+        super().save(*args, **kwargs)
