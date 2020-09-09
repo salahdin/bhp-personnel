@@ -36,7 +36,7 @@ class ContractExtensionAdmin(TabularInlineMixin, admin.TabularInline):
         (None, {
             'fields': (
                 'ext_duration',
-                'ext_end_date')}),
+                'end_date')}),
         )
 
 

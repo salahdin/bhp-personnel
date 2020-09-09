@@ -45,14 +45,11 @@ class ContractExtension(BaseUuidModel):
     contract = models.ForeignKey(Contract, on_delete=PROTECT)
 
     ext_duration = models.IntegerField(
-        verbose_name='Extension time period (in months)',
-        null=True, blank=True)
+        verbose_name='Extension time period (in months)',)
 
-    ext_end_date = models.DateField(
+    end_date = models.DateField(
         verbose_name='New Contract End Date',
-        help_text='End Date of contract after extension',
-        null=True,
-        blank=True, )
+        help_text='End Date of contract after extension', )
 
     class Meta:
         app_label = 'contract'

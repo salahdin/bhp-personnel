@@ -44,7 +44,7 @@ def contract_end_email_notification(
     except SMTPException as e:
         raise ValidationError(f'There was an error sending an email: {e}')
     else:
-        email_addrs = list(email, supervisor_email, )
+        email_addrs = [email, supervisor_email, ]
         email_addrs.extend(hr_emails)
         for email_addr in email_addrs:
             Notifications.objects.create(
