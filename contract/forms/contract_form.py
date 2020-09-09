@@ -6,7 +6,7 @@ from datetime import timedelta
 from edc_base.sites import SiteModelFormMixin
 from edc_form_validators import FormValidator, FormValidatorMixin
 
-from ..models import Contract
+from ..models import Contract, ContractExtension
 
 
 class ContractFormValidator(FormValidator):
@@ -62,4 +62,11 @@ class ContractForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Contract
+        fields = '__all__'
+
+
+class ContractExtensionForm(forms.ModelForm):
+
+    class Meta:
+        model = ContractExtension
         fields = '__all__'

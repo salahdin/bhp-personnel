@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django_q.tasks import schedule
 from edc_sms.classes import MessageSchedule
 
-from . import Consultant, Contract, Employee, Pi
+from . import Consultant, Contract, ContractExtension, Employee, Pi
 
 
 @receiver(post_save, weak=False, sender=Contract,
@@ -22,14 +22,28 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
             schedule_sms_notification(instance)
 
 
-def schedule_email_notification(contract=None):
+@receiver(post_save, weak=False, sender=ContractExtension,
+          dispatch_uid='contractextension_on_post_save')
+def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
+    """
+    Reschedule an email and sms reminder for 3months before contract end
+    date after extension.
+    """
+    if not raw:
+        if created:
+            schedule_email_notification(instance, ext=True)
+            schedule_sms_notification(instance, ext=True)
+
+
+def schedule_email_notification(instance=None, ext=False):
     """
     Schedule email notification for contract expiration
     @param contract: instance of the contract
     """
-    if contract:
-        end_date = (contract.end_date).strftime('%Y/%m/%d')
-        user = get_user(identifier=contract.identifier)
+    if instance:
+        identifier = instance.contract.identifier if ext else instance.identifier
+        end_date = (instance.end_date).strftime('%Y/%m/%d')
+        user = get_user(identifier=identifier)
 
         schedule(
             'contract.tasks.contract_end_email_notification',
@@ -39,20 +53,21 @@ def schedule_email_notification(contract=None):
             user.supervisor.email,
             end_date,
             schedule_type='O',
-            next_run=reminder_datetime(contract=contract))
+            next_run=reminder_datetime(contract=instance))
 
 
-def schedule_sms_notification(contract=None):
+def schedule_sms_notification(instance=None, ext=False):
     """
     Schedule sms notification for contract expiration
     @param contract: instance of the contract
     """
     user = None
-    if contract:
-        user = get_user(identifier=contract.identifier)
+    if instance:
+        identifier = instance.contract.identifier if ext else instance.identifier
+        user = get_user(identifier=identifier)
 
     msg = (f'Dear+{user.first_name},+Please+be+aware+that+your+contract+'
-           f'is+ending+on+the+{contract.end_date}.+Please+notify+your+'
+           f'is+ending+on+the+{instance.end_date}.+Please+notify+your+'
            'supervisor+of+your+renewal+intent+within+the+month.+Have+a+good+'
            'day+:).')
 
@@ -60,7 +75,7 @@ def schedule_sms_notification(contract=None):
         message_data=msg,
         recipient_number=user.cell,
         sms_type='reminder',
-        schedule_datetime=reminder_datetime(contract=contract))
+        schedule_datetime=reminder_datetime(contract=instance))
 
 
 def reminder_datetime(contract=None):

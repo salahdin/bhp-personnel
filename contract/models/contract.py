@@ -1,9 +1,11 @@
 from django.db import models
 from dateutil.relativedelta import relativedelta
-
-from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
+from django.db.models.deletion import PROTECT
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
+
+
+from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
 
 
 class Contract(BaseUuidModel, SiteModelMixin, models.Model):
@@ -43,3 +45,20 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
     def save(self, *args, **kwargs):
         self.due_date = self.end_date - relativedelta(months=3)
         super().save(*args, **kwargs)
+
+
+class ContractExtension(BaseUuidModel):
+
+    contract = models.ForeignKey(Contract, on_delete=PROTECT)
+
+    ext_duration = models.IntegerField(
+        verbose_name='Extension time period (in months)',)
+
+    end_date = models.DateField(
+        verbose_name='New Contract End Date',
+        help_text='End Date of contract after extension', )
+
+    class Meta:
+        app_label = 'contract'
+        verbose_name = 'Contract Extension'
+        verbose_name_plural = 'Contract Extension'
