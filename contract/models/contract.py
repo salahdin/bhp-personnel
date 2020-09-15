@@ -1,3 +1,4 @@
+from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_base.model_mixins import BaseUuidModel
@@ -50,6 +51,11 @@ class ContractExtension(BaseUuidModel):
     end_date = models.DateField(
         verbose_name='New Contract End Date',
         help_text='End Date of contract after extension', )
+
+    def save(self, *args, **kwargs):
+        self.end_date = self.contract.end_date + relativedelta(
+            months=self.ext_duration)
+        super().save(*args, **kwargs)
 
     class Meta:
         app_label = 'contract'
