@@ -1,0 +1,1 @@
+from .common_details_mixin import CommonDetailsMixin
