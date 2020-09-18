@@ -10,7 +10,7 @@ from edc_model_admin import (
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
 
-from ..admin_site import contract_admin
+from ..admin_site import bhp_personnel_admin
 from ..forms import EmployeeForm, SupervisorForm
 from ..models import Employee, Supervisor
 
@@ -29,7 +29,7 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
     next_form_getter_cls = NextFormGetter
 
 
-@admin.register(Supervisor, site=contract_admin)
+@admin.register(Supervisor, site=bhp_personnel_admin)
 class SupervisorAdmin(
         ModelAdminMixin, admin.ModelAdmin):
 
@@ -49,7 +49,7 @@ class SupervisorAdmin(
                      'cell']
 
 
-@admin.register(Employee, site=contract_admin)
+@admin.register(Employee, site=bhp_personnel_admin)
 class EmployeeAdmin(
         ModelAdminMixin, admin.ModelAdmin):
 
