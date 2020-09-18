@@ -9,7 +9,7 @@ from edc_model_admin import (
     ModelAdminRedirectOnDeleteMixin, TabularInlineMixin)
 from edc_model_admin import audit_fieldset_tuple
 
-from ..admin_site import contract_admin
+from ..admin_site import bhp_personnel_admin
 from ..forms import ContractForm, ContractExtensionForm
 from ..models import Contract, ContractExtension
 
@@ -40,7 +40,7 @@ class ContractExtensionAdmin(TabularInlineMixin, admin.TabularInline):
         )
 
 
-@admin.register(Contract, site=contract_admin)
+@admin.register(Contract, site=bhp_personnel_admin)
 class ContractAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = ContractForm
