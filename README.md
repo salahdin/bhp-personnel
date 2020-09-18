@@ -1,2 +1,2 @@
-# bhp-personal
-BHP Personal
+# bhp-personnel
+BHP Personnel
