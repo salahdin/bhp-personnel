@@ -4,9 +4,9 @@ from edc_base.apps import AppConfig as BaseEdcBaseAppConfig
 
 
 class AppConfig(DjangoAppConfig):
-    name = 'contract'
+    name = 'bhp_personnel'
     verbose_name = 'Contract Management'
-    admin_site_name = 'contract_admin'
+    admin_site_name = 'bhp_personnel_admin'
     identifier_pattern = None
 
 

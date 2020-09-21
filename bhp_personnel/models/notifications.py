@@ -34,4 +34,4 @@ class Notifications(
     success_status = models.BooleanField(default=False)
 
     class Meta:
-        app_label = "contract"
+        app_label = "bhp_personnel"

@@ -90,4 +90,4 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
         super().save(*args, **kwargs)
 
     class Meta:
-        app_label = "contract"
+        app_label = "bhp_personnel"

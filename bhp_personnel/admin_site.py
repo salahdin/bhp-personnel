@@ -10,7 +10,7 @@ class AdminSite(DjangoAdminSite):
     def each_context(self, request):
         context = super().each_context(request)
         context.update(global_site=get_current_site(request))
-        label = 'BHP Personal'
+        label = 'BHP Personnel'
         context.update(
             site_title=label,
             site_header=label,

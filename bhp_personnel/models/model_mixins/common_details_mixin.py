@@ -37,6 +37,5 @@ class CommonDetailsMixin(models.Model):
 
     email = models.EmailField()
 
-
     class Meta:
         abstract = True

@@ -59,6 +59,6 @@ class ContractExtension(BaseUuidModel):
         help_text='End Date of contract after extension', )
 
     class Meta:
-        app_label = 'contract'
+        app_label = 'bhp_personnel'
         verbose_name = 'Contract Extension'
         verbose_name_plural = 'Contract Extension'
