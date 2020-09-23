@@ -6,6 +6,7 @@ from edc_base.model_mixins import BaseUuidModel
 
 from ..identifier import PiIdentifier
 from .employee import Employee
+from .list_models import Studies
 from .model_mixins import CommonDetailsMixin
 
 
@@ -33,6 +34,14 @@ class Pi(CommonDetailsMixin, SiteModelMixin, BaseUuidModel):
         null=True,
         blank=True,
         unique=True)
+
+    studies = models.ManyToManyField(
+        Studies,
+        verbose_name='Which studies does this personnel belong to? ',
+        max_length=20,
+        blank=True,
+        help_text='',
+    )
 
     supervisor = models.ForeignKey(
         Employee, null=False, blank=False, on_delete=models.CASCADE)

@@ -65,6 +65,7 @@ class EmployeeAdmin(
                 'gender',
                 'department',
                 'supervisor',
+                'studies',
                 'cell',
                 'email',
                 'job_title',
@@ -80,4 +81,6 @@ class EmployeeAdmin(
     search_fields = ['first_name', 'last_name', 'email', 'job_title',
                      'employee_code', 'identifier', 'cell']
 
-    autocomplete_fields = ['department', 'supervisor']
+    autocomplete_fields = ['supervisor']
+
+    filter_horizontal = ("studies",)

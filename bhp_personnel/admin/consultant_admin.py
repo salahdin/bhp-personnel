@@ -45,6 +45,7 @@ class ConsultantAdmin(
                 'gender',
                 'hired_date',
                 'supervisor',
+                'studies',
                 'cell',
                 'email',
             )}),
@@ -57,3 +58,5 @@ class ConsultantAdmin(
     search_fields = ['first_name', 'last_name', 'email', 'identifier']
 
     autocomplete_fields = ['supervisor']
+
+    filter_horizontal = ("studies",)

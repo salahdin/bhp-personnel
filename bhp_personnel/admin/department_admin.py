@@ -44,4 +44,4 @@ class DepartmentAdmin(
             )}),
         audit_fieldset_tuple)
 
-    search_fields = ['supervisor', 'dept_name']
+    search_fields = ['supervisor']
