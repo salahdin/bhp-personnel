@@ -51,6 +51,23 @@ class ContractFormValidator(FormValidator):
                 self._errors.update(message)
                 raise ValidationError(message)
 
+        self.validate_active_contract()
+
+    def validate_active_contract(self):
+
+        identifier = self.cleaned_data.get('identifier')
+        status = self.cleaned_data.get('status')
+
+        if Contract.objects.filter(identifier=identifier).exists():
+
+            contract = Contract.objects.filter(identifier=identifier).latest('identifier')
+
+            if contract.status == 'Active' and status == 'Active':
+                message = {'status': "Two contracts can't be "
+                                     "active at the same time"}
+                self._errors.update(message)
+                raise ValidationError(message)
+
 
 class ContractForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
 
