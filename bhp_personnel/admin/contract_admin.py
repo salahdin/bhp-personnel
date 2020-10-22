@@ -1,30 +1,11 @@
 from django.contrib import admin
 
-from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
-from edc_base.sites.admin import ModelAdminSiteMixin
-from edc_model_admin import (
-    ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
-    ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
-    ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
-    ModelAdminRedirectOnDeleteMixin, TabularInlineMixin)
-from edc_model_admin import audit_fieldset_tuple
+from edc_model_admin import audit_fieldset_tuple, TabularInlineMixin
 
 from ..admin_site import bhp_personnel_admin
 from ..forms import ContractForm, ContractExtensionForm
 from ..models import Contract, ContractExtension
-
-
-class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
-                      ModelAdminFormInstructionsMixin,
-                      ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
-                      ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
-                      ModelAdminInstitutionMixin,
-                      ModelAdminRedirectOnDeleteMixin,
-                      ModelAdminSiteMixin):
-
-    list_per_page = 10
-    date_hierarchy = 'modified'
-    empty_value_display = '-'
+from .modeladmin_mixins import ModelAdminMixin
 
 
 class ContractExtensionAdmin(TabularInlineMixin, admin.TabularInline):
