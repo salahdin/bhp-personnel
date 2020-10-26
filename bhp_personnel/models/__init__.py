@@ -6,4 +6,4 @@ from .employee import Employee
 from .employee import Supervisor
 from .notifications import Notifications
 from .pi import Pi
-from .signals import employee_on_post_save
+from .signals import consultant_on_post_save, employee_on_post_save, pi_on_post_save
