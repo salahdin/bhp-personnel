@@ -4,9 +4,26 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django_q.tasks import schedule
+from django.contrib.auth.models import User
+
 from edc_sms.classes import MessageSchedule
 
 from . import Consultant, Contract, ContractExtension, Employee, Pi
+
+
+@receiver(post_save, weak=False, sender=Employee,
+          dispatch_uid='employee_on_post_save')
+def employee_on_post_save(sender, instance, raw, created, **kwargs):
+    if not raw:
+        if created:
+            User.objects.create_user(username=instance.
+                                     first_name[0]+''+instance.last_name,
+                                     email=instance.email,
+                                     password=instance.first_name+'@2020',
+                                     first_name=instance.first_name,
+                                     last_name=instance.last_name,
+                                     is_staff=True,
+                                     )
 
 
 @receiver(post_save, weak=False, sender=Contract,
