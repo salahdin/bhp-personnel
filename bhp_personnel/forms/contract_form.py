@@ -61,7 +61,7 @@ class ContractFormValidator(FormValidator):
         if status == 'Active':
 
             try:
-                Contract.objects.get(status == 'Active',
+                Contract.objects.get(status='Active',
                                      identifier=identifier)
             except Contract.DoesNotExist:
                 pass
