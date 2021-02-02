@@ -14,7 +14,8 @@ class CommonDetailsMixin(models.Model):
     middle_name = models.CharField(
         verbose_name="Middle names",
         max_length=150,
-        blank=True)
+        blank=True,
+        null=True)
 
     last_name = models.CharField(
         verbose_name="Last name",

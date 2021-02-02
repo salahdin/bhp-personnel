@@ -61,9 +61,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
         Studies,
         verbose_name='Which studies does this personnel belong to? ',
         max_length=20,
-        blank=True,
-        help_text='',
-    )
+        blank=True)
 
     supervisor = models.ForeignKey(
         Supervisor, blank=False, null=False,
@@ -78,14 +76,11 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
 
     job_title = models.CharField(
         verbose_name="Job Title",
-        max_length=150,
-    )
+        max_length=150,)
 
-    employee_code = models.CharField(
+    employee_code = models.IntegerField(
         verbose_name="Employee Code",
-        max_length=30,
-        unique=True
-    )
+        unique=True)
 
     def natural_key(self):
         return self.identifier
