@@ -8,6 +8,7 @@ from edc_search.model_mixins import SearchSlugModelMixin as Base
 
 from .model_mixins import CommonDetailsMixin
 from .department import Department
+from .list_models import Studies
 from ..identifier import EmployeeIdentifier
 
 
@@ -56,6 +57,12 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
 
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
+    studies = models.ManyToManyField(
+        Studies,
+        verbose_name='Which studies does this personnel belong to? ',
+        max_length=20,
+        help_text='',)
+
     supervisor = models.ForeignKey(
         Supervisor, blank=False, null=False,
         on_delete=models.CASCADE)
@@ -69,14 +76,11 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
 
     job_title = models.CharField(
         verbose_name="Job Title",
-        max_length=150,
-    )
+        max_length=150,)
 
-    employee_code = models.CharField(
+    employee_code = models.IntegerField(
         verbose_name="Employee Code",
-        max_length=30,
-        unique=True
-    )
+        unique=True)
 
     def natural_key(self):
         return self.identifier
