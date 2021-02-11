@@ -12,6 +12,7 @@ from ..models import Contract, ContractExtension
 class ContractFormValidator(FormValidator):
 
     def clean(self):
+        super().clean()
         duration = self.cleaned_data.get('duration')
         start_date = self.cleaned_data.get('start_date')
         end_date = self.cleaned_data.get('end_date')
@@ -49,7 +50,7 @@ class ContractFormValidator(FormValidator):
                 self._errors.update(message)
                 raise ValidationError(message)
 
-        super().clean()
+    # def validate_active_contract(self):
 
 
 class ContractForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
