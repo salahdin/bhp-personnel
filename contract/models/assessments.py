@@ -55,6 +55,11 @@ class AdhereToTimeLines(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Adhere to timelines set'
+        verbose_name_plural = 'Adhere to timelines set'
+
 
 class FollowStandards(PerformanceAssessmentItem):
 
@@ -63,6 +68,13 @@ class FollowStandards(PerformanceAssessmentItem):
                      ' development',
         decimal_places=2,
         max_digits=2)
+
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Follow standards that are required during the ' \
+                       'software development'
+        verbose_name_plural = 'Follow standards that are required during' \
+                              ' the software development'
 
 
 class ProvideReports(PerformanceAssessmentItem):
@@ -73,6 +85,13 @@ class ProvideReports(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Provide necessary required reports from project ' \
+                       'meeting and project leader reports'
+        verbose_name_plural = 'Provide necessary required reports from ' \
+                              'project meeting and project leader reports'
+
 
 class FollowTDD(PerformanceAssessmentItem):
 
@@ -81,6 +100,13 @@ class FollowTDD(PerformanceAssessmentItem):
                      'software development',
         decimal_places=2,
         max_digits=2)
+
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Follow test driven development approach always in' \
+                       ' the software development'
+        verbose_name_plural = 'Follow test driven development approach ' \
+                              'always in the software development'
 
 
 class MaintainDocumentation(PerformanceAssessmentItem):
@@ -91,6 +117,13 @@ class MaintainDocumentation(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Maintain documentation and strict source code ' \
+                       'version control'
+        verbose_name_plural = 'Maintain documentation and strict source ' \
+                              'code version control'
+
 
 class PerformSysAnalysis(PerformanceAssessmentItem):
 
@@ -100,6 +133,13 @@ class PerformSysAnalysis(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Perform system analysis, requirement engineering ' \
+                       'and design of systems'
+        verbose_name_plural = 'Perform system analysis, requirement ' \
+                              'engineering and design of systems'
+
 
 class ProjectAssistance(PerformanceAssessmentItem):
 
@@ -108,6 +148,13 @@ class ProjectAssistance(PerformanceAssessmentItem):
                      'project lead',
         decimal_places=2,
         max_digits=2)
+
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Assist in project management of assigned projects ' \
+                       'as project lead'
+        verbose_name_plural = 'Assist in project management of assigned ' \
+                              'projects as project lead'
 
 # 2nd KPA:
 # Improve integration of systems
@@ -121,6 +168,13 @@ class IntegrationAssistance(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Assist with integration of systems such as LIS ' \
+                       'with other systems'
+        verbose_name_plural = 'Assist with integration of systems such ' \
+                              'as LIS with other systems'
+
 
 class DemonstrateInterest(PerformanceAssessmentItem):
 
@@ -129,6 +183,14 @@ class DemonstrateInterest(PerformanceAssessmentItem):
                      'involved in customization and integration modules',
         decimal_places=2,
         max_digits=2)
+
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Demonstrate interest on other systems and get ' \
+                       'involved in customization and integration modules'
+        verbose_name_plural = ('Demonstrate interest on other systems and' 
+                               ' get involved in customization and integration' 
+                               ' modules')
 
 # 3rd KPA:
 # Quality assure software systems and participate in sites and Audits
@@ -142,6 +204,13 @@ class ReviewTeamCode(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Review team mates code and also assist in ' \
+                       'ensuring quality software development'
+        verbose_name_plural = 'Review team mates code and also assist ' \
+                              'in ensuring quality software development'
+
 # 4th KPA:
 # Provide good End user service and mentoring of other junior staff
 
@@ -154,6 +223,13 @@ class AssistResearchStaff(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Assist research staff with research needs that' \
+                       ' they may have'
+        verbose_name_plural = 'Assist research staff with research ' \
+                              'needs that they may have'
+
 
 class GuideJnrStaff(PerformanceAssessmentItem):
 
@@ -162,6 +238,11 @@ class GuideJnrStaff(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Provide guidance to junior staff'
+        verbose_name_plural = 'Provide guidance to junior staff'
+
 
 class LeadershipSkills(PerformanceAssessmentItem):
 
@@ -169,6 +250,11 @@ class LeadershipSkills(PerformanceAssessmentItem):
         verbose_name='Demonstrate leadership skills as a senior',
         decimal_places=2,
         max_digits=2)
+
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Demonstrate leadership skills as a senior'
+        verbose_name_plural = 'Demonstrate leadership skills as a senior'
 
 # 5th KPA:
 # Perform Data management for various projects
@@ -182,6 +268,13 @@ class AssistInManagement(PerformanceAssessmentItem):
         decimal_places=2,
         max_digits=2)
 
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Assist in data management of all ' \
+                       'projects managed by the department'
+        verbose_name_plural = 'Assist in data management of all ' \
+                              'projects managed by the department'
+
 
 class AssistInImplementation(PerformanceAssessmentItem):
 
@@ -190,3 +283,10 @@ class AssistInImplementation(PerformanceAssessmentItem):
                      ' and processes.',
         decimal_places=2,
         max_digits=2)
+
+    class Meta:
+        app_label = 'contact'
+        verbose_name = 'Assist in implementation of data management ' \
+                       'plans, and processes.'
+        verbose_name_plural = 'Assist in implementation of data ' \
+                              'management plans, and processes.'
