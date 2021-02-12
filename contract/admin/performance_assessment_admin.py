@@ -359,14 +359,59 @@ class PerformanceAssessmentAdmin(
                 'approved_by',
                 'signature',
                 'date',
+                'overall_perf_score',
+                'comp_nd_pro_score',
+                'final_assess_score',
+                'emp_comments',
+                'supervisor_comments',
+                'manager',
+                'manager_signature',
+                'date_manager_signed',
+            )}),
+        ('Strategic Orientation', {
+            'fields': (
+                'strategic_orientation',
+                'strategic_orientation_comm',
+            )}),
+        ('Results Focus and Commitments', {
+            'fields': (
                 'results_focus',
+                'results_focus_comm',
+            )}),
+        ('Team Leadership and Motivation', {
+            'fields': (
                 'leadership_motivation',
+                'leadership_motivation_comm',
+            )}),
+        ('Innovation and Creativity', {
+            'fields': (
                 'innovation_creativity',
+                'innovation_creativity_comm',
+            )}),
+        ('Planning and Organising Skills', {
+            'fields': (
                 'planning_skills',
+                'planning_skills_comm',
+            )}),
+        ('Teamwork and Interpersonal Skills', {
+            'fields': (
                 'interpersonal_skills',
+                'interpersonal_skills_comm',
+            )}),
+        ('Communication Skills', {
+            'fields': (
                 'communication_skills',
+                'communication_skills_comm',
+            )}),
+        ('Job Knowledge  and productivity', {
+            'fields': (
                 'productivity',
+                'productivity_comm',
+            )}),
+        ('Quality of Work', {
+            'fields': (
                 'quality_of_work',
+                'quality_of_work_comm',
             )}),
         audit_fieldset_tuple)
 
