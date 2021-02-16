@@ -81,7 +81,6 @@ class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
 
     results_focus = models.IntegerField(
         verbose_name='Results Focus and Commitments',
-        max_length=200,
         blank=True,
         null=True,
         help_text='Refers to the extent to which the employee is self '
@@ -234,6 +233,8 @@ class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
     date_manager_signed = models.CharField(
         verbose_name='Date manager signed',
         max_length=35)
+
+    total_performance_score = models.IntegerField()
 
     # COMPETENCIES AND PROFESSIONAL SKILLS ASSESSMENT
     def calculate_skills_assessment(self):
