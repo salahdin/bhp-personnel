@@ -16,8 +16,10 @@ from edc_model_admin.model_admin_audit_fields_mixin import (
 
 from ..admin_site import contract_admin
 from ..forms import PerformanceAssessmentForm
-from ..forms import PerformanceAssessmentItemForm
-from ..models import PerformanceAssessment
+from ..forms import (CareerDevelopmentForm, ImprovementPlanForm,
+                     PerformanceAssessmentItemForm)
+from ..models import (CareerDevelopment,
+                      ImprovementPlan, PerformanceAssessment)
 from ..models import PerformanceAssessmentItem
 
 
@@ -33,6 +35,40 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
     date_hierarchy = 'modified'
     empty_value_display = '-'
     next_form_getter_cls = NextFormGetter
+
+
+class CareerDevelopmentAdmin(TabularInlineMixin, admin.TabularInline):
+
+    model = CareerDevelopment
+    form = CareerDevelopmentForm
+    extra = 1
+
+    fieldsets = (
+        (None, {
+            'fields': [
+                'training_needs',
+                'agreed_action',
+                'review_date',
+                'completion_date',
+                'development_comments']}
+         ),)
+
+
+class ImprovementPlanAdmin(TabularInlineMixin, admin.TabularInline):
+
+    model = ImprovementPlan
+    form = ImprovementPlanForm
+    extra = 1
+
+    fieldsets = (
+        (None, {
+            'fields': [
+                'weakness',
+                'action_to_take',
+                'action_by',
+                'review_date',
+                'completed_date']}
+         ),)
 
 
 class PerformanceAssessmentItemAdmin(TabularInlineMixin, admin.TabularInline):
@@ -60,7 +96,8 @@ class PerformanceAssessmentAdmin(
 
     form = PerformanceAssessmentForm
 
-    inlines = [PerformanceAssessmentItemAdmin, ]
+    inlines = [PerformanceAssessmentItemAdmin,
+               CareerDevelopmentAdmin, ImprovementPlanAdmin,]
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
