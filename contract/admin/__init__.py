@@ -4,3 +4,5 @@ from .department_admin import DepartmentAdmin
 from .employee_admin import EmployeeAdmin, SupervisorAdmin
 from .pi_admin import PiAdmin
 from .performance_assessment_admin import PerformanceAssessmentAdmin
+from .performance_imp_plan_admin import PerformanceImpPlanAdmin
+from .performance_imp_plan_admin import ImprovementObjectivesAdmin
