@@ -16,10 +16,9 @@ from . import Consultant, Contract, ContractExtension, Employee, Pi
 def employee_on_post_save(sender, instance, raw, created, **kwargs):
     if not raw:
         if created:
-            User.objects.create_user(username=instance.
-                                     first_name[0]+''+instance.last_name,
+            User.objects.create_user(username=instance.email,
                                      email=instance.email,
-                                     password=instance.first_name+'@2020',
+                                     password=str.lower(instance.first_name+'@2021'),
                                      first_name=instance.first_name,
                                      last_name=instance.last_name,
                                      is_staff=True,
