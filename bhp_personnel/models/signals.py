@@ -14,15 +14,17 @@ from . import Consultant, Contract, ContractExtension, Employee, Pi
 @receiver(post_save, weak=False, sender=Employee,
           dispatch_uid='employee_on_post_save')
 def employee_on_post_save(sender, instance, raw, created, **kwargs):
-    if not raw:
-        if created:
+    if not raw and created:
+        try:
+            User.objects.get(email=instance.email)
+        except User.DoesNotExist:
             User.objects.create_user(username=instance.email,
                                      email=instance.email,
-                                     password=str.lower(instance.first_name+'@2021'),
+                                     password=str.lower(
+                                         instance.first_name + '@2021'),
                                      first_name=instance.first_name,
                                      last_name=instance.last_name,
-                                     is_staff=True,
-                                     )
+                                     is_staff=True,)
 
 
 @receiver(post_save, weak=False, sender=Pi,
