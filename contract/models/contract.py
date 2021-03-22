@@ -43,6 +43,9 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         null=True,
         blank=True)
 
+    def __str__(self):
+        return f'{self.start_date} - {self.end_date}'
+
     def save(self, *args, **kwargs):
         self.due_date = self.end_date - relativedelta(months=3)
         super().save(*args, **kwargs)
