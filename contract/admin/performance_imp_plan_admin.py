@@ -2,15 +2,16 @@ from django.db import models
 from django.forms import Textarea
 
 from django.contrib import admin
+from django.urls.base import reverse
+from django.urls.exceptions import NoReverseMatch
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
 from edc_base.sites.admin import ModelAdminSiteMixin
-from edc_metadata import NextFormGetter
 from edc_model_admin import (
     ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
     ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
     ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
     ModelAdminRedirectOnDeleteMixin)
-from edc_model_admin import TabularInlineMixin
+from edc_model_admin import TabularInlineMixin, StackedInlineMixin, ModelAdminNextUrlRedirectError
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
 
@@ -30,10 +31,24 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
     list_per_page = 10
     date_hierarchy = 'modified'
     empty_value_display = '-'
-    next_form_getter_cls = NextFormGetter
+
+    def redirect_url(self, request, obj, post_url_continue=None):
+        redirect_url = super().redirect_url(
+            request, obj, post_url_continue=post_url_continue)
+        if request.GET.dict().get('next'):
+            url_name = request.GET.dict().get('next').split(',')[0]
+            attrs = request.GET.dict().get('next').split(',')[1:]
+            options = {k: request.GET.dict().get(k)
+                       for k in attrs if request.GET.dict().get(k)}
+            try:
+                redirect_url = reverse(url_name, kwargs=options)
+            except NoReverseMatch as e:
+                raise ModelAdminNextUrlRedirectError(
+                    f'{e}. Got url_name={url_name}, kwargs={options}.')
+        return redirect_url
 
 
-class ImprovementObjectivesAdmin(TabularInlineMixin, admin.TabularInline):
+class ImprovementObjectivesAdmin(StackedInlineMixin, admin.StackedInline):
 
     model = ImprovementObjectives
     form = ImprovementObjectivesForm
@@ -60,7 +75,7 @@ class PerformanceImpPlanAdmin(
 
     form = PerformanceImpPlanForm
 
-    inlines = [ImprovementObjectivesAdmin,]
+    inlines = [ImprovementObjectivesAdmin, ]
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
@@ -72,12 +87,7 @@ class PerformanceImpPlanAdmin(
     fieldsets = (
         (None, {
             'fields': (
-                'identifier',
-                'period',
-                'date',
-                'appraiser',
-                'employee_signature',
-                'supervisor_signature',
-                'employee_comments',
+                'emp_identifier',
+                'contract',
             )}),
         audit_fieldset_tuple)

@@ -3,39 +3,22 @@ from django.db import models
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
+from .contract import Contract
+
 
 class PerformanceImpPlan(BaseUuidModel, SiteModelMixin):
 
-    identifier = models.CharField(
+    emp_identifier = models.CharField(
         verbose_name="Employee Identifier",
         max_length=36,
         null=True,
         blank=True)
 
-    period = models.CharField(
-        verbose_name='Period',
-        max_length=50)
-
-    date = models.DateField(
-        verbose_name='Date',
+    contract = models.ForeignKey(
+        Contract,
+        on_delete=models.PROTECT,
         blank=True,
         null=True)
-
-    appraiser = models.CharField(
-        verbose_name='Appraiser\'s name',
-        max_length=70)
-
-    employee_signature = models.CharField(
-        verbose_name='Employee\'s Signature',
-        max_length=20)
-
-    supervisor_signature = models.CharField(
-        verbose_name='Supervisor\'s Signature',
-        max_length=20)
-
-    employee_comments = models.TextField(
-        verbose_name='Employee\'s comments',
-        max_length=100)
 
     class Meta:
         verbose_name = 'Performance Improvement Plan'
