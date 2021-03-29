@@ -1,9 +1,11 @@
+from .communication_skills_form import CommunicationSkillsForm
 from .consultant_form import ConsultantForm
 from .contract_form import ContractForm, ContractExtensionForm
 from .department_form import DepartmentForm
 from .employee_form import EmployeeForm, SupervisorForm
 from .key_performance_area_form import (KeyPerformanceAreaForm,
                                         KeyPerformanceAreaItemForm)
+from .knowledge_and_productivity_form import KnowledgeAndProductivityForm
 from .improvement_plan_form import (ImprovementObjectivesForm,
                                     ImprovementPlanForm)
 from .interpersonnal_skills_form import InterpersonalSkillsForm
@@ -16,5 +18,6 @@ from .performance_imp_plan_form import (PerformanceImpPlanForm,
 from .planning_skills_form import PlanningSkillsForm
 from .professional_skills_form import ProfessionalSkillsForm
 from .pi_form import PiForm
+from .quality_of_work import QualityOfWorkForm
 from .results_focus_form import ResultsFocusForm
 from .strategic_orientation_form import StrategicOrientationForm

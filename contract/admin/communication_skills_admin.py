@@ -7,15 +7,15 @@ from edc_model_admin.model_admin_audit_fields_mixin import (
 
 from .model_admin_mixin import ModelAdminMixin
 from ..admin_site import contract_admin
-from ..forms import InnovationAndCreativityForm
-from ..models import InnovationAndCreativity
+from ..forms import CommunicationSkillsForm
+from ..models import CommunicationSkills
 
 
-@admin.register(InnovationAndCreativity, site=contract_admin)
-class InnovationAndCreativityAdmin(
+@admin.register(CommunicationSkills, site=contract_admin)
+class CommunicationSkillsAdmin(
         ModelAdminMixin, admin.ModelAdmin):
 
-    form = InnovationAndCreativityForm
+    form = CommunicationSkillsForm
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
@@ -30,14 +30,14 @@ class InnovationAndCreativityAdmin(
                 'emp_identifier',
                 'contract',
             )}),
-        ('Innovation and Creativity', {
+        ('Communication Skills', {
             'fields': (
-                'innovation_creativity_desc',
-                'innovation_creativity',
-                'innovation_creativity_comm',
+                'communication_skills_desc',
+                'communication_skills',
+                'communication_skills_comm',
             )
         }),
         audit_fieldset_tuple)
 
     def get_readonly_fields(self, request, obj=None):
-        return ['innovation_creativity_desc', ]
+        return ['communication_skills_desc', ]
