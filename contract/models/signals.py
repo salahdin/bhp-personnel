@@ -7,7 +7,8 @@ from django_q.tasks import schedule
 from django_q.models import Schedule
 from edc_sms.classes import MessageSchedule
 
-from . import Consultant, Contract, ContractExtension, Employee, Pi
+from . import (Consultant, Contract, ContractExtension, Employee, Pi,
+               PerformanceAssessment)
 
 
 @receiver(post_save, weak=False, sender=Contract,
@@ -19,6 +20,7 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw:
         if created:
+            create_appraisals(instance)
             schedule_email_notification(instance)
             schedule_sms_notification(instance)
 
@@ -38,6 +40,18 @@ def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
                 schedule_obj.delete()
             schedule_email_notification(instance, ext=True)
             schedule_sms_notification(instance, ext=True)
+
+
+def create_appraisals(instance=None):
+    """
+    Creates two appraisals on post save of a contract
+    """
+    PerformanceAssessment.objects.create(contract=instance,
+                                         emp_identifier=instance.identifier,
+                                         review='Mid year review')
+    PerformanceAssessment.objects.create(contract=instance,
+                                         emp_identifier=instance.identifier,
+                                         review='Year end review')
 
 
 def schedule_email_notification(instance=None, ext=False):
