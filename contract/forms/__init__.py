@@ -6,11 +6,14 @@ from .key_performance_area_form import (KeyPerformanceAreaForm,
                                         KeyPerformanceAreaItemForm)
 from .improvement_plan_form import (ImprovementObjectivesForm,
                                     ImprovementPlanForm)
+from .interpersonnal_skills_form import InterpersonalSkillsForm
+from .innovation_and_creativity_form import InnovationAndCreativityForm
 from .leadership_and_motivation_form import LeadershipAndMotivationForm
 from .notifications_form import NotificationsForm
 from .performance_assessment_form import PerformanceAssessmentForm
 from .performance_imp_plan_form import (PerformanceImpPlanForm,
                                         ImprovementObjectivesForm)
+from .planning_skills_form import PlanningSkillsForm
 from .professional_skills_form import ProfessionalSkillsForm
 from .pi_form import PiForm
 from .results_focus_form import ResultsFocusForm
