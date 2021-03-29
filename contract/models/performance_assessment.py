@@ -20,17 +20,10 @@ class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
         blank=True,
         null=True)
 
-    period_covered = models.CharField(
-        verbose_name='Review Dates',
-        max_length=200,
+    review = models.CharField(
+        max_length=50,
         blank=True,
         null=True)
-
-    mid_year_review = models.DateField(blank=True, null=True)
-
-    year_end_review = models.DateField(blank=True, null=True)
-
-    contract_end_review = models.DateField(blank=True, null=True)
 
     agreed_by = models.CharField(
         verbose_name='Agreed By',
@@ -48,15 +41,6 @@ class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
 
     date_employee_signed = models.DateField(blank=True, null=True)
 
-    approved_by = models.CharField(
-        verbose_name='Approved By',
-        max_length=200,
-        blank=False,
-        null=False)
-
-    signature = models.CharField(
-        max_length=25)
-
     date = models.DateField(blank=True, null=True)
 
     overall_perf_score = models.IntegerField(
@@ -73,33 +57,6 @@ class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
         verbose_name='Final Assessment Score (Add the weighted scores)',
         blank=True,
         null=True)
-
-    emp_comments = models.TextField(
-        verbose_name='Comments by employee',
-        blank=True,
-        null=True)
-
-    supervisor_comments = models.TextField(
-        verbose_name='Comments by supervisor',
-        blank=True,
-        null=True)
-
-    emp_name = models.CharField(
-        verbose_name='Employee\'s Name',
-        max_length=30,)
-
-    manager = models.CharField(
-        verbose_name='Manager / Study Coordinator / Director / Executive / '
-                     'Head of Department:  ',
-        max_length=30,)
-
-    manager_signature = models.CharField(
-        verbose_name='Manager\'s signature',
-        max_length=35)
-
-    date_manager_signed = models.CharField(
-        verbose_name='Date manager signed',
-        max_length=35)
 
     total_performance_score = models.IntegerField(blank=True, null=True)
 

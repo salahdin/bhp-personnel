@@ -67,12 +67,5 @@ class PerformanceAssessmentAdmin(
                 'emp_identifier',
                 'contract',
                 'overall_perf_score',
-                'comp_nd_pro_score',
-                'final_assess_score',
-                'emp_comments',
-                'supervisor_comments',
-                'manager',
-                'manager_signature',
-                'date_manager_signed',
             )}),
         audit_fieldset_tuple)
