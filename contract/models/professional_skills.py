@@ -22,16 +22,48 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
 
     # SECTION 4 – COMPETENCIES AND PROFESSIONAL SKILLS ASSESSMENT
 
+    strategic_orientation_desc = models.CharField(
+        verbose_name='Description',
+        max_length=500,
+        help_text='<div style=" margin-left:-10px;"> <h4><i> <b>Guidelines:</b>'
+                  ' <span style="font-weight:normal;">Professional Skills Assessment helps in '
+                  'identifying employees’ competencies and professional skills'
+                  ' strengths and opportunities for improvement. To be '
+                  'completed during the evaluation meeting with the employee.'
+                  '   After discussions with the employee, put an “X” in the '
+                  'box that best describes how often each skill is '
+                  'demonstrated by the employee.</span> Make sure examples '
+                  'supporting the ranking of “Always” or “Rarely” are '
+                  'captured in the comments section. </i></h4> '
+                  
+                  '<h4><span style="font-weight:normal; ">Refers to the provision of overall vision and guidance for '
+                  'the long term success of the organisation and a desire to '
+                  'maximise the organisation’s potential through a comprehensive'
+                  ' understanding of the global environment in which the '
+                  'organisation exists and its role and function in Botswana’s '
+                  'economic, social and political development Performance '
+                  'indicators include: </br>'
+                  '- Establishes clear mission, goals and objectives for the '
+                  'organisation </br>'
+                  '- Articulates and communicates overall organisational '
+                  'mission, goals and objectives, long term aims and vision of '
+                  'the future </br>'
+                  '- Pro-actively develops plans and strategies for the '
+                  'achievement of objectives </br>'
+                  '- Thinks about  the future in addition to the achievement '
+                  'of immediate and intermediate range goals </br>'
+                  '- Thinks conceptually and holistically </br>'
+                  '- Plans strategies to recognise external events'
+                  
+                  '</span></h4> </div>',
+
+        blank=True,
+        null=True)
+
     strategic_orientation = models.IntegerField(
         verbose_name='Strategic Orientation',
         blank=True,
-        null=True,
-        help_text='Refers to the provision of overall vision and guidance for'
-                  ' the long term success of the organisation and a desire to '
-                  'maximise the organisation’s potential through a '
-                  'comprehensive understanding of the global environment in '
-                  'which the organisation exists and its role and function in '
-                  'Botswana’s economic, social and political development. ')
+        null=True,)
 
     strategic_orientation_comm = models.TextField(
         verbose_name='Comments on assessment:',

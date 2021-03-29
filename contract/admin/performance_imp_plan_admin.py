@@ -11,7 +11,7 @@ from edc_model_admin import (
     ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
     ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
     ModelAdminRedirectOnDeleteMixin)
-from edc_model_admin import TabularInlineMixin, StackedInlineMixin, ModelAdminNextUrlRedirectError
+from edc_model_admin import StackedInlineMixin, ModelAdminNextUrlRedirectError
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
 
