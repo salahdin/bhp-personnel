@@ -25,7 +25,27 @@ class InnovationAndCreativity(BaseUuidModel, SiteModelMixin):
     innovation_creativity_desc = models.CharField(
         verbose_name='Description',
         max_length=500,
-        help_text='',
+        help_text='<p>Refers to the extent to which the employee uses critical'
+                  'thinking skills to come up with creative, imaginative and '
+                  'creative solutions to existing problems and obstacles and '
+                  'the creation of new approaches and processes to achieve '
+                  'organisational objectives and continuous improvement.</p> '
+                  '<p>&#10003;	Generates new ideas and varied solutions and '
+                  'approaches to overcome obstacles and maximise achievement '
+                  'of desired results<br>'
+                  '&#10003;	Recognises the need for new or modified '
+                  'approaches and critically reviews existing processes, '
+                  'procedures, etc with a view to adopt best practices and new'
+                  'approaches<br>'
+                    '&#10003;	Brings perspectives and approaches together '
+                  'and combines them to generate creative solutions in an '
+                  'imaginative manner<br>'
+                    '&#10003;	Addresses complex situations and identifies '
+                  'patterns and trends leading to problems and the development'
+                  ' of appropriate solutions<br>'
+                    '&#10003;	Exercises critical judgment based on informed '
+                  'decision making and creating thinking; Anticipates potential'
+                  ' impact arising out of innovations<br></p>',
         blank=True,
         null=True)
 
@@ -34,11 +54,8 @@ class InnovationAndCreativity(BaseUuidModel, SiteModelMixin):
         max_length=500,
         blank=True,
         null=True,
-        help_text='Refers to the extent to which the employee uses critical '
-                  'thinking skills to come up with creative, imaginative and '
-                  'creative solutions to existing problems and obstacles and '
-                  'the creation of new approaches and processes to achieve '
-                  'organisational objectives and continuous improvement. ')
+        
+                    )
 
     innovation_creativity_comm = models.TextField(
         verbose_name='Comments on assessment:',

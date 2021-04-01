@@ -25,7 +25,19 @@ class CommunicationSkills(BaseUuidModel, SiteModelMixin):
     communication_skills_desc = models.CharField(
         verbose_name='Description',
         max_length=500,
-        help_text='',
+        help_text='<p>Refers to the extent to which the employee demonstrates '
+                  'a willingness to help others, share information to enable '
+                  'them to meet their objectives and needs, communicate with '
+                  'others, and inter-personal relationships.Performance '
+                  'indicators include</p>'
+                  '<p>&#10003;	Communicates well and responds to requests'
+                  ' for information or assistance in a friendly and helpful'
+                  ' manner<br>'
+                  '&#10003;	Follows up enquiries promptly, Communicates '
+                  'courteously and respectfully with customers and colleagues,'
+                  ' Goes out of their way to help others<br>'
+                  '&#10003;	Provides relevant feedback in  a timely manner'
+                  ' and shares relevant  information with others<br></p>',
         blank=True,
         null=True)
 
@@ -33,10 +45,8 @@ class CommunicationSkills(BaseUuidModel, SiteModelMixin):
         verbose_name='Communication Skills ',
         blank=True,
         null=True,
-        help_text='Refers to the extent to which the employee demonstrates a '
-                  'willingness to help others, share information to enable '
-                  'them to meet their objectives and needs, communicate with '
-                  'others, and inter-personal relationships')
+        
+    )
 
     communication_skills_comm = models.TextField(
         verbose_name='Comments on assessment:',

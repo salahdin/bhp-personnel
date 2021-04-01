@@ -25,7 +25,18 @@ class PlanningSkills(BaseUuidModel, SiteModelMixin):
     planning_skills_desc = models.CharField(
         verbose_name='Description',
         max_length=500,
-        help_text='',
+        help_text='<p>Refers to the extent to which the employee demonstrates '
+                  'ability to plan, organise and follow through on tasks in a '
+                  'timely and effective manner.Paerformance indicators i'
+                  'nclude: </p> '
+                  '<p>&#10003;	Sets priorities to meet deadlines according '
+                  'to work Plan<br>'
+                  '&#10003;	Anticipates and responds to changes in the work '
+                  'environment and takes appropriate action to ensure '
+                  'achievement of required results<br>'
+                  '&#10003;	Identifies resources and prioritises allocation'
+                  ' of resources in accordance with the strategic requirements'
+                  '<br></p>',
         blank=True,
         null=True)
 
@@ -33,9 +44,7 @@ class PlanningSkills(BaseUuidModel, SiteModelMixin):
         verbose_name='Planning and Organising Skills',
         blank=True,
         null=True,
-        help_text='Refers to the extent to which the employee demonstrates '
-                  'ability to plan, organise and follow through on tasks in a '
-                  'timely and effective manner. ')
+        )
 
     planning_skills_comm = models.TextField(
         verbose_name='Comments on assessment:',

@@ -25,7 +25,30 @@ class KnowledgeAndProductivity(BaseUuidModel, SiteModelMixin):
     productivity_skills_desc = models.CharField(
         verbose_name='Description',
         max_length=500,
-        help_text='',
+        help_text='<p>The extent to which the employee demonstrates a thorough'
+                  'knowledge of the job based on technical/professional '
+                  'principles and practices, and the ability to extrapolate '
+                  'from things learned to new situations.Performance indicators'
+                  ' include:</p> '
+                  '<p>&#10003;	Excellent familiarity with duties and '
+                  'responsibilities, terminology, equipment (Lab equipment,PCs'
+                  ', Office Systems etc)<br>'
+                  '&#10003;	Application of knowledge to the work and '
+                  'understanding of processes, principles and procedures<br>'
+                  '&#10003;	Applications of technical know-how in the '
+                  'completion of work and solving problems; Willingness '
+                  'to share technical knowledge with others<br>'
+                  '&#10003;	Knowledge of related tasks and functions needed '
+                  'to carry out assigned duties; Minimise errors arising out '
+                  'of misapplication or lack of knowledge<br>'
+                  '&#10003;	Does not constantly seek assistance in areas where'
+                  'knowledge is expected; Self confidence in application of '
+                  'knowledge<br>'
+                  '&#10003;	Ability to apply knowledge to unique situations; '
+                  'Diagnosis of problems using technical knowledge<br>'
+                  '&#10003;	Ability to complete appropriate work volumes and '
+                  'achieve results in a timely manner, responsiveness to '
+                  'deadlines<br></p>',
         blank=True,
         null=True)
 
@@ -33,10 +56,8 @@ class KnowledgeAndProductivity(BaseUuidModel, SiteModelMixin):
         verbose_name='Job Knowledge  and productivity',
         blank=True,
         null=True,
-        help_text='The extent to which the employee demonstrates a thorough '
-                  'knowledge of the job based on technical/professional '
-                  'principles and practices, and the ability to extrapolate '
-                  'from things learned to new situations. ')
+        
+                  )
 
     productivity_comm = models.TextField(
         verbose_name='Comments on assessment:',
