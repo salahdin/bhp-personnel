@@ -25,16 +25,24 @@ class QualityOfWork(BaseUuidModel, SiteModelMixin):
     quality_of_work_desc = models.CharField(
         verbose_name='Description',
         max_length=500,
-        help_text='',
+        help_text='<p>Refers to the extent to which the employee demonstrates '
+                  'ability to provide accurate work free of avoidable errors.'
+                  'Perfcormance indicators include :<br></p>'
+                  '<p>&#10003;Demonstrates attention to detail, '
+                  'checks work thoroughly and rarely submits work with obvious'
+                  ' errors<br>'
+                  '&#10003;Follows up any work quality queries promptly and '
+                  'makes required adjustments accurately to avoid further '
+                  'delays<br>'
+                  '&#10003;Quality checks others’ work and provides relevant '
+                  'feedback for quality team deliverables<br></p>',
         blank=True,
         null=True)
 
     quality_of_work = models.IntegerField(
         verbose_name='Quality of Work',
         blank=True,
-        null=True,
-        help_text='Refers to the extent to which the employee demonstrates '
-                  'ability to provide accurate work free of avoidable errors.')
+        null=True,)
 
     quality_of_work_comm = models.TextField(
         verbose_name='Comments on assessment:',
