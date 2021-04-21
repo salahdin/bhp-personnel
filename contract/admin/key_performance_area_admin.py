@@ -4,6 +4,7 @@ from django.forms import Textarea
 
 from django.contrib import admin
 from django.urls.base import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls.exceptions import NoReverseMatch
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
@@ -17,44 +18,11 @@ from edc_model_admin import StackedInlineMixin, ModelAdminNextUrlRedirectError
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
 
+from .model_admin_mixin import ModelAdminMixin
+
 from ..admin_site import contract_admin
 from ..forms import KeyPerformanceAreaForm, KeyPerformanceAreaItemForm
 from ..models import KeyPerformanceArea, KeyPerformanceAreaItem, Employee
-
-
-def strategic_orientation_cls():
-    return django_apps.get_model('contract.keyperformancearea')
-
-
-class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
-                      ModelAdminFormInstructionsMixin,
-                      ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
-                      ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
-                      ModelAdminInstitutionMixin,
-                      ModelAdminRedirectOnDeleteMixin,
-                      ModelAdminSiteMixin):
-
-    list_per_page = 10
-    date_hierarchy = 'modified'
-    empty_value_display = '-'
-
-    def redirect_url(self, request, obj, post_url_continue=None):
-        redirect_url = super().redirect_url(
-            request, obj, post_url_continue=post_url_continue)
-        if request.GET.dict().get('next'):
-            url_name = request.GET.dict().get('next').split(',')[0]
-            attrs = request.GET.dict().get('next').split(',')[1:]
-            options = {k: request.GET.dict().get(k)
-                       for k in attrs if request.GET.dict().get(k)}
-            try:
-                redirect_url = reverse(url_name, kwargs=options)
-            except NoReverseMatch as e:
-                raise ModelAdminNextUrlRedirectError(
-                    f'{e}. Got url_name={url_name}, kwargs={options}.')
-
-            obj = Employee.objects.get(first_name='Calvin')
-
-        return redirect(obj)
 
 
 class KeyPerformanceAreaItemAdmin(StackedInlineMixin, admin.StackedInline):

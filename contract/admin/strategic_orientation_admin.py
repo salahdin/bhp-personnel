@@ -15,7 +15,7 @@ from edc_model_admin import (
 
 from ..admin_site import contract_admin
 from ..forms import StrategicOrientationForm
-from ..models import StrategicOrientation
+from ..models import StrategicOrientation, ResultsFocus
 
 
 class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
@@ -64,12 +64,20 @@ class StrategicOrientationAdmin(
 
     def response_change(self, request, obj):
         if "_add_next" in request.POST:
-            import pdb; pdb.set_trace()
             emp_identifier = obj.emp_identifier
             contract = obj.contract.id
             obj.save()
-            return HttpResponseRedirect(
-                f'/admin/contract/resultsfocus/add/?,contract&contract='
-                f'{contract}&contract={contract}&emp_identifier='
-                f'{emp_identifier}')
+
+            try:
+                rf = ResultsFocus.objects.get(contract=contract,
+                                              emp_identifier=emp_identifier)
+            except ResultsFocus.DoesNotExist:
+                return HttpResponseRedirect(
+                    f'/admin/contract/resultsfocus/add/?,contract&contract='
+                    f'{contract}&contract={contract}&emp_identifier='
+                    f'{emp_identifier}')
+            else:
+                return HttpResponseRedirect(
+                    f'/admin/contract/resultsfocus/{rf.id}/change/?')
+
         return super().response_change(request, obj)
