@@ -64,6 +64,12 @@ class StrategicOrientationAdmin(
 
     def response_change(self, request, obj):
         if "_add_next" in request.POST:
+            import pdb; pdb.set_trace()
+            emp_identifier = obj.emp_identifier
+            contract = obj.contract.id
             obj.save()
-            return HttpResponseRedirect("/admin/contract/resultsfocus/add/")
+            return HttpResponseRedirect(
+                f'/admin/contract/resultsfocus/add/?,contract&contract='
+                f'{contract}&contract={contract}&emp_identifier='
+                f'{emp_identifier}')
         return super().response_change(request, obj)

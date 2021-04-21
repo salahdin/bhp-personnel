@@ -4,7 +4,6 @@ from django.forms import Textarea
 
 from django.contrib import admin
 from django.urls.base import reverse
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls.exceptions import NoReverseMatch
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
@@ -38,9 +37,6 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
     list_per_page = 10
     date_hierarchy = 'modified'
     empty_value_display = '-'
-
-    # import pdb; pdb.set_trace()
-    # strategic_orientation = strategic_orientation_cls().get_absolute_url()
 
     def redirect_url(self, request, obj, post_url_continue=None):
         redirect_url = super().redirect_url(
