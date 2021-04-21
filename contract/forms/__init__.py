@@ -11,6 +11,8 @@ from .improvement_plan_form import (ImprovementObjectivesForm,
 from .interpersonnal_skills_form import InterpersonalSkillsForm
 from .innovation_and_creativity_form import InnovationAndCreativityForm
 from .leadership_and_motivation_form import LeadershipAndMotivationForm
+from .job_description_form import JobDescriptionForm
+from .job_description_kpa_form import JobDescriptionKpaForm
 from .notifications_form import NotificationsForm
 from .performance_assessment_form import PerformanceAssessmentForm
 from .performance_imp_plan_form import (PerformanceImpPlanForm,

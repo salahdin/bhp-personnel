@@ -7,6 +7,8 @@ from .employee import Employee, Supervisor
 from .improvement_plan import ImprovementPlan
 from .innovation_and_creativity import InnovationAndCreativity
 from .interpersonal_skills import InterpersonalSkills
+from .job_description import JobDescription
+from .job_description_kpa import JobDescriptionKpa
 from .key_performance_area import KeyPerformanceArea, KeyPerformanceAreaItem
 from .knowledge_and_productivity import KnowledgeAndProductivity
 from .leadership_and_motivation import LeadershipAndMotivation
@@ -20,3 +22,4 @@ from .quality_of_work import QualityOfWork
 from .results_focus import ResultsFocus
 from .signals import contract_on_post_save
 from .strategic_orientation import StrategicOrientation
+
