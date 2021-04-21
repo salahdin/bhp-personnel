@@ -21,6 +21,7 @@ class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
         null=True)
 
     review = models.CharField(
+        verbose_name='Review-Type',
         max_length=50,
         blank=True,
         null=True)
