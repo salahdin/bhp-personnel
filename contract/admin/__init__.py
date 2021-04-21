@@ -5,6 +5,7 @@ from .department_admin import DepartmentAdmin
 from .employee_admin import EmployeeAdmin, SupervisorAdmin
 from .innovation_and_creativity_admin import InnovationAndCreativityAdmin
 from .interpersonal_skills_admin import InterpersonalSkillsAdmin
+from .job_description_admin import JobDescriptionAdmin
 from .key_performance_area_admin import KeyPerformanceAreaAdmin
 from .knowledge_and_productivity_admin import KnowledgeAndProductivityAdmin
 from .leadership_and_motivation_admin import LeadershipAndMotivationAdmin
