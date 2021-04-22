@@ -69,7 +69,7 @@ class StrategicOrientationAdmin(
             obj.save()
 
             try:
-                rf = ResultsFocus.objects.get(contract=contract,
+                next_form = ResultsFocus.objects.get(contract=contract,
                                               emp_identifier=emp_identifier)
             except ResultsFocus.DoesNotExist:
                 return HttpResponseRedirect(
@@ -78,6 +78,6 @@ class StrategicOrientationAdmin(
                     f'{emp_identifier}')
             else:
                 return HttpResponseRedirect(
-                    f'/admin/contract/resultsfocus/{rf.id}/change/?')
+                    f'/admin/contract/resultsfocus/{next_form.id}/change/?')
 
         return super().response_change(request, obj)
