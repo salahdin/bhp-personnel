@@ -6,6 +6,7 @@ from .job_description import JobDescription
 
 
 class JobDescriptionKpa(BaseUuidModel, SiteModelMixin, models.Model):
+
     job_description = models.ForeignKey(
         JobDescription,
         on_delete=models.PROTECT)

@@ -1,11 +1,10 @@
 from dateutil.relativedelta import relativedelta
 from django.db import models
-from dateutil.relativedelta import relativedelta
 from django.db.models.deletion import PROTECT
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
-
+from .job_description import JobDescription
 from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
 
 
@@ -16,6 +15,9 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         max_length=36,
         null=True,
         blank=True)
+
+    job_description = models.OneToOneField(
+        JobDescription, on_delete=models.CASCADE)
 
     duration = models.CharField(
         verbose_name="Contract Duration",

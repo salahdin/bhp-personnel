@@ -52,8 +52,9 @@ class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
+                'identifier',
                 'job_title',
-                'reports_to',
+                'supervisor',
                 'job_purpose',
                 'qualifications',
                 'position',
