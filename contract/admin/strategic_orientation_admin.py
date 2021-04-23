@@ -1,41 +1,22 @@
 from django.db import models
 from django.forms import Textarea
-
 from django.contrib import admin
-from django.http import HttpResponseRedirect
-from django_revision.modeladmin_mixin import ModelAdminRevisionMixin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
-from edc_base.sites.admin import ModelAdminSiteMixin
-from edc_model_admin import (
-    ModelAdminNextUrlRedirectMixin, ModelAdminFormInstructionsMixin,
-    ModelAdminFormAutoNumberMixin, ModelAdminAuditFieldsMixin,
-    ModelAdminReadOnlyMixin, ModelAdminInstitutionMixin,
-    ModelAdminRedirectOnDeleteMixin)
-
+from .model_admin_mixin import KPAModelAdminMixin
 from ..admin_site import contract_admin
 from ..forms import StrategicOrientationForm
-from ..models import StrategicOrientation, ResultsFocus
-
-
-class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
-                      ModelAdminFormInstructionsMixin,
-                      ModelAdminFormAutoNumberMixin, ModelAdminRevisionMixin,
-                      ModelAdminAuditFieldsMixin, ModelAdminReadOnlyMixin,
-                      ModelAdminInstitutionMixin,
-                      ModelAdminRedirectOnDeleteMixin,
-                      ModelAdminSiteMixin):
-
-    list_per_page = 10
-    date_hierarchy = 'modified'
-    empty_value_display = '-'
+from ..models import StrategicOrientation
 
 
 @admin.register(StrategicOrientation, site=contract_admin)
 class StrategicOrientationAdmin(
-        ModelAdminMixin, admin.ModelAdmin):
+        KPAModelAdminMixin, admin.ModelAdmin):
 
     form = StrategicOrientationForm
+    show_save_next = True
+    show_cancel = True
+    next_cls = 'contract.resultsfocus'
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
@@ -62,22 +43,11 @@ class StrategicOrientationAdmin(
     def get_readonly_fields(self, request, obj=None):
         return ['strategic_orientation_desc', ]
 
-    def response_change(self, request, obj):
-        if "_add_next" in request.POST:
-            emp_identifier = obj.emp_identifier
-            contract = obj.contract.id
-            obj.save()
+    def extra_context(self, extra_context=None):
+        """Adds the booleans for the savenext and cancel buttons
+        to the context.
 
-            try:
-                next_form = ResultsFocus.objects.get(contract=contract,
-                                              emp_identifier=emp_identifier)
-            except ResultsFocus.DoesNotExist:
-                return HttpResponseRedirect(
-                    f'/admin/contract/resultsfocus/add/?,contract&contract='
-                    f'{contract}&contract={contract}&emp_identifier='
-                    f'{emp_identifier}')
-            else:
-                return HttpResponseRedirect(
-                    f'/admin/contract/resultsfocus/{next_form.id}/change/?')
-
-        return super().response_change(request, obj)
+        These are also referred to in the submit_line.html.
+        """
+        extra_context = {'kpa_forms': True}
+        return super().extra_context(extra_context=extra_context)

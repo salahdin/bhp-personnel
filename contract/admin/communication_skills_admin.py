@@ -5,17 +5,19 @@ from django.contrib import admin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
 
-from .model_admin_mixin import ModelAdminMixin
+from .model_admin_mixin import KPAModelAdminMixin
 from ..admin_site import contract_admin
 from ..forms import CommunicationSkillsForm
 from ..models import CommunicationSkills
 
 
 @admin.register(CommunicationSkills, site=contract_admin)
-class CommunicationSkillsAdmin(
-        ModelAdminMixin, admin.ModelAdmin):
+class CommunicationSkillsAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     form = CommunicationSkillsForm
+    show_save_next = True
+    show_cancel = True
+    next_cls = 'contract.knowledgeandproductivity'
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
@@ -41,3 +43,12 @@ class CommunicationSkillsAdmin(
 
     def get_readonly_fields(self, request, obj=None):
         return ['communication_skills_desc', ]
+
+    def extra_context(self, extra_context=None):
+        """Adds the booleans for the savenext and cancel buttons
+        to the context.
+
+        These are also referred to in the submit_line.html.
+        """
+        extra_context = {'kpa_forms': True}
+        return super().extra_context(extra_context=extra_context)
