@@ -9,7 +9,7 @@ from edc_base.utils import get_utcnow
 from edc_sms.classes import MessageSchedule
 
 from . import (Consultant, Contract, ContractExtension, Employee, Pi,
-               PerformanceAssessment, KeyPerformanceArea, JobDescriptionKpa)
+               PerformanceAssessment, KeyPerformanceArea)
 
 
 @receiver(post_save, weak=False, sender=Contract,
@@ -22,6 +22,7 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     if not raw:
         if created:
             create_appraisals(instance)
+            create_key_performance_areas(job_description=instance.job_description)
             schedule_email_notification(instance)
             schedule_sms_notification(instance)
 
@@ -43,19 +44,16 @@ def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
             schedule_sms_notification(instance, ext=True)
 
 
-@receiver(post_save, weak=False, sender=JobDescriptionKpa,
-          dispatch_uid='jobdescriptionkpa_on_post_save')
-def job_description_kpa_on_post_save(sender, instance, raw, created, **kwargs):
+def create_key_performance_areas(job_description=None):
     """
     Create Key Performance Assessment for each KPA on the job description.
     """
-    if not raw:
-        if created:
-            KeyPerformanceArea.objects.create(
-                emp_identifier=instance.job_description.identifier,
-                contract=instance.job_description.contract,
-                kpa_nd_objective=instance.key_performance_area,
-                performance_indicators=instance.kpa_performance_indicators)
+    for job_description_kpa in job_description.jobdescriptionkpa_set.all():
+        KeyPerformanceArea.objects.create(
+            emp_identifier=job_description.identifier,
+            contract=job_description.contract,
+            kpa_nd_objective=job_description_kpa.key_performance_area,
+            performance_indicators=job_description_kpa.kpa_performance_indicators)
 
 
 def create_appraisals(instance=None):
