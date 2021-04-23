@@ -37,9 +37,11 @@ class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
     position = models.CharField(
         verbose_name="Position",
         max_length=100)
+
     experience = models.CharField(
         verbose_name="Experience",
         max_length=20)
+
     skills_and_knowledge = models.TextField(
         verbose_name="Skills and Knowledge",
         max_length=None)

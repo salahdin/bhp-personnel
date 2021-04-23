@@ -10,6 +10,7 @@ class JobDescriptionKpa(BaseUuidModel, SiteModelMixin, models.Model):
     job_description = models.ForeignKey(
         JobDescription,
         on_delete=models.PROTECT)
+
     key_performance_area = models.CharField(
         verbose_name='KEY PERFORMANCE AREAS',
         max_length=50)
@@ -21,16 +22,18 @@ class JobDescriptionKpa(BaseUuidModel, SiteModelMixin, models.Model):
     kpa_performance_indicators = models.TextField(
         verbose_name='PERFORMANCE INDICATORS'
                      '(completion dates)',
-        max_length=None, )
+        max_length=None)
+
     skills_required = models.TextField(
         verbose_name="SKILLS REQUIRED",
-        max_length=100
-    )
+        max_length=100)
 
     kpa_grade = models.CharField(
         verbose_name='Grade',
-        max_length=50)
+        max_length=50,
+        null=True,
+        blank=True)
 
     class Meta:
-        verbose_name = 'Job Description Kpa'
-        verbose_name_plural = 'Job Description Kpa'
+        verbose_name = 'Job Description KPA'
+        verbose_name_plural = 'Job Description KPA'

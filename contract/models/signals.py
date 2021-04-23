@@ -5,10 +5,11 @@ from django.dispatch import receiver
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django_q.tasks import schedule
 from django_q.models import Schedule
+from edc_base.utils import get_utcnow
 from edc_sms.classes import MessageSchedule
 
 from . import (Consultant, Contract, ContractExtension, Employee, Pi,
-               PerformanceAssessment)
+               PerformanceAssessment, KeyPerformanceArea, JobDescriptionKpa)
 
 
 @receiver(post_save, weak=False, sender=Contract,
@@ -42,6 +43,21 @@ def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
             schedule_sms_notification(instance, ext=True)
 
 
+@receiver(post_save, weak=False, sender=JobDescriptionKpa,
+          dispatch_uid='jobdescriptionkpa_on_post_save')
+def job_description_kpa_on_post_save(sender, instance, raw, created, **kwargs):
+    """
+    Create Key Performance Assessment for each KPA on the job description.
+    """
+    if not raw:
+        if created:
+            KeyPerformanceArea.objects.create(
+                emp_identifier=instance.job_description.identifier,
+                contract=instance.job_description.contract,
+                kpa_nd_objective=instance.key_performance_area,
+                performance_indicators=instance.kpa_performance_indicators)
+
+
 def create_appraisals(instance=None):
     """
     Creates two appraisals on post save of a contract
@@ -71,7 +87,7 @@ def schedule_email_notification(instance=None, ext=False):
             user.email,
             user.supervisor.email,
             end_date,
-            name=user.identifier,
+            name=f'{user.identifier}{get_utcnow()}',
             schedule_type='O',
             next_run=reminder_datetime(instance=instance, ext=ext))
 
