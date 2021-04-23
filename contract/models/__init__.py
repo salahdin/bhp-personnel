@@ -9,7 +9,7 @@ from .innovation_and_creativity import InnovationAndCreativity
 from .interpersonal_skills import InterpersonalSkills
 from .job_description import JobDescription
 from .job_description_kpa import JobDescriptionKpa
-from .key_performance_area import KeyPerformanceArea, KeyPerformanceAreaItem
+from .key_performance_area import KeyPerformanceArea
 from .knowledge_and_productivity import KnowledgeAndProductivity
 from .leadership_and_motivation import LeadershipAndMotivation
 from .notifications import Notifications

@@ -21,19 +21,6 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
         blank=True,
         null=True)
 
-    class Meta:
-        verbose_name = 'Key Performance Areas'
-        verbose_name_plural = 'Key Performance Areas'
-
-
-class KeyPerformanceAreaItem(SiteModelMixin, BaseUuidModel):
-
-    key_performance_area = models.ForeignKey(
-        KeyPerformanceArea,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True)
-
     kpa_nd_objective = models.CharField(
         verbose_name='KEY PERFORMANCE AREA and OBJECTIVES',
         max_length=250, )

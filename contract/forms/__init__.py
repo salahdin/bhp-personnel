@@ -3,8 +3,7 @@ from .consultant_form import ConsultantForm
 from .contract_form import ContractForm, ContractExtensionForm
 from .department_form import DepartmentForm
 from .employee_form import EmployeeForm, SupervisorForm
-from .key_performance_area_form import (KeyPerformanceAreaForm,
-                                        KeyPerformanceAreaItemForm)
+from .key_performance_area_form import KeyPerformanceAreaForm
 from .knowledge_and_productivity_form import KnowledgeAndProductivityForm
 from .improvement_plan_form import (ImprovementObjectivesForm,
                                     ImprovementPlanForm)
