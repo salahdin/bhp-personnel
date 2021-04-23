@@ -65,7 +65,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
 
     supervisor = models.ForeignKey(
         Supervisor, blank=False, null=False,
-        on_delete=models.CASCADE)
+        on_delete=models.PROTECT)
 
     identifier = models.CharField(
         verbose_name="Employee Identifier",
