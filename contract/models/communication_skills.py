@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
@@ -43,10 +43,8 @@ class CommunicationSkills(BaseUuidModel, SiteModelMixin):
 
     communication_skills = models.IntegerField(
         verbose_name='Communication Skills ',
-        blank=True,
-        null=True,
-        
-    )
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        )
 
     communication_skills_comm = models.TextField(
         verbose_name='Comments on assessment:',

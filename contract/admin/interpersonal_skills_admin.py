@@ -16,8 +16,10 @@ class InterpersonalSkillsAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     form = InterpersonalSkillsForm
     show_save_next = True
+    show_save_prev = True
     show_cancel = True
     next_cls = 'contract.communicationskills'
+    prev_cls = 'contract.planningskills'
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
@@ -43,12 +45,3 @@ class InterpersonalSkillsAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         return ['interpersonal_skills_desc', ]
-
-    def extra_context(self, extra_context=None):
-        """Adds the booleans for the savenext and cancel buttons
-        to the context.
-
-        These are also referred to in the submit_line.html.
-        """
-        extra_context = {'kpa_forms': True}
-        return super().extra_context(extra_context=extra_context)

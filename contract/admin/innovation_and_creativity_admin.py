@@ -16,8 +16,10 @@ class InnovationAndCreativityAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     form = InnovationAndCreativityForm
     show_save_next = True
+    show_save_prev = True
     show_cancel = True
     next_cls = 'contract.planningskills'
+    prev_cls = 'contract.leadershipandmotivation'
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(

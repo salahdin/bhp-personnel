@@ -16,8 +16,10 @@ class LeadershipAndMotivationAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     form = LeadershipAndMotivationForm
     show_save_next = True
+    show_save_prev = True
     show_cancel = True
     next_cls = 'contract.innovationandcreativity'
+    prev_cls = 'contract.resultsfocus'
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(

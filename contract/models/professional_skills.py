@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
@@ -35,7 +35,6 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
                   'demonstrated by the employee.</span> <b>Make sure examples '
                   'supporting the ranking of “Always” or “Rarely” are '
                   'captured in the comments section.</b> </i></p> '
-                  
                   '<p>Refers to the provision of overall vision and guidance for '
                   'the long term success of the organisation and a desire to '
                   'maximise the organisation’s potential through a comprehensive'
@@ -54,7 +53,6 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
                   'of immediate and intermediate range goals </br>'
                   '&#10003;	 Thinks conceptually and holistically </br>'
                   '&#10003;	 Plans strategies to recognise external events</p>'
-                  
                   '</span></h4> </div>',
 
         blank=True,
@@ -62,8 +60,7 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
 
     strategic_orientation = models.IntegerField(
         verbose_name='Strategic Orientation',
-        blank=True,
-        null=True,)
+        validators=[MinValueValidator(0), MaxValueValidator(5)],)
 
     strategic_orientation_comm = models.TextField(
         verbose_name='Comments on assessment:',
@@ -72,8 +69,7 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
 
     results_focus = models.IntegerField(
         verbose_name='Results Focus and Commitments',
-        blank=True,
-        null=True,
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
         help_text='Refers to the extent to which the employee is self '
                   'motivated to achieve results and continuously strives for '
                   'performance excellence through review and evaluation of '
@@ -104,8 +100,7 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
 
     innovation_creativity = models.IntegerField(
         verbose_name='Innovation and Creativity',
-        blank=True,
-        null=True,
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
         help_text='Refers to the extent to which the employee uses critical '
                   'thinking skills to come up with creative, imaginative and '
                   'creative solutions to existing problems and obstacles and '

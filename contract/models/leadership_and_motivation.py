@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
@@ -31,7 +31,7 @@ class LeadershipAndMotivation(BaseUuidModel, SiteModelMixin):
                   ' respect; and extent to which the manager develops a team'
                   ' approach to the achievement of objectives and the '
                   'management of staff.Performance indicators include:</p>'
-                  
+
                   '<p>&#10003;	Encourages participation in planning and goal '
                   'setting and decision making process.<br>'
                   '&#10003;	Encourages team effectiveness through open '
@@ -57,9 +57,7 @@ class LeadershipAndMotivation(BaseUuidModel, SiteModelMixin):
 
     leadership_motivation = models.IntegerField(
         verbose_name='Team Leadership and Motivation',
-        blank=True,
-        null=True,
-        )
+        validators=[MinValueValidator(0), MaxValueValidator(5)],)
 
     leadership_motivation_comm = models.TextField(
         verbose_name='Comments on assessment:',

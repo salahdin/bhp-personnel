@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
@@ -54,10 +54,7 @@ class KnowledgeAndProductivity(BaseUuidModel, SiteModelMixin):
 
     productivity = models.IntegerField(
         verbose_name='Job Knowledge  and productivity',
-        blank=True,
-        null=True,
-        
-                  )
+        validators=[MinValueValidator(0), MaxValueValidator(5)],)
 
     productivity_comm = models.TextField(
         verbose_name='Comments on assessment:',

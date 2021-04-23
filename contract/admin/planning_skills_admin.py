@@ -16,8 +16,10 @@ class PlanningSkillsAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     form = PlanningSkillsForm
     show_save_next = True
+    show_save_prev = True
     show_cancel = True
     next_cls = 'contract.interpersonalskills'
+    prev_cls = 'contract.innovationandcreativity'
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(

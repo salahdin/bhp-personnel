@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
@@ -37,25 +37,21 @@ class InnovationAndCreativity(BaseUuidModel, SiteModelMixin):
                   'approaches and critically reviews existing processes, '
                   'procedures, etc with a view to adopt best practices and new'
                   'approaches<br>'
-                    '&#10003;	Brings perspectives and approaches together '
+                  '&#10003;	Brings perspectives and approaches together '
                   'and combines them to generate creative solutions in an '
                   'imaginative manner<br>'
-                    '&#10003;	Addresses complex situations and identifies '
+                  '&#10003;	Addresses complex situations and identifies '
                   'patterns and trends leading to problems and the development'
                   ' of appropriate solutions<br>'
-                    '&#10003;	Exercises critical judgment based on informed '
+                  '&#10003;	Exercises critical judgment based on informed '
                   'decision making and creating thinking; Anticipates potential'
                   ' impact arising out of innovations<br></p>',
         blank=True,
         null=True)
 
-    innovation_creativity = models.CharField(
+    innovation_creativity = models.IntegerField(
         verbose_name='Innovation and Creativity',
-        max_length=500,
-        blank=True,
-        null=True,
-        
-                    )
+        validators=[MinValueValidator(0), MaxValueValidator(5)],)
 
     innovation_creativity_comm = models.TextField(
         verbose_name='Comments on assessment:',

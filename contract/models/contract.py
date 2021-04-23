@@ -58,11 +58,12 @@ class ContractExtension(BaseUuidModel):
     contract = models.ForeignKey(Contract, on_delete=PROTECT)
 
     ext_duration = models.IntegerField(
-        verbose_name='Extension time period (in months)',)
+        verbose_name='Extension time period (in months)',
+        )
 
     end_date = models.DateField(
         verbose_name='New Contract End Date',
-        help_text='End Date of contract after extension', )
+        help_text='End Date of contract after extension',)
 
     def save(self, *args, **kwargs):
         self.end_date = self.contract.end_date + relativedelta(

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
@@ -42,9 +42,7 @@ class PlanningSkills(BaseUuidModel, SiteModelMixin):
 
     planning_skills = models.IntegerField(
         verbose_name='Planning and Organising Skills',
-        blank=True,
-        null=True,
-        )
+        validators=[MinValueValidator(0), MaxValueValidator(5)],)
 
     planning_skills_comm = models.TextField(
         verbose_name='Comments on assessment:',

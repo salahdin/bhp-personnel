@@ -10,11 +10,11 @@ from ..models import StrategicOrientation
 
 
 @admin.register(StrategicOrientation, site=contract_admin)
-class StrategicOrientationAdmin(
-        KPAModelAdminMixin, admin.ModelAdmin):
+class StrategicOrientationAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     form = StrategicOrientationForm
     show_save_next = True
+    show_save_prev = None
     show_cancel = True
     next_cls = 'contract.resultsfocus'
 
@@ -42,12 +42,3 @@ class StrategicOrientationAdmin(
 
     def get_readonly_fields(self, request, obj=None):
         return ['strategic_orientation_desc', ]
-
-    def extra_context(self, extra_context=None):
-        """Adds the booleans for the savenext and cancel buttons
-        to the context.
-
-        These are also referred to in the submit_line.html.
-        """
-        extra_context = {'kpa_forms': True}
-        return super().extra_context(extra_context=extra_context)

@@ -59,6 +59,8 @@ class KPAModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                          ModelAdminRedirectOnDeleteMixin,
                          ModelAdminSiteMixin):
 
+    show_save = True
+
     def extra_context(self, extra_context=None):
         """Adds the booleans for the savenext and cancel buttons
         to the context.
@@ -66,8 +68,34 @@ class KPAModelAdminMixin(ModelAdminNextUrlRedirectMixin,
         These are also referred to in the submit_line.html.
         """
         extra_context = {'kpa_forms': True,
-                         'show_save_prev': True}
+                         'show_save_prev': self.show_save_prev,
+                         'show_save': self.show_save, }
         return super().extra_context(extra_context=extra_context)
+
+    def redirect_url(self, request, obj, post_url_continue=None):
+
+        if self.show_save_prev and request.POST.get('_saveprev'):
+            redirect_url = self.get_saveprev_redirect_url(
+                request=request, obj=obj)
+            if not redirect_url:
+                redirect_url = self.get_next_redirect_url(request=request)
+        else:
+            redirect_url = super().redirect_url(
+                request, obj, post_url_continue=post_url_continue)
+
+        return redirect_url
+
+    def get_saveprev_redirect_url(self, request=None, obj=None):
+        """Returns a redirect_url for the next form in the visit schedule.
+
+        This method expects a CRF model with model mixins from edc_visit_tracking
+        and edc_visit_schedule.
+
+        Requires edc_metadata. Queries Metadata models.
+        """
+        next_model_cls = django_apps.get_model(self.prev_cls)
+
+        return self.get_redirect_url(next_model_cls, request, obj)
 
     def get_savenext_redirect_url(self, request=None, obj=None):
         """Returns a redirect_url for the next form in the visit schedule.
@@ -79,18 +107,22 @@ class KPAModelAdminMixin(ModelAdminNextUrlRedirectMixin,
         """
         next_model_cls = django_apps.get_model(self.next_cls)
 
+        return self.get_redirect_url(next_model_cls, request, obj)
+
+    def get_redirect_url(self, next_model_cls, request, obj):
+
         if obj:
             contract = obj.contract.id
             emp_identifier = obj.emp_identifier
+
+            url_name = '_'.join(next_model_cls._meta.label_lower.split('.'))
+            url_name = f'{self.admin_site.name}:{url_name}'
 
             try:
                 next_model_obj = next_model_cls.objects.get(contract=contract,
                                                             emp_identifier=emp_identifier)
             except next_model_cls.DoesNotExist:
 
-                url_name = '_'.join(
-                    next_model_cls._meta.label_lower.split('.'))
-                url_name = f'{self.admin_site.name}:{url_name}'
                 redirect_url = reverse(f'{url_name}_add')
                 opts = {'contract': contract,
                         'emp_identifier': emp_identifier}
@@ -109,4 +141,3 @@ class KPAModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                 next_querystring = request.GET.dict().get(self.next_querystring_attr)
                 querystring = urlencode(opts)
                 return f'{redirect_url}?{self.next_querystring_attr}={next_querystring}&{querystring}'
-

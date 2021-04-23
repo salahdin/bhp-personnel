@@ -5,16 +5,20 @@ from django.contrib import admin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
 
-from .model_admin_mixin import ModelAdminMixin
+from .model_admin_mixin import KPAModelAdminMixin
 from ..admin_site import contract_admin
 from ..forms import QualityOfWorkForm
 from ..models import QualityOfWork
 
 
 @admin.register(QualityOfWork, site=contract_admin)
-class QualityOfWorkAdmin(ModelAdminMixin, admin.ModelAdmin):
+class QualityOfWorkAdmin(KPAModelAdminMixin, admin.ModelAdmin):
 
     form = QualityOfWorkForm
+    show_save_prev = True
+    show_save_next = None
+    show_cancel = True
+    prev_cls = 'contract.knowledgeandproductivity'
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
