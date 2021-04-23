@@ -12,8 +12,7 @@ from ..models import QualityOfWork
 
 
 @admin.register(QualityOfWork, site=contract_admin)
-class QualityOfWorkAdmin(
-        ModelAdminMixin, admin.ModelAdmin):
+class QualityOfWorkAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = QualityOfWorkForm
 

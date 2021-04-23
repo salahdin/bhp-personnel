@@ -12,8 +12,7 @@ from ..models import ProfessionalSkills
 
 
 @admin.register(ProfessionalSkills, site=contract_admin)
-class ProfessionalSkillsAdmin(
-        ModelAdminMixin, admin.ModelAdmin):
+class ProfessionalSkillsAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     form = ProfessionalSkillsForm
 

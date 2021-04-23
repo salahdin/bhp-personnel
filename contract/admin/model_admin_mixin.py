@@ -20,6 +20,7 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                       ModelAdminRedirectOnDeleteMixin,
                       ModelAdminSiteMixin):
 
+    show_save = True
     list_per_page = 10
     date_hierarchy = 'modified'
     empty_value_display = '-'
@@ -40,6 +41,15 @@ class ModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                     f'{e}. Got url_name={url_name}, kwargs={options}.')
         return redirect_url
 
+    def extra_context(self, extra_context=None):
+        """Adds the booleans for the savenext and cancel buttons
+        to the context.
+
+        These are also referred to in the submit_line.html.
+        """
+        extra_context = {'show_save': self.show_save}
+        return super().extra_context(extra_context=extra_context)
+
 
 class KPAModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                          ModelAdminFormInstructionsMixin,
@@ -48,6 +58,16 @@ class KPAModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                          ModelAdminInstitutionMixin,
                          ModelAdminRedirectOnDeleteMixin,
                          ModelAdminSiteMixin):
+
+    def extra_context(self, extra_context=None):
+        """Adds the booleans for the savenext and cancel buttons
+        to the context.
+
+        These are also referred to in the submit_line.html.
+        """
+        extra_context = {'kpa_forms': True,
+                         'show_save_prev': True}
+        return super().extra_context(extra_context=extra_context)
 
     def get_savenext_redirect_url(self, request=None, obj=None):
         """Returns a redirect_url for the next form in the visit schedule.
@@ -84,7 +104,7 @@ class KPAModelAdminMixin(ModelAdminNextUrlRedirectMixin,
                     f'{url_name}_change', args=(next_model_obj.id,))
 
                 opts = {'contract': contract,
-                    'emp_identifier': emp_identifier}
+                        'emp_identifier': emp_identifier}
 
                 next_querystring = request.GET.dict().get(self.next_querystring_attr)
                 querystring = urlencode(opts)
