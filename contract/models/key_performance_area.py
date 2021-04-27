@@ -43,7 +43,11 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
     kpa_rating = models.CharField(
         verbose_name='KPA RATING (Use Rating Scale)',
         max_length=5,
-        choices=PERFORMANCE_RATING)
+        choices=PERFORMANCE_RATING,
+        help_text='<h4> NR - Not Rated,  </br>1 - Unacceptable Performance '
+                  '</br>2 - Weak and Inconsistent Performance </br>3 - '
+                  'Competent Meets Standards </br>4 - Exceeds Expectations '
+                  '</br>5 - Exceptional Performance </h4>')
 
     kpa_score = models.CharField(
         verbose_name='KPA SCORE (Rating x Weighting)',

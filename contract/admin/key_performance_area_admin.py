@@ -39,3 +39,6 @@ class KeyPerformanceAreaAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'year_end_assessment')}),
         audit_fieldset_tuple)
 
+    radio_fields = {
+        'kpa_rating': admin.VERTICAL}
+

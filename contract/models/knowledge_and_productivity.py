@@ -54,7 +54,10 @@ class KnowledgeAndProductivity(BaseUuidModel, SiteModelMixin):
 
     productivity = models.IntegerField(
         verbose_name='Job Knowledge  and productivity',
-        validators=[MinValueValidator(0), MaxValueValidator(5)],)
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        help_text='<h4> 1 - Rarely </br>2 - Sometimes '
+                  '</br>3 - Usually </br>4 - Almost Always </br>5 - Always '
+                  '</h4>')
 
     productivity_comm = models.TextField(
         verbose_name='Comments on assessment:',

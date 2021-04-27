@@ -51,7 +51,10 @@ class InnovationAndCreativity(BaseUuidModel, SiteModelMixin):
 
     innovation_creativity = models.IntegerField(
         verbose_name='Innovation and Creativity',
-        validators=[MinValueValidator(0), MaxValueValidator(5)],)
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        help_text='<h4> 1 - Rarely </br>2 - Sometimes '
+                  '</br>3 - Usually </br>4 - Almost Always </br>5 - Always '
+                  '</h4>')
 
     innovation_creativity_comm = models.TextField(
         verbose_name='Comments on assessment:',
