@@ -4,7 +4,6 @@ from django.db.models.deletion import PROTECT
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
-
 from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
 
 
@@ -37,6 +36,10 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         null=True,
         choices=CONTRACT_STATUS)
 
+    leave_days = models.IntegerField(
+        verbose_name='Number of leave days',
+        default=0)
+
     contract_ended = models.BooleanField(
         default=False,
         null=True,
@@ -56,7 +59,7 @@ class ContractExtension(BaseUuidModel):
 
     end_date = models.DateField(
         verbose_name='New Contract End Date',
-        help_text='End Date of contract after extension', )
+        help_text='End Date of contract after extension',)
 
     class Meta:
         app_label = 'bhp_personnel'

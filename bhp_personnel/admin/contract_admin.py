@@ -34,6 +34,7 @@ class ContractAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'duration',
                 'start_date',
                 'end_date',
+                'leave_days',
                 'status')}),
         audit_fieldset_tuple
     )
