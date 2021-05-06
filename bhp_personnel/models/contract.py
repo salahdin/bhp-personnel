@@ -40,12 +40,18 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name='Number of leave days',
         default=0)
 
+    leave_balance = models.IntegerField(
+        verbose_name='Number of leave days',
+        default=0)
+
     contract_ended = models.BooleanField(
         default=False,
         null=True,
         blank=True)
 
     def save(self, *args, **kwargs):
+        if not self.id:
+            self.leave_balance = self.leave_days
         self.due_date = self.end_date - relativedelta(months=3)
         super().save(*args, **kwargs)
 
