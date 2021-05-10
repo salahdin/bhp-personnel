@@ -59,13 +59,10 @@ class ContractFormValidator(FormValidator):
         status = self.cleaned_data.get('status')
 
         if status == 'Active':
-
-            try:
-                Contract.objects.get(status='Active',
-                                     identifier=identifier)
-            except Contract.DoesNotExist:
-                pass
-            else:
+            active_contract = Contract.objects.filter(
+                status='Active',
+                identifier=identifier,).exclude(id=self.instance.id)
+            if active_contract:
                 message = {'status': "Two contracts can't be "
                                      "active at the same time"}
                 self._errors.update(message)
