@@ -38,7 +38,8 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name='Contract Status',
         max_length=30,
         null=True,
-        choices=CONTRACT_STATUS)
+        choices=CONTRACT_STATUS,
+        default='active')
 
     leave_days = models.IntegerField(
         verbose_name='Number of leave days',

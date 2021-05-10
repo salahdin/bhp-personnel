@@ -36,9 +36,13 @@ class StrategicOrientationAdmin(KPAModelAdminMixin, admin.ModelAdmin):
                 'strategic_orientation_desc',
                 'strategic_orientation',
                 'strategic_orientation_comm',
+                'assessment_period_type'
             )
         }),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'assessment_period_type': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return ['strategic_orientation_desc', ]

@@ -17,3 +17,8 @@ PERFORMANCE_RATING = (
     ('4', '4'),
     ('5', '5'),
 )
+
+ASSESSMENT_TYPE = (
+    ('mid_year', 'Mid Year Assessment'),
+    ('year_end', 'Year End Assessment'),
+    ('contract_end', 'End of Contract Assessment'))

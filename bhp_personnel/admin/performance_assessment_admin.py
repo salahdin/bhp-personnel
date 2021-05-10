@@ -27,6 +27,10 @@ class PerformanceAssessmentAdmin(ModelAdminMixin, admin.ModelAdmin):
             'fields': (
                 'emp_identifier',
                 'contract',
+                'review',
                 'overall_perf_score',
             )}),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'review': admin.VERTICAL, }

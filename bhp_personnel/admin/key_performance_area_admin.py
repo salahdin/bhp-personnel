@@ -32,12 +32,11 @@ class KeyPerformanceAreaAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'kpa_nd_objective',
                 'performance_indicators',
                 'weighting',
-                'mid_year_performance',
                 'kpa_rating',
                 'kpa_score',
-                'year_end_assessment')}),
+                'assessment_period_type')}),
         audit_fieldset_tuple)
 
     radio_fields = {
-        'kpa_rating': admin.VERTICAL}
-
+        'kpa_rating': admin.VERTICAL,
+        'assessment_period_type': admin.VERTICAL}

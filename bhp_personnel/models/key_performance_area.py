@@ -5,7 +5,7 @@ from edc_base.sites import SiteModelMixin
 from edc_base.model_mixins import BaseUuidModel
 
 from .performance_assessment import Contract
-from ..choices import PERFORMANCE_RATING
+from ..choices import PERFORMANCE_RATING, ASSESSMENT_TYPE
 
 
 class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
@@ -38,12 +38,6 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
         default=0
         )
 
-    mid_year_performance = models.CharField(
-        verbose_name='Mid-Year ASSESSMENT (on Performance Results achieved)',
-        max_length=100,
-        blank=True,
-        null=True)
-
     kpa_rating = models.CharField(
         verbose_name='KPA RATING (Use Rating Scale)',
         max_length=2,
@@ -58,12 +52,11 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
         max_length=50,
         blank=True)
 
-    year_end_assessment = models.CharField(
-        verbose_name='Year- End or End of Contract  ASSESSMENT (on Performance'
-                     ' Results achieved) Please circle relevant period',
-        max_length=100,
-        blank=True,
-        null=True)
+    assessment_period_type = models.CharField(
+        verbose_name='Period of ASSESSMENT (on Performance'
+                     ' Results achieved)',
+        max_length=15,
+        choices=ASSESSMENT_TYPE)
 
     def save(self, *args, **kwargs):
         if self.weighting and self.kpa_rating:
@@ -73,3 +66,4 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
     class Meta:
         verbose_name = 'Key Performance Areas'
         verbose_name_plural = 'Key Performance Areas'
+        unique_together = ('emp_identifier', 'contract', 'assessment_period_type')

@@ -4,6 +4,7 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
 from .contract import Contract
+from ..choices import ASSESSMENT_TYPE
 
 
 class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
@@ -23,8 +24,7 @@ class PerformanceAssessment(BaseUuidModel, SiteModelMixin):
     review = models.CharField(
         verbose_name='Review-Type',
         max_length=50,
-        blank=True,
-        null=True)
+        choices=ASSESSMENT_TYPE)
 
     agreed_by = models.CharField(
         verbose_name='Agreed By',

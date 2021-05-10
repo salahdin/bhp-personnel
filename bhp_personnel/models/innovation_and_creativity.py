@@ -4,6 +4,7 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
 from .contract import Contract
+from ..choices import ASSESSMENT_TYPE
 
 
 class InnovationAndCreativity(BaseUuidModel, SiteModelMixin):
@@ -60,6 +61,11 @@ class InnovationAndCreativity(BaseUuidModel, SiteModelMixin):
         verbose_name='Comments on assessment:',
         blank=True,
         null=True)
+
+    assessment_period_type = models.CharField(
+        verbose_name='Period of ASSESSMENT',
+        max_length=15,
+        choices=ASSESSMENT_TYPE)
 
     class Meta:
         app_label = 'bhp_personnel'

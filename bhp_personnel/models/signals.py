@@ -49,7 +49,7 @@ def pi_on_post_save(sender, instance, raw, created, **kwargs):
           dispatch_uid='contract_on_post_save')
 def contract_on_post_save(sender, instance, raw, created, **kwargs):
     """
-    Schedule email and sms reminder for 3months before contract end
+    Schedule email and sms reminder for 3 months before contract end
     date.
     """
     if not raw:
@@ -86,7 +86,15 @@ def create_key_performance_areas(job_description=None):
             emp_identifier=job_description.identifier,
             contract=job_description.contract,
             kpa_nd_objective=job_description_kpa.key_performance_area,
-            performance_indicators=job_description_kpa.kpa_performance_indicators)
+            performance_indicators=job_description_kpa.kpa_performance_indicators,
+            assessment_period_type='mid_year')
+
+        KeyPerformanceArea.objects.create(
+            emp_identifier=job_description.identifier,
+            contract=job_description.contract,
+            kpa_nd_objective=job_description_kpa.key_performance_area,
+            performance_indicators=job_description_kpa.kpa_performance_indicators,
+            assessment_period_type='contract_end')
 
 
 def create_appraisals(instance=None):
@@ -95,10 +103,10 @@ def create_appraisals(instance=None):
     """
     PerformanceAssessment.objects.create(contract=instance,
                                          emp_identifier=instance.identifier,
-                                         review='Mid year review')
+                                         review='mid_year')
     PerformanceAssessment.objects.create(contract=instance,
                                          emp_identifier=instance.identifier,
-                                         review='Year end review')
+                                         review='contract_end')
 
 
 def schedule_email_notification(instance=None, ext=False):
