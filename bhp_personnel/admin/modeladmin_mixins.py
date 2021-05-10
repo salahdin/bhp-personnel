@@ -1,4 +1,5 @@
 from django.apps import apps as django_apps
+from django.conf import settings
 from django.urls.base import reverse
 from django.urls.exceptions import NoReverseMatch
 from django_revision.modeladmin_mixin import ModelAdminRevisionMixin

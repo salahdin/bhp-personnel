@@ -53,3 +53,13 @@ class ContractAdmin(ModelAdminMixin, admin.ModelAdmin):
         'created', 'duration', 'start_date', 'end_date', 'status']
 
     search_fields = ('contract',)
+
+    def has_change_permission(self, request, obj=None):
+        if 'HR' in request.user.groups.values_list('name', flat=True):
+            return True
+        return False
+
+    def has_add_permission(self, request):
+        if 'HR' in request.user.groups.values_list('name', flat=True):
+            return True
+        return False

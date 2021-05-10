@@ -63,3 +63,13 @@ class EmployeeAdmin(
     autocomplete_fields = ['supervisor']
 
     filter_horizontal = ("studies",)
+
+    def has_change_permission(self, request, obj=None):
+        if 'HR' in request.user.groups.values_list('name', flat=True):
+            return True
+        return False
+
+    def has_add_permission(self, request):
+        if 'HR' in request.user.groups.values_list('name', flat=True):
+            return True
+        return False
