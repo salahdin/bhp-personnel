@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from edc_base.sites import SiteModelMixin
@@ -23,16 +24,19 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
 
     kpa_nd_objective = models.CharField(
         verbose_name='KEY PERFORMANCE AREA and OBJECTIVES',
-        max_length=250, )
+        max_length=250,)
 
     performance_indicators = models.CharField(
         verbose_name='Key PERFORMANCE INDICATORS / MEASURES & DEADLINES '
                      '(completion dates)',
         max_length=150,)
 
-    weighting = models.CharField(
+    weighting = models.IntegerField(
         verbose_name='%WEIGHTING (KPA Weighting as % of total)',
-        max_length=50,)
+        validators=[MinValueValidator(0),
+                    MaxValueValidator(100)],
+        default=0
+        )
 
     mid_year_performance = models.CharField(
         verbose_name='Mid-Year ASSESSMENT (on Performance Results achieved)',
@@ -42,7 +46,7 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
 
     kpa_rating = models.CharField(
         verbose_name='KPA RATING (Use Rating Scale)',
-        max_length=5,
+        max_length=2,
         choices=PERFORMANCE_RATING,
         help_text='<h4> NR - Not Rated,  </br>1 - Unacceptable Performance '
                   '</br>2 - Weak and Inconsistent Performance </br>3 - '
@@ -51,7 +55,8 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
 
     kpa_score = models.CharField(
         verbose_name='KPA SCORE (Rating x Weighting)',
-        max_length=50)
+        max_length=50,
+        blank=True)
 
     year_end_assessment = models.CharField(
         verbose_name='Year- End or End of Contract  ASSESSMENT (on Performance'
@@ -59,6 +64,11 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
         max_length=100,
         blank=True,
         null=True)
+
+    def save(self, *args, **kwargs):
+        if self.weighting and self.kpa_rating:
+            self.kpa_score = (self.weighting / 100) * int(self.kpa_rating)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Key Performance Areas'

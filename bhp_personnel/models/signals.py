@@ -36,9 +36,9 @@ def pi_on_post_save(sender, instance, raw, created, **kwargs):
     if not raw:
         if created:
             User.objects.create_user(username=instance.
-                                     first_name[0]+''+instance.last_name,
+                                     first_name[0] + '' + instance.last_name,
                                      email=instance.email,
-                                     password=instance.first_name+'@2020',
+                                     password=instance.first_name + '@2020',
                                      first_name=instance.first_name,
                                      last_name=instance.last_name,
                                      is_staff=True,
