@@ -158,7 +158,7 @@ def reminder_datetime(instance=None, ext=False):
             reminder_date = instance.end_date - relativedelta(months=2)
         elif duration == '2 Years':
             reminder_date = instance.end_date - relativedelta(months=3)
-        return datetime.combine(reminder_date, time.fromisoformat('10:00:00'))
+        return datetime.combine(reminder_date, datetime.strptime('10:00', '%H:%M').time())
 
 
 def get_user(identifier=None):

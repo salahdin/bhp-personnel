@@ -53,6 +53,9 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         null=True,
         blank=True)
 
+    def __str__(self):
+        return f'{self.identifier}, {self.start_date} - {self.end_date}'
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.leave_balance = self.leave_days
