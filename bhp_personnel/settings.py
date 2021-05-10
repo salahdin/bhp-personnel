@@ -69,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bhp_personnel.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 

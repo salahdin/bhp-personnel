@@ -18,3 +18,4 @@ git+https://github.com/botswana-harvard/edc-reference.git@develop#egg=edc-refere
 git+https://github.com/botswana-harvard/edc-search.git@develop#egg=edc_search
 git+https://github.com/botswana-harvard/edc-subject-dashboard.git@0.1.11#egg=edc-subject-dashboard
 git+https://github.com/botswana-harvard/edc-visit-schedule.git@0.2.10#egg=edc-visit-schedule
+mysqlclient

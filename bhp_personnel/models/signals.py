@@ -2,13 +2,16 @@ from datetime import datetime, time
 from dateutil.relativedelta import relativedelta
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django_q.tasks import schedule
+from django_q.models import Schedule
 from django.contrib.auth.models import User
 
+from edc_base.utils import get_utcnow
 from edc_sms.classes import MessageSchedule
 
 from . import Consultant, Contract, ContractExtension, Employee, Pi
+from . import PerformanceAssessment, KeyPerformanceArea
 
 
 @receiver(post_save, weak=False, sender=Employee,
@@ -51,6 +54,8 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw:
         if created:
+            create_appraisals(instance)
+            create_key_performance_areas(job_description=instance.job_description)
             schedule_email_notification(instance)
             schedule_sms_notification(instance)
 
@@ -64,8 +69,36 @@ def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw:
         if created:
+            schedule_obj = get_schedule_obj(
+                identifier=instance.contract.identifier)
+            if schedule_obj:
+                schedule_obj.delete()
             schedule_email_notification(instance, ext=True)
             schedule_sms_notification(instance, ext=True)
+
+
+def create_key_performance_areas(job_description=None):
+    """
+    Create Key Performance Assessment for each KPA on the job description.
+    """
+    for job_description_kpa in job_description.jobdescriptionkpa_set.all():
+        KeyPerformanceArea.objects.create(
+            emp_identifier=job_description.identifier,
+            contract=job_description.contract,
+            kpa_nd_objective=job_description_kpa.key_performance_area,
+            performance_indicators=job_description_kpa.kpa_performance_indicators)
+
+
+def create_appraisals(instance=None):
+    """
+    Creates two appraisals on post save of a contract
+    """
+    PerformanceAssessment.objects.create(contract=instance,
+                                         emp_identifier=instance.identifier,
+                                         review='Mid year review')
+    PerformanceAssessment.objects.create(contract=instance,
+                                         emp_identifier=instance.identifier,
+                                         review='Year end review')
 
 
 def schedule_email_notification(instance=None, ext=False):
@@ -85,8 +118,9 @@ def schedule_email_notification(instance=None, ext=False):
             user.email,
             user.supervisor.email,
             end_date,
+            name=f'{user.identifier}{get_utcnow()}',
             schedule_type='O',
-            next_run=reminder_datetime(contract=instance))
+            next_run=reminder_datetime(instance=instance, ext=ext))
 
 
 def schedule_sms_notification(instance=None, ext=False):
@@ -108,15 +142,22 @@ def schedule_sms_notification(instance=None, ext=False):
         message_data=msg,
         recipient_number=user.cell,
         sms_type='reminder',
-        schedule_datetime=reminder_datetime(contract=instance))
+        schedule_datetime=reminder_datetime(instance=instance, ext=ext))
 
 
-def reminder_datetime(contract=None):
+def reminder_datetime(instance=None, ext=False):
     """
     Returns datetime when the reminder should be scheduled.
     """
-    if contract:
-        reminder_date = contract.end_date - relativedelta(months=3)
+    if instance:
+        duration = instance.contract.duration if ext else instance.duration
+        reminder_date = None
+        if duration == '6 Months':
+            reminder_date = instance.end_date - relativedelta(months=1)
+        elif duration == '1 Year':
+            reminder_date = instance.end_date - relativedelta(months=2)
+        elif duration == '2 Years':
+            reminder_date = instance.end_date - relativedelta(months=3)
         return datetime.combine(reminder_date, time.fromisoformat('10:00:00'))
 
 
@@ -136,3 +177,12 @@ def get_user(identifier=None):
             except Consultant.DoesNotExist:
                 raise ValidationError(
                     f'Contract owner for identifier {identifier} does not exist.')
+
+
+def get_schedule_obj(identifier=None):
+    try:
+        schedule_obj = Schedule.objects.get(name=f'{identifier}{get_utcnow()}')
+    except ObjectDoesNotExist:
+        return None
+    else:
+        return schedule_obj

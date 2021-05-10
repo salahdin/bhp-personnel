@@ -1,5 +1,21 @@
+from .communication_skills_admin import CommunicationSkillsAdmin
 from .consultant_admin import ConsultantAdmin
 from .contract_admin import ContractAdmin, ContractExtensionAdmin
 from .department_admin import DepartmentAdmin
 from .employee_admin import EmployeeAdmin, SupervisorAdmin
+from .innovation_and_creativity_admin import InnovationAndCreativityAdmin
+from .interpersonal_skills_admin import InterpersonalSkillsAdmin
+from .job_description_admin import JobDescriptionAdmin
+from .job_description_kpa_admin import JobDescriptionKpaAdmin
+from .key_performance_area_admin import KeyPerformanceAreaAdmin
+from .knowledge_and_productivity_admin import KnowledgeAndProductivityAdmin
+from .leadership_and_motivation_admin import LeadershipAndMotivationAdmin
 from .pi_admin import PiAdmin
+from .performance_assessment_admin import PerformanceAssessmentAdmin
+from .performance_imp_plan_admin import PerformanceImpPlanAdmin
+from .performance_imp_plan_admin import ImprovementObjectivesAdmin
+from .planning_skills_admin import PlanningSkillsAdmin
+from .professional_skills_admin import ProfessionalSkillsAdmin
+from .quality_of_work_admin import QualityOfWorkAdmin
+from .results_focus_admin import ResultsFocusAdmin
+from .strategic_orientation_admin import StrategicOrientationAdmin

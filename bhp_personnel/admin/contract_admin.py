@@ -31,6 +31,7 @@ class ContractAdmin(ModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': (
                 'identifier',
+                'job_description',
                 'duration',
                 'start_date',
                 'end_date',

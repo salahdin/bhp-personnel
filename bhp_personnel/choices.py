@@ -8,3 +8,12 @@ CONTRACT_STATUS = (
     ('Active', 'Active'),
     ('Not Active', 'Not Active'),
 )
+
+PERFORMANCE_RATING = (
+    ('0', 'Not Rated'),
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5'),
+)

@@ -26,3 +26,8 @@ class Department(BaseUuidModel, SiteModelMixin, models.Model):
 
     def __str__(self):
         return f'{self.dept_name}'
+
+    class Meta:
+        app_label = 'bhp_personnel'
+        verbose_name = 'Department'
+        verbose_name_plural = 'Department'
