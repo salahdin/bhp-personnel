@@ -181,6 +181,7 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
     # COMPETENCIES AND PROFESSIONAL SKILLS ASSESSMENT
     def calculate_skills_assessment(self):
         score = 0
+        count = 0
         for f in self._meta.get_fields():
             if f.name in ['strategic_orientation', 'results_focus',
                           'leadership_motivation', 'innovation_creativity',
@@ -188,7 +189,8 @@ class ProfessionalSkills(BaseUuidModel, SiteModelMixin):
                           'communication_skills', 'productivity',
                           'quality_of_work', ]:
                 score += int(getattr(self, f.name))
-        return score
+                count += 1
+        return score / count if score else 0
 
     def __str__(self):
         return f'{self.identifier}'
