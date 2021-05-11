@@ -39,9 +39,13 @@ class PlanningSkillsAdmin(KPAModelAdminMixin, admin.ModelAdmin):
                 'planning_skills_desc',
                 'planning_skills',
                 'planning_skills_comm',
+                'assessment_period_type'
             )
         }),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'assessment_period_type': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return ['planning_skills_desc', ]

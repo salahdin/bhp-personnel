@@ -38,9 +38,13 @@ class QualityOfWorkAdmin(KPAModelAdminMixin, admin.ModelAdmin):
                 'quality_of_work_desc',
                 'quality_of_work',
                 'quality_of_work_comm',
+                'assessment_period_type'
             )
         }),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'assessment_period_type': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return ['quality_of_work_desc', ]

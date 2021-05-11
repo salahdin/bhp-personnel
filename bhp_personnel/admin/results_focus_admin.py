@@ -39,9 +39,13 @@ class ResultsFocusAdmin(KPAModelAdminMixin, admin.ModelAdmin):
                 'results_focus_desc',
                 'results_focus',
                 'results_focus_comm',
+                'assessment_period_type'
             )
         }),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'assessment_period_type': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return ['results_focus_desc', ]

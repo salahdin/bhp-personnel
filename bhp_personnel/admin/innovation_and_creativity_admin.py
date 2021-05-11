@@ -39,9 +39,13 @@ class InnovationAndCreativityAdmin(KPAModelAdminMixin, admin.ModelAdmin):
                 'innovation_creativity_desc',
                 'innovation_creativity',
                 'innovation_creativity_comm',
+                'assessment_period_type'
             )
         }),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'assessment_period_type': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return ['innovation_creativity_desc', ]

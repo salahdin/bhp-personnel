@@ -39,9 +39,13 @@ class CommunicationSkillsAdmin(KPAModelAdminMixin, admin.ModelAdmin):
                 'communication_skills_desc',
                 'communication_skills',
                 'communication_skills_comm',
+                'assessment_period_type'
             )
         }),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'assessment_period_type': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return ['communication_skills_desc', ]

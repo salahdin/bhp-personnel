@@ -39,9 +39,13 @@ class KnowledgeAndProductivityAdmin(KPAModelAdminMixin, admin.ModelAdmin):
                 'productivity_skills_desc',
                 'productivity',
                 'productivity_comm',
+                'assessment_period_type'
             )
         }),
         audit_fieldset_tuple)
+
+    radio_fields = {
+        'assessment_period_type': admin.VERTICAL, }
 
     def get_readonly_fields(self, request, obj=None):
         return ['productivity_skills_desc', ]
