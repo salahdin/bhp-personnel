@@ -66,4 +66,5 @@ class KeyPerformanceArea(SiteModelMixin, BaseUuidModel):
     class Meta:
         verbose_name = 'Key Performance Areas'
         verbose_name_plural = 'Key Performance Areas'
-        unique_together = ('emp_identifier', 'contract', 'assessment_period_type')
+        unique_together = ('emp_identifier', 'contract',
+                           'kpa_nd_objective', 'assessment_period_type')
