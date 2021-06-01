@@ -1,0 +1,31 @@
+{% extends 'edc_model_admin/admin/change_form.html' %}
+{% load static %}
+{% load i18n admin_urls %}
+{% load edc_base_extras edc_admin_modify %}
+{% load i18n admin_urls %}
+
+{% block extrastyle %}{{ block.super }}
+
+{% endblock %}
+
+{% block field_sets %}
+
+  {{ block.super }}
+
+{% endblock field_sets %}
+
+{% block submit_buttons_bottom %}
+
+	   <div class="submit-row">
+		{% if show_save %}<input type="submit" value="{% trans 'Save' %}" class="default" name="_save" />{% endif %}
+		{% if show_delete_link %}
+		    {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+		    <p class="deletelink-box"><a href="{% add_preserved_filters delete_url %}" class="deletelink">{% trans "Delete" %}</a></p>
+		{% endif %}
+		{% if show_cancel %}<input type="submit" title="Leave form without saving" value="{% trans 'Cancel' %}" name="_cancel" />{% endif %}
+		{% if show_save_prev %}<input type="submit" title="Save and go to previous form" value="{% trans 'Save and prev' %}" name="_saveprev" />{% endif %}
+		{% if show_save_next %}<input type="submit" title="Save and go to next form" value="{% trans 'Save and next' %}" name="_savenext" />{% endif %}
+		</div>
+
+	  {% revision_row %}
+{% endblock %}

@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic.base import RedirectView
+
+from .admin_site import bhp_personnel_admin
+
+app_name = 'bhp_personnel'
 
 urlpatterns = [
+    path('administrator/', bhp_personnel_admin.urls),
     path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url='administrator/'), name='home_url')
 ]

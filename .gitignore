@@ -1,13 +1,54 @@
+<<<<<<< HEAD
+etc/
+
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+*static*
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+
+.pydevproject
+.project
+.settings/
+*migrations
+*crypto_fields
+#tshilo_dikotla/apps/*/migrations/
+db.sqlite3
+.DS_Store
+*media
+
+=======
+>>>>>>> upstream/develop
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+<<<<<<< HEAD
+=======
+.DS_Store
+.project
+.settings
+*migrations
+>>>>>>> upstream/develop
 
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
+<<<<<<< HEAD
+env/
+=======
+>>>>>>> upstream/develop
 build/
 develop-eggs/
 dist/
@@ -20,12 +61,18 @@ parts/
 sdist/
 var/
 wheels/
+<<<<<<< HEAD
+*.egg-info/
+.installed.cfg
+*.egg
+=======
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
+>>>>>>> upstream/develop
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -40,16 +87,23 @@ pip-delete-this-directory.txt
 # Unit test / coverage reports
 htmlcov/
 .tox/
+<<<<<<< HEAD
+=======
 .nox/
+>>>>>>> upstream/develop
 .coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
 *.cover
+<<<<<<< HEAD
+.hypothesis/
+=======
 *.py,cover
 .hypothesis/
 .pytest_cache/
+>>>>>>> upstream/develop
 
 # Translations
 *.mo
@@ -58,8 +112,11 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
+<<<<<<< HEAD
+=======
 db.sqlite3
 db.sqlite3-journal
+>>>>>>> upstream/develop
 
 # Flask stuff:
 instance/
@@ -77,6 +134,13 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+<<<<<<< HEAD
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+=======
 # IPython
 profile_default/
 ipython_config.py
@@ -97,10 +161,20 @@ __pypackages__/
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
+>>>>>>> upstream/develop
 
 # SageMath parsed files
 *.sage.py
 
+<<<<<<< HEAD
+# dotenv
+.env
+
+# virtualenv
+.venv
+venv/
+ENV/
+=======
 # Environments
 .env
 .venv
@@ -109,6 +183,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+>>>>>>> upstream/develop
 
 # Spyder project settings
 .spyderproject
@@ -122,8 +197,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+<<<<<<< HEAD
+
+crypto_fields/
+=======
 .dmypy.json
 dmypy.json
 
 # Pyre type checker
 .pyre/
+>>>>>>> upstream/develop
