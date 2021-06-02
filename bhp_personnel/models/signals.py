@@ -5,29 +5,38 @@ from django.dispatch import receiver
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django_q.tasks import schedule
 from django_q.models import Schedule
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from edc_base.utils import get_utcnow
 from edc_sms.classes import MessageSchedule
 
 from . import Consultant, Contract, ContractExtension, Employee, Pi
-from . import PerformanceAssessment, KeyPerformanceArea
+from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
 
 
 @receiver(post_save, weak=False, sender=Employee,
           dispatch_uid='employee_on_post_save')
 def employee_on_post_save(sender, instance, raw, created, **kwargs):
-    if not raw and created:
+    if not raw:
+
         try:
-            User.objects.get(email=instance.email)
+            created_user = User.objects.get(email=instance.email)
         except User.DoesNotExist:
-            User.objects.create_user(username=instance.email,
+            created_user = User.objects.create_user(username=instance.email,
                                      email=instance.email,
                                      password=str.lower(
                                          instance.first_name + '@2021'),
                                      first_name=instance.first_name,
                                      last_name=instance.last_name,
                                      is_staff=True,)
+        try:
+            Supervisor.objects.get(first_name=instance.first_name,
+                                   last_name=instance.last_name)
+        except Supervisor.DoesNotExist:
+            pass
+        else:
+            supervisor_group = Group.objects.get(name='Supervisor')
+            supervisor_group.user_set.add(created_user)
 
 
 @receiver(post_save, weak=False, sender=Pi,
