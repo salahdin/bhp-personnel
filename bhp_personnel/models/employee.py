@@ -49,6 +49,10 @@ class Supervisor(BaseUuidModel):
     def __str__(self):
         return f'{self.first_name}, {self.last_name}'
 
+    class Meta:
+        app_label = "bhp_personnel"
+        unique_together = ('first_name', 'last_name', 'email')
+
 
 class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
                BaseUuidModel):
