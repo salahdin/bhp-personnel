@@ -41,8 +41,7 @@ class Supervisor(BaseUuidModel):
     cell = EncryptedCharField(
         verbose_name='Cell number',
         validators=[CellNumber, ],
-        blank=False,
-        unique=True)
+        blank=False,)
 
     email = models.EmailField()
 

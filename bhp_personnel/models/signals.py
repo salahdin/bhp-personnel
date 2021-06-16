@@ -1,3 +1,5 @@
+import random
+import string
 from datetime import datetime, time
 from dateutil.relativedelta import relativedelta
 from django.db.models.signals import post_save
@@ -22,10 +24,11 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
         try:
             created_user = User.objects.get(email=instance.email)
         except User.DoesNotExist:
+            pwd = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits)
+                          for _ in range(8))
             created_user = User.objects.create_user(username=instance.email,
                                      email=instance.email,
-                                     password=str.lower(
-                                         instance.first_name + '@2021'),
+                                     password=pwd,
                                      first_name=instance.first_name,
                                      last_name=instance.last_name,
                                      is_staff=True,)
