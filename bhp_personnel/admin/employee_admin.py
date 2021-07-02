@@ -10,8 +10,7 @@ from .modeladmin_mixins import ModelAdminMixin
 
 @admin.register(Supervisor, site=bhp_personnel_admin)
 class SupervisorAdmin(
-        ModelAdminMixin, admin.ModelAdmin):
-
+    ModelAdminMixin, admin.ModelAdmin):
     form = SupervisorForm
 
     fieldsets = (
@@ -30,8 +29,7 @@ class SupervisorAdmin(
 
 @admin.register(Employee, site=bhp_personnel_admin)
 class EmployeeAdmin(
-        ModelAdminMixin, admin.ModelAdmin):
-
+    ModelAdminMixin, admin.ModelAdmin):
     form = EmployeeForm
 
     fieldsets = (
@@ -63,3 +61,6 @@ class EmployeeAdmin(
     autocomplete_fields = ['supervisor']
 
     filter_horizontal = ("studies",)
+
+    list_filter = ('department',
+                   'supervisor')
