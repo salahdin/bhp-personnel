@@ -20,4 +20,3 @@ class KeyPerformanceAreaForm(SiteModelFormMixin, forms.ModelForm):
     class Meta:
         model = KeyPerformanceArea
         fields = '__all__'
-

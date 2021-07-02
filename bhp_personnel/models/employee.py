@@ -41,13 +41,16 @@ class Supervisor(BaseUuidModel):
     cell = EncryptedCharField(
         verbose_name='Cell number',
         validators=[CellNumber, ],
-        blank=False,
-        unique=True)
+        blank=False,)
 
     email = models.EmailField()
 
     def __str__(self):
         return f'{self.first_name}, {self.last_name}'
+
+    class Meta:
+        app_label = "bhp_personnel"
+        unique_together = ('first_name', 'last_name', 'email')
 
 
 class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
