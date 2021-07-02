@@ -19,7 +19,7 @@ from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
 @receiver(post_save, weak=False, sender=Employee,
           dispatch_uid='employee_on_post_save')
 def employee_on_post_save(sender, instance, raw, created, **kwargs):
-    if not raw:
+    if not raw and created:
 
         try:
             created_user = User.objects.get(email=instance.email)
@@ -45,16 +45,15 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
 @receiver(post_save, weak=False, sender=Pi,
           dispatch_uid='pi_on_post_save')
 def pi_on_post_save(sender, instance, raw, created, **kwargs):
-    if not raw:
-        if created:
-            User.objects.create_user(username=instance.
-                                     first_name[0] + '' + instance.last_name,
-                                     email=instance.email,
-                                     password=instance.first_name + '@2020',
-                                     first_name=instance.first_name,
-                                     last_name=instance.last_name,
-                                     is_staff=True,
-                                     )
+    if not raw and created:
+        User.objects.create_user(username=instance.
+                                 first_name[0] + '' + instance.last_name,
+                                 email=instance.email,
+                                 password=instance.first_name + '@2020',
+                                 first_name=instance.first_name,
+                                 last_name=instance.last_name,
+                                 is_staff=True,
+                                 )
 
 
 @receiver(post_save, weak=False, sender=Contract,
@@ -64,12 +63,11 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     Schedule email and sms reminder for 3 months before contract end
     date.
     """
-    if not raw:
-        if created:
-            create_appraisals(instance)
-            create_key_performance_areas(job_description=instance.job_description)
-            schedule_email_notification(instance)
-            schedule_sms_notification(instance)
+    if not raw and created:
+        create_appraisals(instance)
+        create_key_performance_areas(job_description=instance.job_description)
+        schedule_email_notification(instance)
+        schedule_sms_notification(instance)
 
 
 @receiver(post_save, weak=False, sender=ContractExtension,
@@ -79,14 +77,13 @@ def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
     Reschedule an email and sms reminder for 3months before contract end
     date after extension.
     """
-    if not raw:
-        if created:
-            schedule_obj = get_schedule_obj(
-                identifier=instance.contract.identifier)
-            if schedule_obj:
-                schedule_obj.delete()
-            schedule_email_notification(instance, ext=True)
-            schedule_sms_notification(instance, ext=True)
+    if not raw and created:
+        schedule_obj = get_schedule_obj(
+            identifier=instance.contract.identifier)
+        if schedule_obj:
+            schedule_obj.delete()
+        schedule_email_notification(instance, ext=True)
+        schedule_sms_notification(instance, ext=True)
 
 
 def create_key_performance_areas(job_description=None):
