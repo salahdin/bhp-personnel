@@ -59,13 +59,10 @@ class ContractFormValidator(FormValidator):
         status = self.cleaned_data.get('status')
 
         if status == 'Active':
-
-            try:
-                Contract.objects.get(status='Active',
-                                     identifier=identifier)
-            except Contract.DoesNotExist:
-                pass
-            else:
+            active_contract = Contract.objects.filter(
+                status='Active',
+                identifier=identifier,).exclude(id=self.instance.id)
+            if active_contract:
                 message = {'status': "Two contracts can't be "
                                      "active at the same time"}
                 self._errors.update(message)
@@ -79,6 +76,24 @@ class ContractForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
     identifier = forms.CharField(
         label='Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
+    job_description = forms.CharField(
+        label='Job Description',
+        widget=forms.HiddenInput())
+
+    def clean(self):
+        cleaned_data = super().clean()
+        contract_extensions = int(
+            self.data.get('contractextension_set-TOTAL_FORMS'))
+        if contract_extensions > 1:
+            message = {'identifier':
+                       'Can not have more than 1 contract extension filled out'
+                       '. Please remove the second instance.'}
+            raise ValidationError(message)
+        status = cleaned_data.get('status')
+        if status == 'Not Active' and contract_extensions:
+            message = {'This contract is not active.'}
+            raise ValidationError(message)
 
     class Meta:
         model = Contract
