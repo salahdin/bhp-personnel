@@ -1,14 +1,16 @@
+from datetime import datetime, time
 import random
 import string
-from datetime import datetime, time
+
 from dateutil.relativedelta import relativedelta
+from django.contrib.auth.models import User, Group
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from django_q.tasks import schedule
 from django_q.models import Schedule
-from django.contrib.auth.models import User, Group
-
+from django_q.tasks import schedule
 from edc_base.utils import get_utcnow
 from edc_sms.classes import MessageSchedule
 
@@ -19,19 +21,21 @@ from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
 @receiver(post_save, weak=False, sender=Employee,
           dispatch_uid='employee_on_post_save')
 def employee_on_post_save(sender, instance, raw, created, **kwargs):
-    if not raw and created:
+    if not raw:
+        if created:
 
-        try:
-            created_user = User.objects.get(email=instance.email)
-        except User.DoesNotExist:
-            pwd = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits)
-                          for _ in range(8))
-            created_user = User.objects.create_user(username=instance.email,
-                                     email=instance.email,
-                                     password=pwd,
-                                     first_name=instance.first_name,
-                                     last_name=instance.last_name,
-                                     is_staff=True,)
+            try:
+                created_user = User.objects.get(email=instance.email)
+            except User.DoesNotExist:
+                pwd = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits)
+                              for _ in range(8))
+                created_user = User.objects.create_user(username=instance.email,
+                                         email=instance.email,
+                                         password=pwd,
+                                         first_name=instance.first_name,
+                                         last_name=instance.last_name,
+                                         is_staff=True,)
+            send_employee_activation(instance)
         try:
             Supervisor.objects.get(first_name=instance.first_name,
                                    last_name=instance.last_name)
@@ -40,6 +44,39 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
         else:
             supervisor_group = Group.objects.get(name='Supervisor')
             supervisor_group.user_set.add(created_user)
+
+
+def send_employee_activation(user):
+    """
+    Takes each user one by one and sending an email to each
+    """
+
+    reset_url = f"https://{get_current_site(request=None).domain}/password-reset/"  # current domain
+    site_url = f"https://{get_current_site(request=None).domain}"  # current domain
+
+    user_email = user.email  # user email
+    frm = "bhp.se.dmc@gmail.com"  # from email
+    subject = 'Time Sheet Activation Link'  # subject of the email
+    message = f"""\
+        Hi {user.first_name} {user.last_name},
+        <br>
+        <br>
+        Your account for the BHP Timesheet System has been set up.
+        The url to access the system is <a href="{site_url}" target="_blank">{site_url}</a>.
+         <br>
+         To activate your account, set the password first using the link below. 
+        <br>
+        <br>
+        <a href="{reset_url}" target="_blank">Reset Password</a>
+        <br>
+        <br>
+        Good Day 😃
+        """
+
+    msg = EmailMultiAlternatives(subject, message, frm, (user_email,))
+    msg.content_subtype = 'html'
+    print("Sending to : ", user.email)
+    msg.send()
 
 
 @receiver(post_save, weak=False, sender=Pi,
