@@ -36,14 +36,14 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
                                          last_name=instance.last_name,
                                          is_staff=True,)
             send_employee_activation(instance)
-        try:
-            Supervisor.objects.get(first_name=instance.first_name,
-                                   last_name=instance.last_name)
-        except Supervisor.DoesNotExist:
-            pass
-        else:
-            supervisor_group = Group.objects.get(name='Supervisor')
-            supervisor_group.user_set.add(created_user)
+            try:
+                Supervisor.objects.get(first_name=instance.first_name,
+                                       last_name=instance.last_name)
+            except Supervisor.DoesNotExist:
+                pass
+            else:
+                supervisor_group = Group.objects.get(name='Supervisor')
+                supervisor_group.user_set.add(created_user)
 
 
 def send_employee_activation(user):
@@ -76,7 +76,10 @@ def send_employee_activation(user):
     msg = EmailMultiAlternatives(subject, message, frm, (user_email,))
     msg.content_subtype = 'html'
     print("Sending to : ", user.email)
-    msg.send()
+    try:
+        msg.send()
+    except Exception as e:
+        raise
 
 
 @receiver(post_save, weak=False, sender=Pi,
