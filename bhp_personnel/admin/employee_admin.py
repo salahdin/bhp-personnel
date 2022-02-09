@@ -50,7 +50,7 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'department',
                 'supervisor',
                 'studies',
-                'contact',
+                'cell',
                 'next_of_kin_contact',
                 'email',
                 'job_title',

@@ -83,7 +83,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
     hired_date = models.DateField(
         verbose_name='Hired Date')
 
-    contact = EncryptedCharField(
+    cell = EncryptedCharField(
         verbose_name='Contact Number',
         validators=[CellNumber, ],
         blank=False,
