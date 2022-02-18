@@ -2,14 +2,27 @@ from django.forms import Textarea
 from django.db import models
 
 from django.contrib import admin
-from ..models import JobDescription, JobDescriptionKpa
+from ..models import JobDescription, JobDescriptionKpa, FamiliarizationTime
 from ..admin_site import bhp_personnel_admin
 from .modeladmin_mixins import ModelAdminMixin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
-from ..forms import JobDescriptionForm, JobDescriptionKpaForm
+from ..forms import JobDescriptionForm, JobDescriptionKpaForm, FamiliarizationTimeForm
 from edc_model_admin import StackedInlineMixin
 
+
+class FamiliarizationTimeInline(StackedInlineMixin, admin.StackedInline):
+
+    model = FamiliarizationTime
+    form = FamiliarizationTimeForm
+    extra = 0
+    max_num = 1
+    fieldsets = (
+        (None, {
+            'fields': [
+                'pre_appointment',
+                'post_appointment' ]}
+         ),)
 
 class JobDescriptionKpaInline(StackedInlineMixin, admin.StackedInline):
 
@@ -48,19 +61,17 @@ class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
                    'style': 'height: 7em;'})},
     }
 
-    inlines = [JobDescriptionKpaInline, ]
+    inlines = [JobDescriptionKpaInline, FamiliarizationTimeInline]
     fieldsets = (
         (None, {
             'fields': (
-                # 'identifier',
                 'job_title',
-                'supervisor',
                 'job_purpose',
                 'qualifications',
                 'position',
                 'department',
                 'experience',
-                'skills_and_knowledge',
+                'skills_and_knowledge'
             )}),
         audit_fieldset_tuple)
 

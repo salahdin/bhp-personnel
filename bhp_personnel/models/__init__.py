@@ -9,6 +9,7 @@ from .improvement_plan import ImprovementPlan
 from .innovation_and_creativity import InnovationAndCreativity
 from .interpersonal_skills import InterpersonalSkills
 from .job_description import JobDescription
+from .familiarization_time import FamiliarizationTime
 from .job_description_kpa import JobDescriptionKpa
 from .key_performance_area import KeyPerformanceArea
 from .knowledge_and_productivity import KnowledgeAndProductivity
