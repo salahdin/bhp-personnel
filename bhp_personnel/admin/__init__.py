@@ -1,6 +1,7 @@
 from .communication_skills_admin import CommunicationSkillsAdmin
 from .consultant_admin import ConsultantAdmin
 from .contract_admin import ContractAdmin, ContractExtensionAdmin
+from .contracting_admin import ContractingAdmin
 from .department_admin import DepartmentAdmin
 from .employee_admin import EmployeeAdmin, SupervisorAdmin
 from .innovation_and_creativity_admin import InnovationAndCreativityAdmin

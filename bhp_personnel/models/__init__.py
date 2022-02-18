@@ -1,6 +1,7 @@
 from .communication_skills import CommunicationSkills
 from .consultant import Consultant
 from .contract import Contract
+from .contracting import Contracting
 from .contract import ContractExtension
 from .department import Department
 from .employee import Employee, Supervisor
@@ -22,3 +23,4 @@ from .quality_of_work import QualityOfWork
 from .results_focus import ResultsFocus
 from .signals import contract_on_post_save, employee_on_post_save, pi_on_post_save
 from .strategic_orientation import StrategicOrientation
+

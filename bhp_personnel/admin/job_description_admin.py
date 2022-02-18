@@ -24,7 +24,7 @@ class JobDescriptionKpaInline(StackedInlineMixin, admin.StackedInline):
     }
 
     extra = 1
-    max_num = 3
+    max_num = 5
     fieldsets = (
         (None, {
             'fields': [

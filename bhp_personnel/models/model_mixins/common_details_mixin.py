@@ -1,8 +1,5 @@
 from django.db import models
-
-from django_crypto_fields.fields import EncryptedCharField
 from edc_constants.choices import GENDER
-from edc_base.model_validators import CellNumber
 
 
 class CommonDetailsMixin(models.Model):
@@ -26,15 +23,6 @@ class CommonDetailsMixin(models.Model):
         choices=GENDER,
         null=True,
         max_length=1)
-
-    hired_date = models.DateField(
-        verbose_name='Hired Date')
-
-    cell = EncryptedCharField(
-        verbose_name='Cell number',
-        validators=[CellNumber, ],
-        blank=False,
-        unique=True)
 
     email = models.EmailField()
 

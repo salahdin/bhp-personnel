@@ -8,6 +8,11 @@ list_data = {
         ('cancer', 'Cancer'),
         ('flourish', 'Flourish'),
     ],
+    'bhp_personnel.skills': [
+        ('teamwork', 'Teamwork'),
+        ('communication', 'Communication'),
+        ('problem_solving', 'Problem Solving'),
+    ]
 }
 
 preload_data = PreloadData(

@@ -1,6 +1,5 @@
 from django.contrib import admin
-from edc_model_admin.model_admin_audit_fields_mixin import (
-    audit_fieldset_tuple)
+from edc_model_admin.model_admin_audit_fields_mixin import audit_fieldset_tuple
 
 from ..admin_site import bhp_personnel_admin
 from ..forms import EmployeeForm, SupervisorForm
@@ -28,8 +27,7 @@ class SupervisorAdmin(
 
 
 @admin.register(Employee, site=bhp_personnel_admin)
-class EmployeeAdmin(
-    ModelAdminMixin, admin.ModelAdmin):
+class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = EmployeeForm
 
     fieldsets = (
@@ -40,10 +38,20 @@ class EmployeeAdmin(
                 'middle_name',
                 'last_name',
                 'gender',
+                'title_salutation',
+                'date_of_birth',
+                'highest_qualification',
+                'nationality',
+                'identity',
+                'identity_type',
+                'country',
+                'postal_address',
+                'physical_address',
                 'department',
                 'supervisor',
                 'studies',
                 'cell',
+                'next_of_kin_contact',
                 'email',
                 'job_title',
                 'hired_date',
