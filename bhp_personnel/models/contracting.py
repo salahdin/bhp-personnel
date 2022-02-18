@@ -34,14 +34,6 @@ class Contracting(BaseUuidModel, SiteModelMixin, models.Model):
         max_length=40,
         null=True)
 
-
-    other_skills = models.CharField(
-        max_length=100,
-        verbose_name='What other professional skills does this personnel have?',
-        blank=True,
-        null=True)
-
-
     def __str__(self):
         return f'{self.job_description}'
 
