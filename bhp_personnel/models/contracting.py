@@ -10,7 +10,6 @@ from .list_models import Skills
 
 class Contracting(BaseUuidModel, SiteModelMixin, models.Model):
  
- 
     identifier = models.CharField(
         verbose_name="Employee Identifier",
         max_length=36,
@@ -22,10 +21,11 @@ class Contracting(BaseUuidModel, SiteModelMixin, models.Model):
         default=0,
         blank=True,
         null=True,
+        related_name='contract'
         )
 
     job_description = models.ForeignKey(
-        JobDescription, on_delete=models.CASCADE,
+        JobDescription, on_delete=models.PROTECT,
         null=True,)
 
     skills = models.ManyToManyField(
