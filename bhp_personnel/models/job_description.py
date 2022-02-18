@@ -1,27 +1,13 @@
 from django.db import models
-
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
-
 from .department import Department
-from .employee import Supervisor
-
 
 class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
-
-    # identifier = models.CharField(
-    #     verbose_name="Identifier",
-    #     max_length=36,
-    #     null=True,
-    #     blank=True)
 
     job_title = models.CharField(
         verbose_name="Job Title",
         max_length=100)
-
-    supervisor = models.ForeignKey(
-        Supervisor, blank=False, null=False,
-        on_delete=models.CASCADE)
 
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
 
@@ -38,9 +24,9 @@ class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name="Position",
         max_length=100)
 
-    experience = models.CharField(
+    experience = models.TextField(
         verbose_name="Experience",
-        max_length=20)
+        max_length=None)
 
     skills_and_knowledge = models.TextField(
         verbose_name="Skills and Knowledge",
