@@ -10,9 +10,8 @@ from edc_base.model_validators import datetime_not_future, date_is_future
 from django_crypto_fields.fields import IdentityField
 from edc_constants.choices import YES_NO_NA
 from edc_constants.constants import NOT_APPLICABLE
-from edc_base.model_validators import CellNumber
 from django_countries.fields import CountryField
-from django_crypto_fields.fields import EncryptedCharField
+
 
 from ..choices import SALUTATIONS, HIGHEST_QUALIFICATION, IDENTITY_TYPE
 
@@ -79,15 +78,6 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
         max_length=20,
         verbose_name='What type of identity number is this?',
         choices=IDENTITY_TYPE,)    
-
-    hired_date = models.DateField(
-        verbose_name='Hired Date')
-
-    cell = EncryptedCharField(
-        verbose_name='Contact Number',
-        validators=[CellNumber, ],
-        blank=False,
-        unique=True)
 
     next_of_kin_contact = EncryptedCharField(
         verbose_name='Next of Kin Contacts',

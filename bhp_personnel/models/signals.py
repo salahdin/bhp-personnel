@@ -16,6 +16,7 @@ from edc_sms.classes import MessageSchedule
 
 from . import Consultant, Contract, ContractExtension, Employee, Pi
 from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
+from . import Contracting
 
 
 @receiver(post_save, weak=False, sender=Employee,
@@ -142,9 +143,30 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw and created:
         create_appraisals(instance)
-        create_key_performance_areas(job_description=instance.job_description)
+        create_key_performance_areas(instance)
         schedule_email_notification(instance)
         schedule_sms_notification(instance)
+        update_contracting(instance)
+
+
+def update_contracting(instance=None):
+    """
+    Updating contracting details on post contract update
+    """
+    contracting = None
+
+    if instance:
+        try:
+            contracting = Contracting.objects.get(
+                identifier=instance.identifier,
+                contract_id__isnull=True)
+        except Contracting.DoesNotExist:
+            raise ValidationError(
+                f'Contracting for this contract does not exist please contact the Administrator.'
+            )
+        else:
+            contracting.contract = instance
+            contracting.save()
 
 
 @receiver(post_save, weak=False, sender=ContractExtension,
@@ -163,21 +185,24 @@ def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
         schedule_sms_notification(instance, ext=True)
 
 
-def create_key_performance_areas(job_description=None):
+def create_key_performance_areas(instance=None):
     """
     Create Key Performance Assessment for each KPA on the job description.
     """
+    
+    job_description=instance.job_description
+
     for job_description_kpa in job_description.jobdescriptionkpa_set.all():
         KeyPerformanceArea.objects.create(
-            emp_identifier=job_description.identifier,
-            contract=job_description.contract,
+            emp_identifier=instance.identifier,
+            contract=instance,
             kpa_nd_objective=job_description_kpa.key_performance_area,
             performance_indicators=job_description_kpa.kpa_performance_indicators,
             assessment_period_type='mid_year')
 
         KeyPerformanceArea.objects.create(
-            emp_identifier=job_description.identifier,
-            contract=job_description.contract,
+            emp_identifier=instance.identifier,
+            contract=instance,
             kpa_nd_objective=job_description_kpa.key_performance_area,
             performance_indicators=job_description_kpa.kpa_performance_indicators,
             assessment_period_type='contract_end')

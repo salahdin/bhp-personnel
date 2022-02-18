@@ -52,7 +52,7 @@ class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'identifier',
+                # 'identifier',
                 'job_title',
                 'supervisor',
                 'job_purpose',

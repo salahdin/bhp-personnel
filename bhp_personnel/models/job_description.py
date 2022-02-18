@@ -9,11 +9,11 @@ from .employee import Supervisor
 
 class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
 
-    identifier = models.CharField(
-        verbose_name="Identifier",
-        max_length=36,
-        null=True,
-        blank=True)
+    # identifier = models.CharField(
+    #     verbose_name="Identifier",
+    #     max_length=36,
+    #     null=True,
+    #     blank=True)
 
     job_title = models.CharField(
         verbose_name="Job Title",
@@ -47,7 +47,7 @@ class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
         max_length=None)
 
     def __str__(self):
-        return f'{self.job_title} Job Description'
+        return f'{self.job_title}'
 
     class Meta:
         app_label = 'bhp_personnel'
