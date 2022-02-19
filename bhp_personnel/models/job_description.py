@@ -13,7 +13,7 @@ class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
 
     job_purpose = models.TextField(
         verbose_name="Job Purpose",
-        max_length=None
+        max_length=500
     )
 
     qualifications = models.CharField(
