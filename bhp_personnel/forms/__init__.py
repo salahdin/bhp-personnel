@@ -23,3 +23,4 @@ from .quality_of_work import QualityOfWorkForm
 from .results_focus_form import ResultsFocusForm
 from .strategic_orientation_form import StrategicOrientationForm
 from .familiarization_time_form import FamiliarizationTimeForm
+from .skills_knowledge_form import SkillsKnowledgeForm

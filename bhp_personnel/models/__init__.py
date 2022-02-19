@@ -1,3 +1,4 @@
+import imp
 from .communication_skills import CommunicationSkills
 from .consultant import Consultant
 from .contract import Contract
@@ -10,6 +11,7 @@ from .innovation_and_creativity import InnovationAndCreativity
 from .interpersonal_skills import InterpersonalSkills
 from .job_description import JobDescription
 from .familiarization_time import FamiliarizationTime
+from .skills_knowledge import SkillsKnowledge
 from .job_description_kpa import JobDescriptionKpa
 from .key_performance_area import KeyPerformanceArea
 from .knowledge_and_productivity import KnowledgeAndProductivity

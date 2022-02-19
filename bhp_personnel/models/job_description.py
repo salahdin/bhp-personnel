@@ -28,10 +28,6 @@ class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name="Experience",
         max_length=None)
 
-    skills_and_knowledge = models.TextField(
-        verbose_name="Skills and Knowledge",
-        max_length=None)
-
     def __str__(self):
         return f'{self.job_title}'
 

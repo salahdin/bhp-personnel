@@ -2,15 +2,26 @@ from django.forms import Textarea
 from django.db import models
 
 from django.contrib import admin
-from ..models import JobDescription, JobDescriptionKpa, FamiliarizationTime
+from ..models import JobDescription, JobDescriptionKpa, FamiliarizationTime, SkillsKnowledge
 from ..admin_site import bhp_personnel_admin
 from .modeladmin_mixins import ModelAdminMixin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
-from ..forms import JobDescriptionForm, JobDescriptionKpaForm, FamiliarizationTimeForm
+from ..forms import JobDescriptionForm, JobDescriptionKpaForm, FamiliarizationTimeForm, SkillsKnowledgeForm
 from edc_model_admin import StackedInlineMixin
 
+class SkillsKnowledgeTimeInline(StackedInlineMixin, admin.StackedInline):
 
+    model = SkillsKnowledge
+    form = SkillsKnowledgeForm
+    extra = 0
+    max_num = 3
+    fieldsets = (
+        (None, {
+            'fields': [
+                'skill',
+                'attributes' ]}
+         ),)
 class FamiliarizationTimeInline(StackedInlineMixin, admin.StackedInline):
 
     model = FamiliarizationTime
@@ -23,7 +34,6 @@ class FamiliarizationTimeInline(StackedInlineMixin, admin.StackedInline):
                 'pre_appointment',
                 'post_appointment' ]}
          ),)
-
 class JobDescriptionKpaInline(StackedInlineMixin, admin.StackedInline):
 
     model = JobDescriptionKpa
@@ -47,8 +57,6 @@ class JobDescriptionKpaInline(StackedInlineMixin, admin.StackedInline):
                 'skills_required',
                 'kpa_grade', ]}
          ),)
-
-
 @admin.register(JobDescription, site=bhp_personnel_admin)
 class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
 
@@ -61,7 +69,7 @@ class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
                    'style': 'height: 7em;'})},
     }
 
-    inlines = [JobDescriptionKpaInline, FamiliarizationTimeInline]
+    inlines = [SkillsKnowledgeTimeInline, JobDescriptionKpaInline, FamiliarizationTimeInline]
     fieldsets = (
         (None, {
             'fields': (
@@ -71,7 +79,6 @@ class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'position',
                 'department',
                 'experience',
-                'skills_and_knowledge'
             )}),
         audit_fieldset_tuple)
 
