@@ -21,7 +21,6 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'contract',
                 'job_description',
                 'skills',
-                'other_skills',
             )}),
         audit_fieldset_tuple)
         

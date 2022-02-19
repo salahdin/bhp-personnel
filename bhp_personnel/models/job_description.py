@@ -11,9 +11,9 @@ class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
 
     department = models.ForeignKey(Department, on_delete=models.PROTECT)
 
-    job_purpose = models.CharField(
+    job_purpose = models.TextField(
         verbose_name="Job Purpose",
-        max_length=100
+        max_length=500
     )
 
     qualifications = models.CharField(
@@ -26,10 +26,6 @@ class JobDescription(BaseUuidModel, SiteModelMixin, models.Model):
 
     experience = models.TextField(
         verbose_name="Experience",
-        max_length=None)
-
-    skills_and_knowledge = models.TextField(
-        verbose_name="Skills and Knowledge",
         max_length=None)
 
     def __str__(self):
