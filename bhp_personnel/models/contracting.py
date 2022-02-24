@@ -15,13 +15,13 @@ class Contracting(BaseUuidModel, SiteModelMixin, models.Model):
         max_length=36,
         blank=True)
 
-    contract = models.ForeignKey(
+    contract = models.OneToOneField(
         Contract,
         on_delete=models.PROTECT,
         default=0,
         blank=True,
         null=True,
-        related_name='contract'
+        related_name='contracting'
         )
 
     job_description = models.ForeignKey(
