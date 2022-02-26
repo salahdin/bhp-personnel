@@ -142,11 +142,11 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     date.
     """
     if not raw and created:
+        update_contracting(instance)    
         create_appraisals(instance)
         create_key_performance_areas(instance)
         schedule_email_notification(instance)
         schedule_sms_notification(instance)
-        update_contracting(instance)
 
 
 def update_contracting(instance=None):
@@ -189,23 +189,23 @@ def create_key_performance_areas(instance=None):
     """
     Create Key Performance Assessment for each KPA on the job description.
     """
-    
-    job_description=instance.job_description
-
-    for job_description_kpa in job_description.jobdescriptionkpa_set.all():
+   
+    for jobperformancekpa_set in instance.contracting.jobperformancekpa_set.all():
         KeyPerformanceArea.objects.create(
-            emp_identifier=instance.identifier,
-            contract=instance,
-            kpa_nd_objective=job_description_kpa.key_performance_area,
-            performance_indicators=job_description_kpa.kpa_performance_indicators,
-            assessment_period_type='mid_year')
+                    emp_identifier=instance.identifier,
+                    contract=instance,
+                    kpa_nd_objective=jobperformancekpa_set.key_performance_area,
+                    performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
+                    assessment_period_type='mid_year')
 
         KeyPerformanceArea.objects.create(
-            emp_identifier=instance.identifier,
-            contract=instance,
-            kpa_nd_objective=job_description_kpa.key_performance_area,
-            performance_indicators=job_description_kpa.kpa_performance_indicators,
-            assessment_period_type='contract_end')
+                    emp_identifier=instance.identifier,
+                    contract=instance,
+                    kpa_nd_objective=jobperformancekpa_set.key_performance_area,
+                    performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
+                    assessment_period_type='contract_end')   
+ 
+
 
 
 def create_appraisals(instance=None):

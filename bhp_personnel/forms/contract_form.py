@@ -77,10 +77,6 @@ class ContractForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
         label='Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
-    job_description = forms.CharField(
-        label='Job Description',
-        widget=forms.HiddenInput())
-
     def clean(self):
         cleaned_data = super().clean()
         contract_extensions = int(
