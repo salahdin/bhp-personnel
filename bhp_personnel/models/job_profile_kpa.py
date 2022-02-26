@@ -13,7 +13,9 @@ class JobProfileKpa(BaseUuidModel, SiteModelMixin, models.Model):
 
     key_performance_area = models.CharField(
         verbose_name='KEY PERFORMANCE AREAS',
-        max_length=100)
+        max_length=100,
+        blank=True,
+        null=True)
 
     kpa_tasks = models.TextField(
         verbose_name='TASKS',
