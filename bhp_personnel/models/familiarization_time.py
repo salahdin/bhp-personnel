@@ -12,12 +12,12 @@ class FamiliarizationTime(BaseUuidModel, SiteModelMixin, models.Model):
         on_delete=models.PROTECT)
 
     pre_appointment = models.TextField(
-        verbose_name='Per Appointment',
-        max_length=50)
+        verbose_name='Pre Appointment',
+        max_length=200)
 
     post_appointment = models.TextField(
         verbose_name='Post Appointment',
-        max_length=50)
+        max_length=200)
     class Meta:
         verbose_name = 'Familiarization Time'
         verbose_name_plural = 'Familiarization Time'
