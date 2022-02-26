@@ -17,7 +17,7 @@ class SkillsKnowledge(BaseUuidModel, SiteModelMixin, models.Model):
 
     attributes = models.TextField(
         verbose_name='Attributes',
-        max_length=200)
+        max_length=1000)
     class Meta:
         verbose_name = 'Skills & Knowledge'
         verbose_name_plural = 'Skills & Knowledge'
