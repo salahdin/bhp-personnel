@@ -31,15 +31,15 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
                 pwd = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits)
                               for _ in range(8))
                 created_user = User.objects.create_user(username=instance.email,
-                                         email=instance.email,
-                                         password=pwd,
-                                         first_name=instance.first_name,
-                                         last_name=instance.last_name,
-                                         is_staff=True,)
+                                                        email=instance.email,
+                                                        password=pwd,
+                                                        first_name=instance.first_name,
+                                                        last_name=instance.last_name,
+                                                        is_staff=True,)
 
                 send_employee_activation(instance)
                 send_manager_on_employee_activation(instance)
-      
+
             try:
                 Supervisor.objects.get(first_name=instance.first_name,
                                        last_name=instance.last_name)
@@ -50,7 +50,6 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
                 supervisor_group.user_set.add(created_user)
 
 
-             
 def send_employee_activation(user):
     """
     Takes each user one by one and sending an email to each
@@ -86,18 +85,16 @@ def send_employee_activation(user):
         raise
 
 
-
 def send_manager_on_employee_activation(user):
     mask = Employee.objects.get(id=user.id).supervisor_id
-   
-    supervisor_email= Supervisor.objects.get(id=str(mask)).email
-    supervisor_firstname= Supervisor.objects.get(id=str(mask)).first_name
-    supervisor_lastname= Supervisor.objects.get(id=str(mask)).last_name
-    
-    site_url = f"https://{get_current_site(request=None).domain}"  
+    supervisor_email = Supervisor.objects.get(id=str(mask)).email
+    supervisor_firstname = Supervisor.objects.get(id=str(mask)).first_name
+    supervisor_lastname = Supervisor.objects.get(id=str(mask)).last_name
 
-    frm = "bhp.se.dmc@gmail.com"  
-    subject = 'New Employee Contracting' 
+    site_url = f"https://{get_current_site(request=None).domain}"
+
+    frm = "bhp.se.dmc@gmail.com"
+    subject = 'New Employee Contracting'
     message = f"""\
          Hi {supervisor_firstname} {supervisor_lastname},
         <br>
@@ -117,7 +114,7 @@ def send_manager_on_employee_activation(user):
     try:
         msg.send()
     except Exception as e:
-        raise  
+        raise
 
 
 @receiver(post_save, weak=False, sender=Pi,
@@ -130,8 +127,7 @@ def pi_on_post_save(sender, instance, raw, created, **kwargs):
                                  password=instance.first_name + '@2020',
                                  first_name=instance.first_name,
                                  last_name=instance.last_name,
-                                 is_staff=True,
-                                 )
+                                 is_staff=True, )
 
 
 @receiver(post_save, weak=False, sender=Contract,
@@ -142,7 +138,7 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     date.
     """
     if not raw and created:
-        update_contracting(instance)    
+        update_contracting(instance)
         create_appraisals(instance)
         create_key_performance_areas(instance)
         schedule_email_notification(instance)
@@ -161,9 +157,8 @@ def update_contracting(instance=None):
                 identifier=instance.identifier,
                 contract_id__isnull=True)
         except Contracting.DoesNotExist:
-            raise ValidationError(
-                f'Contracting for this contract does not exist please contact the Administrator.'
-            )
+            raise ValidationError(f'Contracting for this contract does not exist '
+                                  'please contact the Administrator.')
         else:
             contracting.contract = instance
             contracting.save()
@@ -189,7 +184,6 @@ def create_key_performance_areas(instance=None):
     """
     Create Key Performance Assessment for each KPA on the job description.
     """
-   
     for jobperformancekpa_set in instance.contracting.jobperformancekpa_set.all():
         KeyPerformanceArea.objects.create(
                     emp_identifier=instance.identifier,
@@ -203,9 +197,7 @@ def create_key_performance_areas(instance=None):
                     contract=instance,
                     kpa_nd_objective=jobperformancekpa_set.key_performance_area,
                     performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
-                    assessment_period_type='contract_end')   
- 
-
+                    assessment_period_type='contract_end')
 
 
 def create_appraisals(instance=None):

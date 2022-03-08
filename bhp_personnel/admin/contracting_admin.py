@@ -2,7 +2,7 @@ from django.forms import Textarea
 from django.db import models
 
 from django.contrib import admin
-from ..models import Contracting,JobPerformanceKpa
+from ..models import Contracting, JobPerformanceKpa
 from ..admin_site import bhp_personnel_admin
 from .modeladmin_mixins import ModelAdminMixin
 from edc_model_admin.model_admin_audit_fields_mixin import (
@@ -31,9 +31,9 @@ class JobPerformanceKpaInline(StackedInlineMixin, admin.StackedInline):
                 'key_performance_area',
                 'kpa_tasks',
                 'kpa_performance_indicators',
-                'skills_required',
-                'kpa_grade', ]}
+                'skills_required', ]}
          ),)
+
 
 @admin.register(Contracting, site=bhp_personnel_admin)
 class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
@@ -48,11 +48,12 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'skills',
             )}),
         audit_fieldset_tuple)
-    
+
     inlines = [JobPerformanceKpaInline]
-        
-    filter_horizontal = ("skills",)
-    list_filter = ('job_description',)
+
+    filter_horizontal = ('skills', )
+    list_filter = ('job_description', )
+    autocomplete_fields = ['job_description', ]
 
     def has_change_permission(self, request, obj=None):
         if 'HR' in request.user.groups.values_list('name', flat=True):

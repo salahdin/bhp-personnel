@@ -10,13 +10,13 @@ from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
 class Contract(BaseUuidModel, SiteModelMixin, models.Model):
 
     identifier = models.CharField(
-        verbose_name="Identifier",
+        verbose_name='Identifier',
         max_length=36,
         null=True,
         blank=True)
 
     duration = models.CharField(
-        verbose_name="Contract Duration",
+        verbose_name='Contract Duration',
         max_length=30,
         choices=CONTRACT_LENGTH)
 

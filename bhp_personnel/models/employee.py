@@ -77,22 +77,22 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
     identity_type = models.CharField(
         max_length=20,
         verbose_name='What type of identity number is this?',
-        choices=IDENTITY_TYPE,)    
+        choices=IDENTITY_TYPE,)
 
     next_of_kin_contact = EncryptedCharField(
         verbose_name='Next of Kin Contacts',
         validators=[CellNumber, ],
         blank=True,
-        null=True,)  
+        null=True,)
 
     title_salutation = models.CharField(
         verbose_name='Title',
-        choices=SALUTATIONS,      
-        max_length=4,)      
+        choices=SALUTATIONS,
+        max_length=4,)
 
     highest_qualification = models.CharField(
         verbose_name='Highest qualification level',
-        choices= HIGHEST_QUALIFICATION,
+        choices=HIGHEST_QUALIFICATION,
         max_length=30,)
 
     nationality = models.CharField(
@@ -101,7 +101,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
         choices=YES_NO_NA,
         max_length=3,)
 
-    country = CountryField()    
+    country = CountryField()
 
     postal_address = models.CharField(
         verbose_name='Postal Address',
@@ -127,6 +127,13 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
         Supervisor, blank=False, null=False,
         on_delete=models.CASCADE)
 
+#     supervisor_alt = models.ForeignKey(
+#         Supervisor,
+#         related_name='supervisor_alt',
+#         verbose_name='Supervisor 2',
+#         blank=True, null=True,
+#         on_delete=models.CASCADE)
+
     identifier = models.CharField(
         verbose_name="Employee Identifier",
         max_length=36,
@@ -136,7 +143,7 @@ class Employee(CommonDetailsMixin, SiteModelMixin, SearchSlugModelMixin,
 
     job_title = models.CharField(
         verbose_name="Job Title",
-        max_length=150,)
+        max_length=150)
 
     employee_code = models.IntegerField(
         verbose_name="Employee Code",

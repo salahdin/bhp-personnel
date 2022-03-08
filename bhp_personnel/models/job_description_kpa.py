@@ -28,12 +28,6 @@ class JobDescriptionKpa(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name="SKILLS REQUIRED",
         max_length=100)
 
-    kpa_grade = models.CharField(
-        verbose_name='Grade',
-        max_length=50,
-        null=True,
-        blank=True)
-
     class Meta:
         verbose_name = 'Job Description KPA'
         verbose_name_plural = 'Job Description KPA'

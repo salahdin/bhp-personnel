@@ -28,10 +28,6 @@ class JobPerformanceKpa(BaseUuidModel, SiteModelMixin, models.Model):
         verbose_name="SKILLS REQUIRED",
         max_length=100)
 
-    kpa_grade = models.CharField(
-        verbose_name='Grade',
-        max_length=50)
-
     class Meta:
         verbose_name = 'Job Performance KPA'
         verbose_name_plural = 'Job Performance KPA'

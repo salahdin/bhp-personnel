@@ -8,8 +8,7 @@ from .modeladmin_mixins import ModelAdminMixin
 
 
 @admin.register(Supervisor, site=bhp_personnel_admin)
-class SupervisorAdmin(
-    ModelAdminMixin, admin.ModelAdmin):
+class SupervisorAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = SupervisorForm
 
     fieldsets = (
@@ -60,18 +59,24 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
         audit_fieldset_tuple)
 
     radio_fields = {
-        "gender": admin.VERTICAL,
+        'gender': admin.VERTICAL,
+        'title_salutation': admin.VERTICAL,
+        'highest_qualification': admin.VERTICAL,
+        'nationality': admin.VERTICAL,
+        'identity_type': admin.VERTICAL
     }
 
     search_fields = ['first_name', 'last_name', 'email', 'job_title',
                      'employee_code', 'identifier', 'cell']
 
-    autocomplete_fields = ['supervisor']
+    autocomplete_fields = ['supervisor', 'department', ]
 
-    filter_horizontal = ("studies",)
+    filter_horizontal = ('studies', )
 
-    list_filter = ('department',
-                   'supervisor')
+    list_filter = ('department__dept_name', 'supervisor__first_name', 'job_title', )
+
+    list_display = ('identifier', 'employee_code', 'first_name', 'last_name',
+                    'department', )
 
     def has_change_permission(self, request, obj=None):
         if 'HR' in request.user.groups.values_list('name', flat=True):

@@ -9,9 +9,9 @@ from .list_models import Skills
 
 
 class Contracting(BaseUuidModel, SiteModelMixin, models.Model):
- 
+
     identifier = models.CharField(
-        verbose_name="Employee Identifier",
+        verbose_name='Employee Identifier',
         max_length=36,
         blank=True)
 
@@ -36,6 +36,7 @@ class Contracting(BaseUuidModel, SiteModelMixin, models.Model):
 
     def __str__(self):
         return f'{self.job_description}'
+
     class Meta:
         app_label = 'bhp_personnel'
         verbose_name = 'Contracting'

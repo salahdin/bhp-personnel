@@ -11,7 +11,6 @@ from ..forms import JobDescriptionForm, JobProfileKpaForm, FamiliarizationTimeFo
 from edc_model_admin import StackedInlineMixin
 
 
-
 class JobProfileKpaInline(StackedInlineMixin, admin.StackedInline):
 
     model = JobProfileKpa
@@ -30,8 +29,11 @@ class JobProfileKpaInline(StackedInlineMixin, admin.StackedInline):
         (None, {
             'fields': [
                 'key_performance_area',
-                'kpa_tasks',]}
+                'kpa_tasks',
+            ]}
          ),)
+
+
 class SkillsKnowledgeTimeInline(StackedInlineMixin, admin.StackedInline):
 
     model = SkillsKnowledge
@@ -42,8 +44,11 @@ class SkillsKnowledgeTimeInline(StackedInlineMixin, admin.StackedInline):
         (None, {
             'fields': [
                 'skill',
-                'attributes' ]}
+                'attributes',
+            ]}
          ),)
+
+
 class FamiliarizationTimeInline(StackedInlineMixin, admin.StackedInline):
 
     model = FamiliarizationTime
@@ -54,8 +59,10 @@ class FamiliarizationTimeInline(StackedInlineMixin, admin.StackedInline):
         (None, {
             'fields': [
                 'pre_appointment',
-                'post_appointment' ]}
+                'post_appointment',
+            ]}
          ),)
+
 
 @admin.register(JobDescription, site=bhp_personnel_admin)
 class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
@@ -80,6 +87,8 @@ class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'experience',
             )}),
         audit_fieldset_tuple)
+
+    search_fields = ('job_title', 'department__dept_name', )
 
     def has_change_permission(self, request, obj=None):
         if 'HR' in request.user.groups.values_list('name', flat=True):

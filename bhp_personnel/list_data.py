@@ -7,11 +7,18 @@ list_data = {
         ('ambition', 'Ambition'),
         ('cancer', 'Cancer'),
         ('flourish', 'Flourish'),
+        ('agrdt', 'AGRDT'),
     ],
     'bhp_personnel.skills': [
-        ('teamwork', 'Teamwork'),
-        ('communication', 'Communication'),
-        ('problem_solving', 'Problem Solving'),
+        ('strategic_orientation', 'Strategic Orientation'),
+        ('results_focus', 'Results Focus'),
+        ('leadership_and_motivation', 'Leadership and Motivation'),
+        ('innovation_and_creativity', 'Innovation and Creativity'),
+        ('planning_skills', 'Planning'),
+        ('interpersonal_skills', 'Interpersonal'),
+        ('communication_skills', 'Communication'),
+        ('knowledge_and_productivity', 'Knowledge and Productivity'),
+        ('quality_of_work', 'Quality of work')
     ]
 }
 
