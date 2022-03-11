@@ -54,13 +54,3 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
     filter_horizontal = ('skills', )
     list_filter = ('job_description', )
     autocomplete_fields = ['job_description', ]
-
-    def has_change_permission(self, request, obj=None):
-        if 'HR' in request.user.groups.values_list('name', flat=True):
-            return True
-        return False
-
-    def has_add_permission(self, request):
-        if 'HR' in request.user.groups.values_list('name', flat=True):
-            return True
-        return False

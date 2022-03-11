@@ -17,13 +17,14 @@ class EmployeeForm(SiteModelFormMixin, forms.ModelForm):
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     def clean(self):
-        supervisor = self.cleaned_data.get('supervisor')
-        supervisor_alt = self.cleaned_data.get('supervisor_alt')
-        if supervisor == supervisor_alt:
-            message = {
-                'supervisor_alt':
-                'Please select a supervisor different from the first one'}
-            raise ValidationError(message)
+        super().clean()
+#         supervisor = self.cleaned_data.get('supervisor')
+#         supervisor_alt = self.cleaned_data.get('supervisor_alt')
+#         if supervisor == supervisor_alt:
+#             message = {
+#                 'supervisor_alt':
+#                 'Please select a supervisor different from the first one'}
+#             raise ValidationError(message)
 
     class Meta:
         model = Employee

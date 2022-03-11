@@ -39,5 +39,6 @@ class Contracting(BaseUuidModel, SiteModelMixin, models.Model):
 
     class Meta:
         app_label = 'bhp_personnel'
+        unique_together = ('identifier', 'contract')
         verbose_name = 'Contracting'
         verbose_name_plural = 'Contracting'
