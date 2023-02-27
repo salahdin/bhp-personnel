@@ -27,9 +27,9 @@ ASSESSMENT_TYPE = (
     ('contract_end', 'End of Contract Assessment'))
 
 SALUTATIONS = (
-    ('mr','Mr'),
-    ('ms','Ms'),
-    ('mrs','Mrs'),
+    ('mr', 'Mr'),
+    ('ms', 'Ms'),
+    ('mrs', 'Mrs'),
 )
 
 IDENTITY_TYPE = (
@@ -52,5 +52,6 @@ HIGHEST_QUALIFICATION = (
     ('bachelor_degree', 'Bachelor degree'),
     ('masters_degree', 'Masters degree'),
     ('doctoral_degree', 'Doctoral degree'),
-    ('phd', 'PhD'),)
-
+    ('phd', 'PhD'),
+    ('postdoctoral', 'Postdoctoral')
+)
