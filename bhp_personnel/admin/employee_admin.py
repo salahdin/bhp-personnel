@@ -48,6 +48,7 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
                 'physical_address',
                 'department',
                 'supervisor',
+                'studies',
                 'cell',
                 'next_of_kin_contact',
                 'email',
