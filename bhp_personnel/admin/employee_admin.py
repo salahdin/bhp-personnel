@@ -78,6 +78,13 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
     list_display = ('identifier', 'employee_code', 'first_name', 'last_name',
                     'department', )
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        fields = ['identity', 'cell', 'next_of_kin_contact']
+        for field in fields:
+            form.base_fields[field].help_text = ""
+        return form
+
     def has_change_permission(self, request, obj=None):
         if 'HR' in request.user.groups.values_list('name', flat=True):
             return True
