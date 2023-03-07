@@ -1,9 +1,14 @@
+import csv
+from datetime import datetime
+
 from django.contrib import admin
+from django.shortcuts import redirect, render
+from django.urls import reverse, path
 from edc_model_admin.model_admin_audit_fields_mixin import audit_fieldset_tuple
 
 from ..admin_site import bhp_personnel_admin
-from ..forms import EmployeeForm, SupervisorForm
-from ..models import Employee, Supervisor
+from ..forms import EmployeeForm, SupervisorForm, UploadBulkEmployeeForm
+from ..models import Employee, Supervisor, Department, Pi
 from .modeladmin_mixins import ModelAdminMixin
 
 
@@ -71,12 +76,12 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     autocomplete_fields = ['supervisor', 'department', ]
 
-    filter_horizontal = ('studies', )
+    filter_horizontal = ('studies',)
 
-    list_filter = ('department__dept_name', 'supervisor__first_name', 'job_title', )
+    list_filter = ('department__dept_name', 'supervisor__first_name', 'job_title',)
 
     list_display = ('identifier', 'employee_code', 'first_name', 'last_name',
-                    'department', )
+                    'department',)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -94,3 +99,70 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
         if 'HR' in request.user.groups.values_list('name', flat=True):
             return True
         return False
+
+    def get_urls(self):
+        urls = super().get_urls()
+        new_url = [
+            path('import-employee/', self.import_employee),
+        ]
+        return new_url + urls
+
+    def import_employee(self, request, *args, **kwargs):
+        form = UploadBulkEmployeeForm(request.POST, request.FILES)
+        if form.is_valid():
+            decoded_file = request.FILES['csv_file'].read().decode('utf-8').splitlines()
+            reader = csv.DictReader(decoded_file)
+
+            for row in reader:
+                supervisor, _ = Supervisor.objects.get_or_create(
+                    first_name=row.get('supervisor_first_name', ''),
+                    last_name=row.get('supervisor_last_name', ''),
+                    cell=row.get('supervisor_cell', ''),
+                    email=row.get('supervisor_email', ''),
+                )
+
+                dept, _ = Department.objects.get_or_create(
+                    hod=row.get('hod', ''),
+                    dept_name=row.get('department_name', '')
+                )
+
+                employee, _ = Employee.objects.update_or_create(
+                    email=row.get('email', ''),
+                    employee_code=row.get('employee_code', ''),
+                    cell=row.get('cell', ''),
+                    identity=row.get('identity', ''),
+                    defaults={
+                        'first_name': row.get('first_name', ''),
+                        'last_name': row.get('last_name', ''),
+                        'gender': row.get('gender', ''),
+                        'hired_date': datetime.strptime(row.get('hired_date', ''), '%Y-%m-%d').date(),
+                        'identity_type': row.get('identity_type', ''),
+                        'next_of_kin_contact': row.get('next_of_kin_contact', ''),
+                        'title_salutation': row.get('title_salutation', ''),
+                        'highest_qualification': row.get('highest_qualification', ''),
+                        'nationality': row.get('nationality', ''),
+                        'country': row.get('country', ''),
+                        'postal_address': row.get('postal_address', ''),
+                        'physical_address': row.get('physical_address', ''),
+                        'job_title': row.get('job_title', ''),
+                        'date_of_birth': datetime.strptime(row.get('date_of_birth', ''), '%Y-%m-%d').date(),
+                        'supervisor': supervisor,
+                        'department': dept,
+                    }
+                )
+
+                if row.get('job_title', '').lower() == 'principal investigator':
+                    Pi.objects.get_or_create(
+                        email=row.get('email', ''),
+                        first_name=row.get('first_name', ''),
+                        last_name=row.get('last_name', ''),
+                        defaults={
+                            'gender': row.get('gender', ''),
+                            'hired_date': row.get('hired_date', ''),
+                            'cell': row.get('cell', ''),
+                        }
+                    )
+            self.message_user(request, "Employee's have been imported")
+            return redirect('..')
+
+        return render(request, 'cms_dashboard/employee/bulk_employee.html', {'form': form})
