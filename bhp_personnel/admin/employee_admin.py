@@ -108,6 +108,10 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
         return new_url + urls
 
     def import_employee(self, request, *args, **kwargs):
+        if not self.has_add_permission(request):
+            self.message_user(request, "You do not have permission to perform this action."
+                                       " Please contact an administrator for assistance.")
+            return redirect('..')
         form = UploadBulkEmployeeForm(request.POST, request.FILES)
         if form.is_valid():
             decoded_file = request.FILES['csv_file'].read().decode('utf-8').splitlines()
@@ -131,13 +135,13 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
                     employee_code=row.get('employee_code', ''),
                     cell=row.get('cell', ''),
                     identity=row.get('identity', ''),
+                    next_of_kin_contact=row.get('next_of_kin_contact', ''),
                     defaults={
                         'first_name': row.get('first_name', ''),
                         'last_name': row.get('last_name', ''),
                         'gender': row.get('gender', ''),
                         'hired_date': datetime.strptime(row.get('hired_date', ''), '%Y-%m-%d').date(),
                         'identity_type': row.get('identity_type', ''),
-                        'next_of_kin_contact': row.get('next_of_kin_contact', ''),
                         'title_salutation': row.get('title_salutation', ''),
                         'highest_qualification': row.get('highest_qualification', ''),
                         'nationality': row.get('nationality', ''),
