@@ -28,4 +28,5 @@ from .signals import contract_on_post_save, employee_on_post_save, pi_on_post_sa
 from .strategic_orientation import StrategicOrientation
 from .job_profile_kpa import JobProfileKpa
 from .job_performance_kpa import JobPerformanceKpa
+from .licence import Licence
 

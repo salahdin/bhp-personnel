@@ -4,12 +4,33 @@ from datetime import datetime
 from django.contrib import admin
 from django.shortcuts import redirect, render
 from django.urls import reverse, path
+from edc_model_admin import StackedInlineMixin, ModelAdminFormAutoNumberMixin
 from edc_model_admin.model_admin_audit_fields_mixin import audit_fieldset_tuple
 
 from ..admin_site import bhp_personnel_admin
 from ..forms import EmployeeForm, SupervisorForm, UploadBulkEmployeeForm
-from ..models import Employee, Supervisor, Department, Pi
+from ..models import Employee, Supervisor, Department, Pi, Licence
 from .modeladmin_mixins import ModelAdminMixin
+
+
+class LicenceInline(StackedInlineMixin, ModelAdminFormAutoNumberMixin,
+                                  admin.StackedInline):
+    model = Licence
+    extra = 0
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name',
+                'employee',
+                'number',
+                'issued_by',
+                'issue_date',
+            )
+        }),
+        audit_fieldset_tuple
+    )
+
 
 
 @admin.register(Supervisor, site=bhp_personnel_admin)
@@ -33,6 +54,7 @@ class SupervisorAdmin(ModelAdminMixin, admin.ModelAdmin):
 @admin.register(Employee, site=bhp_personnel_admin)
 class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = EmployeeForm
+    inlines = [LicenceInline]
 
     fieldsets = (
         (None, {
