@@ -12,11 +12,13 @@ from django.dispatch import receiver
 from django_q.models import Schedule
 from django_q.tasks import schedule
 from edc_base.utils import get_utcnow
+from edc_constants.constants import YES
 from edc_sms.classes import MessageSchedule
 
 from . import Consultant, Contract, ContractExtension, Employee, Pi
 from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
 from . import Contracting
+from .renewal_intent import RenewalIntent
 
 
 @receiver(post_save, weak=False, sender=Employee,
@@ -139,10 +141,25 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw and created:
         update_contracting(instance)
-        create_appraisals(instance)
+        create_appraisal(instance, type='mid_year')
         create_key_performance_areas(instance)
         schedule_email_notification(instance)
         schedule_sms_notification(instance)
+
+
+@receiver(post_save, weak=False, sender=RenewalIntent,
+          dispatch_uid='intent_post_save')
+def intent_post_save(sender, instance, raw, created, **kwargs):
+    """
+    If employee intends on renewing create appraisal
+    """
+    if not raw:
+        if instance.intent == YES:
+            create_appraisal(instance, type='end_year')
+            create_key_performance_areas(instance)
+
+            # send email to the supervisor
+            schedule_email_notification(instance)
 
 
 def update_contracting(instance=None):
@@ -200,16 +217,13 @@ def create_key_performance_areas(instance=None):
                     assessment_period_type='contract_end')
 
 
-def create_appraisals(instance=None):
+def create_appraisal(instance=None, type=''):
     """
     Creates two appraisals on post save of a contract
     """
     PerformanceAssessment.objects.create(contract=instance,
                                          emp_identifier=instance.identifier,
-                                         review='mid_year')
-    PerformanceAssessment.objects.create(contract=instance,
-                                         emp_identifier=instance.identifier,
-                                         review='contract_end')
+                                         review=type)
 
 
 def schedule_email_notification(instance=None, ext=False):

@@ -29,4 +29,5 @@ from .strategic_orientation import StrategicOrientation
 from .job_profile_kpa import JobProfileKpa
 from .job_performance_kpa import JobPerformanceKpa
 from .licence import Licence
+from .renewal_intent import RenewalIntent
 
