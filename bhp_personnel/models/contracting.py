@@ -1,5 +1,4 @@
 from django.db import models
-
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
