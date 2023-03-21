@@ -16,9 +16,10 @@ from edc_constants.constants import YES
 from edc_sms.classes import MessageSchedule
 from pytz import timezone
 
-from . import Consultant, Contract, ContractExtension, Employee, Pi, RenewalIntent
+from . import Consultant, Contract, ContractExtension, Employee, Pi
 from . import Contracting
 from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
+from .renewal_intent import RenewalIntent
 
 
 @receiver(post_save, weak=False, sender=Employee,
@@ -201,14 +202,10 @@ def renewal_intent_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw and created:
         if instance.intent == YES:
-            create_appraisals(instance, type='contract_end')
-            schedule_obj = get_schedule_obj(
-                identifier=instance.contract.identifier)
-            if schedule_obj:
-                schedule_obj.delete()
-
-            schedule_email_notification(instance, ext=True)
-            schedule_sms_notification(instance, ext=True)
+            PerformanceAssessment.objects.get_or_create(
+                contract=instance.contract,
+                emp_identifier=instance.contract.identifier,
+                review='contract_end')
 
 
 def create_key_performance_areas(instance=None):
