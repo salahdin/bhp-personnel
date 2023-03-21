@@ -43,7 +43,6 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
         (None, {
             'fields': (
                 'identifier',
-                'contract',
                 'job_description',
                 'skills',
             )}),
