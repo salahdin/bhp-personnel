@@ -1,22 +1,23 @@
-from datetime import datetime, time
 import random
 import string
+from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django_q.models import Schedule
 from django_q.tasks import schedule
 from edc_base.utils import get_utcnow
 from edc_sms.classes import MessageSchedule
+from pytz import timezone
 
 from . import Consultant, Contract, ContractExtension, Employee, Pi
-from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
 from . import Contracting
+from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
 
 
 @receiver(post_save, weak=False, sender=Employee,
@@ -130,6 +131,20 @@ def pi_on_post_save(sender, instance, raw, created, **kwargs):
                                  is_staff=True, )
 
 
+@receiver(pre_save, weak=False, sender=Contracting,
+          dispatch_uid='contracting_on_pre_save')
+def contracting_on_pre_save(sender, instance, raw, **kwargs):
+    if not raw:
+        try:
+            contract_obj = Contract.objects.get(identifier=instance.identifier)
+        except Contract.DoesNotExist:
+            raise ValidationError(f'Missing contract, create a new contract')
+        else:
+            instance.contract = contract_obj
+            create_key_performance_areas(contract_obj)
+            create_appraisals(contract_obj)
+
+
 @receiver(post_save, weak=False, sender=Contract,
           dispatch_uid='contract_on_post_save')
 def contract_on_post_save(sender, instance, raw, created, **kwargs):
@@ -137,12 +152,8 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     Schedule email and sms reminder for 3 months before contract end
     date.
     """
-    if not raw and created:
-        update_contracting(instance)
-        create_appraisals(instance)
-        create_key_performance_areas(instance)
+    if not raw:
         schedule_email_notification(instance)
-        schedule_sms_notification(instance)
 
 
 def update_contracting(instance=None):
@@ -221,9 +232,8 @@ def schedule_email_notification(instance=None, ext=False):
         identifier = instance.contract.identifier if ext else instance.identifier
         end_date = (instance.end_date).strftime('%Y/%m/%d')
         user = get_user(identifier=identifier)
-
         schedule(
-            'contract.tasks.contract_end_email_notification',
+            'bhp_personnel.tasks.contract_end_email_notification',
             user.first_name,
             user.last_name,
             user.email,
@@ -269,7 +279,10 @@ def reminder_datetime(instance=None, ext=False):
             reminder_date = instance.end_date - relativedelta(months=2)
         elif duration == '2 Years':
             reminder_date = instance.end_date - relativedelta(months=3)
-        return datetime.combine(reminder_date, datetime.strptime('10:00', '%H:%M').time())
+        tz = timezone('Africa/Windhoek')
+        return tz.localize(
+            datetime.combine(
+                reminder_date, datetime.strptime('10:00', '%H:%M').time()))
 
 
 def get_user(identifier=None):
