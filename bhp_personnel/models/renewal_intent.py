@@ -26,6 +26,14 @@ class RenewalIntent(BaseUuidModel, SiteModelMixin):
         null=True
     )
 
+    date_submitted = models.DateTimeField(
+        verbose_name="Date created",
+        auto_now=True
+    )
+
+    def __str__(self):
+        return f'{self.contract} - {self.intent}'
+
     class Meta:
         app_label = 'bhp_personnel'
         verbose_name = 'Intent To Renew'
