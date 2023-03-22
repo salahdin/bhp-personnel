@@ -21,6 +21,7 @@ class RenewalIntentAdmin(ModelAdminMixin, admin.ModelAdmin):
             'fields': (
                 'contract',
                 'intent',
+                'letter_upload',
                 'comment'
 
             )}),
