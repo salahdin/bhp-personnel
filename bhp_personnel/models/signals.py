@@ -40,6 +40,9 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
                                                         last_name=instance.last_name,
                                                         is_staff=True, )
 
+                employee_group = Group.objects.get(name='Employee')
+                employee_group.user_set.add(created_user)
+
                 send_employee_activation(instance)
                 send_manager_on_employee_activation(instance)
 
