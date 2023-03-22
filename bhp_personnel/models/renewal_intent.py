@@ -2,6 +2,7 @@ from django.db import models
 
 from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
+from django.core.validators import FileExtensionValidator
 from edc_constants.choices import YES_NO
 
 from .contract import Contract
@@ -19,6 +20,11 @@ class RenewalIntent(BaseUuidModel, SiteModelMixin):
         choices=YES_NO,
         help_text='Yes or NO'
     )
+
+    letter_upload = models.FileField(upload_to='intent_letter/',
+                                     validators=[FileExtensionValidator(['pdf']), ],
+                                     verbose_name="Upload letter of intent"
+                                     )
 
     comment = models.TextField(
         verbose_name="Supervisor comment",
