@@ -12,12 +12,14 @@ from django.dispatch import receiver
 from django_q.models import Schedule
 from django_q.tasks import schedule
 from edc_base.utils import get_utcnow
+from edc_constants.constants import YES
 from edc_sms.classes import MessageSchedule
 from pytz import timezone
 
 from . import Consultant, Contract, ContractExtension, Employee, Pi
 from . import Contracting
 from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
+from .renewal_intent import RenewalIntent
 
 
 @receiver(post_save, weak=False, sender=Employee,
@@ -36,7 +38,7 @@ def employee_on_post_save(sender, instance, raw, created, **kwargs):
                                                         password=pwd,
                                                         first_name=instance.first_name,
                                                         last_name=instance.last_name,
-                                                        is_staff=True,)
+                                                        is_staff=True, )
 
                 send_employee_activation(instance)
                 send_manager_on_employee_activation(instance)
@@ -142,7 +144,7 @@ def contracting_on_pre_save(sender, instance, raw, **kwargs):
         else:
             instance.contract = contract_obj
             create_key_performance_areas(contract_obj)
-            create_appraisals(contract_obj)
+            create_appraisals(contract_obj, type='mid_year')
 
 
 @receiver(post_save, weak=False, sender=Contract,
@@ -191,36 +193,48 @@ def contractextension_on_post_save(sender, instance, raw, created, **kwargs):
         schedule_sms_notification(instance, ext=True)
 
 
+@receiver(post_save, weak=False, sender=RenewalIntent,
+          dispatch_uid='renewal_intent_on_post_save')
+def renewal_intent_on_post_save(sender, instance, raw, created, **kwargs):
+    """
+    Reschedule an email and sms reminder for 3months before contract end
+    date after extension.
+    """
+    if not raw and created:
+        if instance.intent == YES:
+            PerformanceAssessment.objects.get_or_create(
+                contract=instance.contract,
+                emp_identifier=instance.contract.identifier,
+                review='contract_end')
+
+
 def create_key_performance_areas(instance=None):
     """
     Create Key Performance Assessment for each KPA on the job description.
     """
     for jobperformancekpa_set in instance.contracting.jobperformancekpa_set.all():
         KeyPerformanceArea.objects.create(
-                    emp_identifier=instance.identifier,
-                    contract=instance,
-                    kpa_nd_objective=jobperformancekpa_set.key_performance_area,
-                    performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
-                    assessment_period_type='mid_year')
+            emp_identifier=instance.identifier,
+            contract=instance,
+            kpa_nd_objective=jobperformancekpa_set.key_performance_area,
+            performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
+            assessment_period_type='mid_year')
 
         KeyPerformanceArea.objects.create(
-                    emp_identifier=instance.identifier,
-                    contract=instance,
-                    kpa_nd_objective=jobperformancekpa_set.key_performance_area,
-                    performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
-                    assessment_period_type='contract_end')
+            emp_identifier=instance.identifier,
+            contract=instance,
+            kpa_nd_objective=jobperformancekpa_set.key_performance_area,
+            performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
+            assessment_period_type='contract_end')
 
 
-def create_appraisals(instance=None):
+def create_appraisals(instance=None, type=''):
     """
     Creates two appraisals on post save of a contract
     """
     PerformanceAssessment.objects.create(contract=instance,
                                          emp_identifier=instance.identifier,
-                                         review='mid_year')
-    PerformanceAssessment.objects.create(contract=instance,
-                                         emp_identifier=instance.identifier,
-                                         review='contract_end')
+                                         review=type)
 
 
 def schedule_email_notification(instance=None, ext=False):

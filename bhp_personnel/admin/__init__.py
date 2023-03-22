@@ -20,3 +20,4 @@ from .professional_skills_admin import ProfessionalSkillsAdmin
 from .quality_of_work_admin import QualityOfWorkAdmin
 from .results_focus_admin import ResultsFocusAdmin
 from .strategic_orientation_admin import StrategicOrientationAdmin
+from .renewal_intent_admin import RenewalIntentAdmin
