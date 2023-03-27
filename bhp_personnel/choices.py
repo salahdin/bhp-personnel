@@ -30,6 +30,7 @@ SALUTATIONS = (
     ('mr', 'Mr'),
     ('ms', 'Ms'),
     ('mrs', 'Mrs'),
+    ('dr', 'Dr'),
 )
 
 IDENTITY_TYPE = (
