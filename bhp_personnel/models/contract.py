@@ -46,8 +46,6 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         return f'{self.identifier}, {self.start_date} - {self.end_date}'
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.leave_balance = self.leave_days
         self.due_date = self.end_date - relativedelta(months=3)
         super().save(*args, **kwargs)
 
