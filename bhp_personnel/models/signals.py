@@ -288,14 +288,18 @@ def reminder_datetime(instance=None, ext=False):
     Returns datetime when the reminder should be scheduled.
     """
     if instance:
-        duration = instance.contract.duration if ext else instance.duration
+        start_date = instance.start_date
+        end_date = instance.end_date
+        contract_duration = (end_date - start_date).days
+
         reminder_date = None
-        if duration == '6 Months':
+        if 0 < contract_duration <= 180:  # 6 Months
             reminder_date = instance.end_date - relativedelta(months=1)
-        elif duration == '1 Year':
+        elif 180 < contract_duration <= 365:  # 1 Year
             reminder_date = instance.end_date - relativedelta(months=2)
-        elif duration == '2 Years':
+        elif contract_duration > 365:  # 2 Years
             reminder_date = instance.end_date - relativedelta(months=3)
+
         tz = timezone('Africa/Windhoek')
         return tz.localize(
             datetime.combine(
