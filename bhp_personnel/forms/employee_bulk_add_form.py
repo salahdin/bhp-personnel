@@ -1,7 +1,7 @@
 from django import forms
 
 
-class UploadBulkEmployeeForm(forms.Form):
+class CSVUploadForm(forms.Form):
     csv_file = forms.FileField(label='Select a CSV file')
 
     def clean_csv_file(self):
