@@ -35,15 +35,7 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         max_length=30,
         null=True,
         choices=CONTRACT_STATUS,
-        default='active')
-
-    leave_days = models.IntegerField(
-        verbose_name='Number of leave days',
-        default=0)
-
-    leave_balance = models.IntegerField(
-        verbose_name='Number of leave days',
-        default=0)
+        default='Active')
 
     contract_ended = models.BooleanField(
         default=False,
@@ -54,8 +46,6 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         return f'{self.identifier}, {self.start_date} - {self.end_date}'
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.leave_balance = self.leave_days
         self.due_date = self.end_date - relativedelta(months=3)
         super().save(*args, **kwargs)
 

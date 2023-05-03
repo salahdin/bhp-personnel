@@ -8,7 +8,7 @@ from edc_model_admin import StackedInlineMixin, ModelAdminFormAutoNumberMixin
 from edc_model_admin.model_admin_audit_fields_mixin import audit_fieldset_tuple
 
 from ..admin_site import bhp_personnel_admin
-from ..forms import EmployeeForm, SupervisorForm, UploadBulkEmployeeForm
+from ..forms import EmployeeForm, SupervisorForm, CSVUploadForm
 from ..models import Employee, Supervisor, Department, Pi, Licence
 from .modeladmin_mixins import ModelAdminMixin
 
@@ -134,7 +134,7 @@ class EmployeeAdmin(ModelAdminMixin, admin.ModelAdmin):
             self.message_user(request, "You do not have permission to perform this action."
                                        " Please contact an administrator for assistance.")
             return redirect('..')
-        form = UploadBulkEmployeeForm(request.POST, request.FILES)
+        form = CSVUploadForm(request.POST, request.FILES)
         if form.is_valid():
             decoded_file = request.FILES['csv_file'].read().decode('utf-8').splitlines()
             reader = csv.DictReader(decoded_file)
