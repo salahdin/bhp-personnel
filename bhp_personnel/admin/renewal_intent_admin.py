@@ -26,6 +26,9 @@ class RenewalIntentAdmin(ModelAdminMixin, admin.ModelAdmin):
 
             )}),
         audit_fieldset_tuple)
+    radio_fields = {
+        "intent": admin.VERTICAL,
+    }
 
 
 
