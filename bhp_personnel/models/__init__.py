@@ -24,9 +24,10 @@ from .pi import Pi
 from .professional_skills import ProfessionalSkills
 from .quality_of_work import QualityOfWork
 from .results_focus import ResultsFocus
-from .signals import contract_on_post_save, employee_on_post_save, pi_on_post_save
 from .strategic_orientation import StrategicOrientation
 from .job_profile_kpa import JobProfileKpa
 from .job_performance_kpa import JobPerformanceKpa
 from .licence import Licence
 from .renewal_intent import RenewalIntent
+from .appraisal import Appraisal
+from .performance_review import PerformanceReview

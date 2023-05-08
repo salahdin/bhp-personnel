@@ -28,3 +28,5 @@ from .job_profile_kpa_form import JobProfileKpaForm
 from .job_performance_kpa_form import JobPerformanceKpaForm
 from .employee_bulk_add_form import CSVUploadForm
 from .renewal_intent_form import RenewalIntentForm
+from .appraisal_form import AppraisalForm
+from .performance_review_form import PerformanceReviewForm
