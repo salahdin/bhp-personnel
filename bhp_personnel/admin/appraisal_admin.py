@@ -12,6 +12,7 @@ class PerformanceReviewAdmin(TabularInlineMixin, ModelAdminFormAutoNumberMixin,
                              admin.TabularInline):
     model = PerformanceReview
     form = PerformanceReviewForm
+    extra = 0
 
     fieldsets = (
         (None, {
