@@ -2,54 +2,27 @@ from django.forms import Textarea
 from django.db import models
 
 from django.contrib import admin
-from ..models import Contracting, JobPerformanceKpa
+from ..models import Contracting
 from ..admin_site import bhp_personnel_admin
 from .modeladmin_mixins import ModelAdminMixin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
-from ..forms import ContractingForm, JobPerformanceKpaForm
-from edc_model_admin import StackedInlineMixin
-
-
-class JobPerformanceKpaInline(StackedInlineMixin, admin.StackedInline):
-
-    model = JobPerformanceKpa
-    form = JobPerformanceKpaForm
-
-    formfield_overrides = {
-        models.TextField: {'widget': Textarea(
-            attrs={'rows': 500,
-                   'cols': 70,
-                   'style': 'height: 7em;'})},
-    }
-
-    extra = 1
-    max_num = 20
-    fieldsets = (
-        (None, {
-            'fields': [
-                'key_performance_area',
-                'kpa_tasks',
-                'kpa_performance_indicators',
-                'skills_required', ]}
-         ),)
+from ..forms import ContractingForm
 
 
 @admin.register(Contracting, site=bhp_personnel_admin)
 class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
-
     form = ContractingForm
     fieldsets = (
         (None, {
             'fields': (
+                'contract',
                 'identifier',
                 'job_description',
                 'skills',
             )}),
         audit_fieldset_tuple)
 
-    inlines = [JobPerformanceKpaInline]
-
-    filter_horizontal = ('skills', )
-    list_filter = ('job_description', )
+    filter_horizontal = ('skills',)
+    list_filter = ('job_description',)
     autocomplete_fields = ['job_description', ]

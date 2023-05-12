@@ -16,9 +16,8 @@ from edc_constants.constants import YES
 from edc_sms.classes import MessageSchedule
 from pytz import timezone
 
-from . import Consultant, Contract, ContractExtension, Employee, Pi
-from . import Contracting
-from . import PerformanceAssessment, KeyPerformanceArea, Supervisor
+from bhp_personnel.models import Consultant, Contract, ContractExtension, Employee, Pi, Contracting, \
+    Appraisal, PerformanceReview, Supervisor
 from .renewal_intent import RenewalIntent
 
 
@@ -136,20 +135,6 @@ def pi_on_post_save(sender, instance, raw, created, **kwargs):
                                  is_staff=True, )
 
 
-@receiver(pre_save, weak=False, sender=Contracting,
-          dispatch_uid='contracting_on_pre_save')
-def contracting_on_pre_save(sender, instance, raw, **kwargs):
-    if not raw:
-        try:
-            contract_obj = Contract.objects.get(identifier=instance.identifier)
-        except Contract.DoesNotExist:
-            raise ValidationError(f'Missing contract, create a new contract')
-        else:
-            instance.contract = contract_obj
-            create_key_performance_areas(contract_obj)
-            create_appraisals(contract_obj, type='mid_year')
-
-
 @receiver(post_save, weak=False, sender=Contract,
           dispatch_uid='contract_on_post_save')
 def contract_on_post_save(sender, instance, raw, created, **kwargs):
@@ -159,6 +144,19 @@ def contract_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw:
         schedule_email_notification(instance)
+
+
+@receiver(post_save, weak=False, sender=Contracting,
+          dispatch_uid='contracting_on_post_save')
+def contracting_on_post_save(sender, instance, raw, **kwargs):
+    if not raw:
+        try:
+            contract_obj = Contract.objects.filter(identifier=instance.identifier).latest('start_date')
+        except Contract.DoesNotExist:
+            raise ValidationError(f'Missing contract, create a new contract')
+        else:
+            instance.contract = contract_obj
+            create_appraisal(contract_obj, appraisal_type='mid_year')
 
 
 def update_contracting(instance=None):
@@ -205,39 +203,38 @@ def renewal_intent_on_post_save(sender, instance, raw, created, **kwargs):
     """
     if not raw and created:
         if instance.intent == YES:
-            PerformanceAssessment.objects.get_or_create(
-                contract=instance.contract,
-                emp_identifier=instance.contract.identifier,
-                review='contract_end')
+            create_appraisal(instance.contract, appraisal_type='contract_end')
 
 
-def create_key_performance_areas(instance=None):
+def create_performance_review(contracting=None, appraisal_instance=None):
     """
-    Create Key Performance Assessment for each KPA on the job description.
+    Create Key Performance review for each KPA on the job description.
+    @param instance: Contracting instance
+    @param appraisal_instance: appraisal instance
     """
-    for jobperformancekpa_set in instance.contracting.jobperformancekpa_set.all():
-        KeyPerformanceArea.objects.create(
-            emp_identifier=instance.identifier,
-            contract=instance,
-            kpa_nd_objective=jobperformancekpa_set.key_performance_area,
-            performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
-            assessment_period_type='mid_year')
-
-        KeyPerformanceArea.objects.create(
-            emp_identifier=instance.identifier,
-            contract=instance,
-            kpa_nd_objective=jobperformancekpa_set.key_performance_area,
-            performance_indicators=jobperformancekpa_set.kpa_performance_indicators,
-            assessment_period_type='contract_end')
+    job_description = getattr(contracting, 'job_description', None)
+    if job_description:
+        for job_description_set in job_description.jobdescriptionkpa_set.all():
+            PerformanceReview.objects.update_or_create(
+                appraisal=appraisal_instance,
+                kpa_title=job_description_set.key_performance_area,
+                kpa_description=job_description_set.kpa_tasks
+            )
 
 
-def create_appraisals(instance=None, type=''):
+def create_appraisal(instance=None, appraisal_type=''):
     """
-    Creates two appraisals on post save of a contract
+    Creates appraisal on post save of a contract
+    @param instance: Contract instance
+    @param appraisal_type: type of appraisal
     """
-    PerformanceAssessment.objects.create(contract=instance,
-                                         emp_identifier=instance.identifier,
-                                         review=type)
+    appraisal_instance, created = Appraisal.objects.get_or_create(
+        contract=instance,
+        emp_identifier=instance.identifier,
+        assessment_type=appraisal_type,
+    )
+    if appraisal_type == 'contract_end' and instance.contracting:
+        create_performance_review(contracting=instance.contracting, appraisal_instance=appraisal_instance)
 
 
 def schedule_email_notification(instance=None, ext=False):
@@ -288,14 +285,18 @@ def reminder_datetime(instance=None, ext=False):
     Returns datetime when the reminder should be scheduled.
     """
     if instance:
-        duration = instance.contract.duration if ext else instance.duration
+        start_date = instance.start_date
+        end_date = instance.end_date
+        contract_duration = (end_date - start_date).days
+
         reminder_date = None
-        if duration == '6 Months':
+        if 0 < contract_duration <= 180:  # 6 Months
             reminder_date = instance.end_date - relativedelta(months=1)
-        elif duration == '1 Year':
+        elif 180 < contract_duration <= 365:  # 1 Year
             reminder_date = instance.end_date - relativedelta(months=2)
-        elif duration == '2 Years':
+        elif contract_duration > 365:  # 2 Years
             reminder_date = instance.end_date - relativedelta(months=3)
+
         tz = timezone('Africa/Windhoek')
         return tz.localize(
             datetime.combine(
