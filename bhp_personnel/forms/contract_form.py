@@ -75,7 +75,8 @@ class ContractForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
 
     identifier = forms.CharField(
         label='Identifier',
-        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}),
+        required=False)
 
     def clean(self):
         cleaned_data = super().clean()
