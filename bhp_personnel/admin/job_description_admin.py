@@ -2,19 +2,19 @@ from django.forms import Textarea
 from django.db import models
 
 from django.contrib import admin
-from ..models import JobDescription, JobProfileKpa, FamiliarizationTime, SkillsKnowledge
+from ..models import JobDescription, JobProfileKpa, FamiliarizationTime, SkillsKnowledge, JobDescriptionKpa
 from ..admin_site import bhp_personnel_admin
 from .modeladmin_mixins import ModelAdminMixin
 from edc_model_admin.model_admin_audit_fields_mixin import (
     audit_fieldset_tuple)
-from ..forms import JobDescriptionForm, JobProfileKpaForm, FamiliarizationTimeForm, SkillsKnowledgeForm
+from ..forms import JobDescriptionForm, JobDescriptionKpaForm, FamiliarizationTimeForm, SkillsKnowledgeForm
 from edc_model_admin import StackedInlineMixin
 
 
-class JobProfileKpaInline(StackedInlineMixin, admin.StackedInline):
+class JobDescriptionKpaInline(StackedInlineMixin, admin.StackedInline):
 
-    model = JobProfileKpa
-    form = JobProfileKpaForm
+    model = JobDescriptionKpa
+    form = JobDescriptionKpaForm
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(
@@ -76,7 +76,7 @@ class JobDescriptionAdmin(ModelAdminMixin, admin.ModelAdmin):
                    'style': 'height: 7em;'})},
     }
 
-    inlines = [JobProfileKpaInline, SkillsKnowledgeTimeInline, FamiliarizationTimeInline]
+    inlines = [JobDescriptionKpaInline, SkillsKnowledgeTimeInline, FamiliarizationTimeInline]
     fieldsets = (
         (None, {
             'fields': (
