@@ -27,14 +27,14 @@ class AppraisalFormValidator(FormValidator):
         supervisor_full_name = f"{employee.supervisor.first_name} {employee.supervisor.last_name}"
         employee_full_name = f"{employee.first_name} {employee.last_name}"
 
-        if supervisor_full_name != supervisor_signature:
+        if supervisor_signature and supervisor_full_name != supervisor_signature:
             message = {'supervisor_signature': "The provided supervisor signature is incorrect."
                                                " Please enter the supervisor's full name (first name and last name)"
                                                " as the signature."}
             self._errors.update(message)
             raise ValidationError(message)
 
-        if employee_signature != employee_full_name:
+        if employee_signature and employee_signature != employee_full_name:
             message = {'employee_signature': "The provided employee signature is incorrect."
                                              " Please enter the employee's full name (first name and last name)"
                                              " as the signature."}
@@ -46,10 +46,6 @@ class AppraisalForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
     form_validator_cls = AppraisalFormValidator
     emp_identifier = forms.CharField(
         label='Employee ID',
-        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-
-    contract = forms.CharField(
-        label=' Contract',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     assessment_type = forms.CharField(
@@ -68,6 +64,8 @@ class AppraisalForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
 
         is_supervisor = self.request.user.email == employee.supervisor.email
         is_employee = self.request.user.email == employee.email
+
+        self.fields['contract'].disabled = True
 
         if not is_supervisor:
             self.fields['additional_comments'].disabled = True
