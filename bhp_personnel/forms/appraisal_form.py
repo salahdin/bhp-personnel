@@ -72,4 +72,4 @@ class AppraisalForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
         if not is_employee:
             self.fields['employee_signature'].disabled = True
             self.fields['staff_comments'].disabled = True
-            self.fields['staff_comments'].disabled = True
+            self.fields['date_employee_signed'].disabled = True
