@@ -5,6 +5,7 @@ from edc_base.model_mixins import BaseUuidModel
 from edc_base.sites.site_model_mixin import SiteModelMixin
 
 from ..choices import CONTRACT_STATUS, CONTRACT_LENGTH
+from .employee import Employee
 
 
 class Contract(BaseUuidModel, SiteModelMixin, models.Model):
@@ -42,8 +43,17 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
         null=True,
         blank=True)
 
+    @property
+    def employee_code(self):
+        try:
+            employee = Employee.objects.get(identifier=self.identifier)
+        except Employee.DoesNotExist:
+            return None
+        else:
+            return getattr(employee, 'employee_code', None)
+
     def __str__(self):
-        return f'{self.identifier}, {self.start_date} - {self.end_date}'
+        return f'{self.employee_code}, Period: {self.start_date} - {self.end_date}'
 
     def save(self, *args, **kwargs):
         self.due_date = self.end_date - relativedelta(months=3)

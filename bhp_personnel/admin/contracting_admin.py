@@ -1,6 +1,3 @@
-from django.forms import Textarea
-from django.db import models
-
 from django.contrib import admin
 from ..models import Contracting
 from ..admin_site import bhp_personnel_admin
@@ -26,3 +23,7 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
     filter_horizontal = ('skills',)
     list_filter = ('job_description',)
     autocomplete_fields = ['job_description', ]
+
+    def get_readonly_fields(self, request, obj=None):
+        fields = super().get_readonly_fields(request, obj)
+        return ('contract', 'identifier', ) + fields

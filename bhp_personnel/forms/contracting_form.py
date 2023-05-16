@@ -7,13 +7,10 @@ from ..models import Contracting
 
 class ContractingForm(SiteModelFormMixin, forms.ModelForm):
 
-    identifier = forms.CharField(
-        label='Employee Identifier',
-        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-
-    contract = forms.CharField(
-        label=' Contract',
-        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    def __init___(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['contract'].widget.attrs['readonly'] = True
+        self.fields['identifier'].widget.attrs['readonly'] = True
 
     class Meta:
         model = Contracting
