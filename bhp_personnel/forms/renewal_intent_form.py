@@ -2,14 +2,12 @@ from django import forms
 
 from edc_base.sites import SiteModelFormMixin
 
-from ..models import RenewalIntent
+from ..models import RenewalIntent, Contract
 
 
 class RenewalIntentForm(SiteModelFormMixin, forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['contract'].disabled = True
+    contract = forms.ModelChoiceField(label='Contract', queryset=Contract.objects.all(),
+                                      widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     class Meta:
         model = RenewalIntent
