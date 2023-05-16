@@ -11,6 +11,10 @@ class ContractingForm(SiteModelFormMixin, forms.ModelForm):
         label='Employee Identifier',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
+    contract = forms.CharField(
+        label=' Contract',
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
     class Meta:
         model = Contracting
         fields = '__all__'
