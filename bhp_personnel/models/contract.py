@@ -53,7 +53,7 @@ class Contract(BaseUuidModel, SiteModelMixin, models.Model):
             return getattr(employee, 'employee_code', None)
 
     def __str__(self):
-        return f'{self.employee_code}, Period: {self.start_date} - {self.end_date}'
+        return f'Employee code: {self.employee_code}, Period: {self.start_date} - {self.end_date}'
 
     def save(self, *args, **kwargs):
         self.due_date = self.end_date - relativedelta(months=3)
