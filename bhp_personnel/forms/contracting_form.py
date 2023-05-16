@@ -14,3 +14,7 @@ class ContractingForm(SiteModelFormMixin, forms.ModelForm):
     class Meta:
         model = Contracting
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(ContractingForm, self).__init__(*args, **kwargs)
+        self.fields['contract'].disabled = True

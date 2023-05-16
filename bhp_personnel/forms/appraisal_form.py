@@ -54,3 +54,7 @@ class AppraisalForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
     class Meta:
         model = Appraisal
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(AppraisalForm, self).__init__(*args, **kwargs)
+        self.fields['contract'].disabled = True
