@@ -51,7 +51,5 @@ class AppraisalAdmin(ModelAdminMixin, admin.ModelAdmin):
         form.request = request
         return form
 
-    def get_readonly_fields(self, request, obj=None):
-        return ['contract', ]
 
 

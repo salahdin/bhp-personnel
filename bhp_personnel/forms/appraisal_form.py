@@ -47,6 +47,11 @@ class AppraisalForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
     emp_identifier = forms.CharField(
         label='Employee ID',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
+    contract = forms.CharField(
+        label=' Contract',
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
     assessment_type = forms.CharField(
         label='Assessment Type',
         widget=forms.TextInput(attrs={'readonly': 'readonly'}))
