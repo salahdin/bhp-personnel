@@ -4,7 +4,7 @@ from django.apps import apps as django_apps
 from edc_base.sites import SiteModelFormMixin
 from edc_form_validators import FormValidator, FormValidatorMixin
 
-from ..models import Appraisal
+from ..models import Appraisal, Employee
 
 
 class AppraisalFormValidator(FormValidator):
@@ -56,5 +56,20 @@ class AppraisalForm(FormValidatorMixin, SiteModelFormMixin, forms.ModelForm):
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super(AppraisalForm, self).__init__(*args, **kwargs)
-        self.fields['contract'].disabled = True
+        super().__init__(*args, **kwargs)
+
+        employee_id = self.initial['emp_identifier']
+        employee = Employee.objects.filter(identifier=employee_id).first()
+
+        is_supervisor = self.request.user.email == employee.supervisor.email
+        is_employee = self.request.user.email == employee.email
+
+        if not is_supervisor:
+            self.fields['additional_comments'].disabled = True
+            self.fields['supervisor_signature'].disabled = True
+            self.fields['date_supervisor_signed'].disabled = True
+
+        if not is_employee:
+            self.fields['employee_signature'].disabled = True
+            self.fields['staff_comments'].disabled = True
+            self.fields['staff_comments'].disabled = True

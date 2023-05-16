@@ -46,4 +46,12 @@ class AppraisalAdmin(ModelAdminMixin, admin.ModelAdmin):
     radio_fields = {
         'assessment_type': admin.VERTICAL, }
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.request = request
+        return form
+
+    def get_readonly_fields(self, request, obj=None):
+        return ['contract', ]
+
 
