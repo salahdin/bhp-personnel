@@ -7,9 +7,9 @@ from ..models import RenewalIntent
 
 class RenewalIntentForm(SiteModelFormMixin, forms.ModelForm):
 
-    contract = forms.CharField(
-        label=' Contract',
-        widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['contract'].disabled = True
 
     class Meta:
         model = RenewalIntent

@@ -7,10 +7,10 @@ from ..models import Contracting
 
 class ContractingForm(SiteModelFormMixin, forms.ModelForm):
 
-    def __init___(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['contract'].widget.attrs['readonly'] = True
-        self.fields['identifier'].widget.attrs['readonly'] = True
+        self.fields['contract'].disabled = True
+        self.fields['identifier'].disabled = True
 
     class Meta:
         model = Contracting
