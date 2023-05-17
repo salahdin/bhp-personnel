@@ -25,3 +25,8 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
     search_fields = ('identifier', )
     autocomplete_fields = ['job_description', ]
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.request = request
+        return form
+
