@@ -30,6 +30,11 @@ class RenewalIntentAdmin(ModelAdminMixin, admin.ModelAdmin):
         "intent": admin.VERTICAL,
     }
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.request = request
+        return form
+
 
 
 

@@ -22,8 +22,11 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
 
     filter_horizontal = ('skills',)
     list_filter = ('job_description',)
+    search_fields = ('identifier', )
     autocomplete_fields = ['job_description', ]
 
-    def get_readonly_fields(self, request, obj=None):
-        fields = super().get_readonly_fields(request, obj)
-        return ('contract', 'identifier', ) + fields
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.request = request
+        return form
+
