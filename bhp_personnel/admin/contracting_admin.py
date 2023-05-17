@@ -25,6 +25,3 @@ class ContractingAdmin(ModelAdminMixin, admin.ModelAdmin):
     search_fields = ('identifier', )
     autocomplete_fields = ['job_description', ]
 
-    """def get_readonly_fields(self, request, obj=None):
-        fields = super().get_readonly_fields(request, obj)
-        return ('contract', 'identifier', ) + fields"""
