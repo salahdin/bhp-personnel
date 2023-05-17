@@ -18,3 +18,6 @@ class ContractingForm(SiteModelFormMixin, forms.ModelForm):
         if contract:
             self.fields['contract'].queryset = Contract.objects.filter(id=contract)
 
+    class Meta:
+        model = Contracting
+        fields = '__all__'
