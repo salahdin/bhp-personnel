@@ -14,7 +14,10 @@ class ContractingForm(SiteModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         contract = self.request.GET.get('contract')
         super().__init__(*args, **kwargs)
-        self.fields['identifier'].widget.attrs['readonly'] = True
+
+        if 'identifier' in self.fields:
+            self.fields['identifier'].widget.attrs['readonly'] = True
+
         if contract:
             self.fields['contract'].queryset = Contract.objects.filter(id=contract)
 
